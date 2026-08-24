@@ -76,6 +76,14 @@ dependencies:
   # هنا غالبًا هيتعارض معاه. `flutter pub get` هيحل الرقم الصح تلقائيًا.
   intl: any
 
+  # Typography
+  # [P — Proposed، جلسة Figma foundation 24 أغسطس 2026] الـFigma الحقيقي
+  # بيستخدم 3 خطوط حقيقية (Baloo Bhaijaan 2 / Cairo / Be Vietnam Pro)، مش
+  # خط النظام الافتراضي. google_fonts أبسط طريقة نجيبهم بيها ومدعومين عربي.
+  # البديل (تحميل .ttf يدويًا + تسجيلهم في flutter/fonts تحت) متاح لاحقًا لو
+  # حبيتي ضمان عمل offline من أول تشغيل. راجعي تقرير الجلسة لتفاصيل الخطوط.
+  google_fonts: ^6.2.1
+
   # Utils
   logger: ^2.4.0
 
