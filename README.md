@@ -11,7 +11,7 @@ Implementation Plan الكامل — Architecture، Decisions & Assumptions Regi
 ```
 sout_el_qaa/
 │
-├── flutter_app/      # تطبيق الـFlutter — التفاصيل والتشغيل في flutter_app/README.md
+├── flutter/      # تطبيق الـFlutter — التفاصيل والتشغيل في flutter/README.md
 │
 ├── backend/          # حدود الـBackend — التفاصيل في backend/README.md
 │                      # (لسه فيه بس dev mock server؛ الـbackend الحقيقي [C1] لسه مبنيش)
@@ -22,7 +22,7 @@ sout_el_qaa/
 └── README.md          # الملف ده
 ```
 
-كل تطبيق (`flutter_app/`, `backend/`) isolated عن التاني — الـFlutter
+كل تطبيق (`flutter/`, `backend/`) isolated عن التاني — الـFlutter
 مبيعتمدش على كود الـbackend مباشرة، والتواصل بينهم عن طريق API contract فقط
 (القسم 16 من `PLAN.md`).
 

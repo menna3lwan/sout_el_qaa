@@ -1,6 +1,6 @@
 # صوت القاع (Sout El-Qaa) — Flutter App
 
-كل الأوامر في الملف ده بتتشغل من جوه `flutter_app/` (فيه `pubspec.yaml`).
+كل الأوامر في الملف ده بتتشغل من جوه `flutter/` (فيه `pubspec.yaml`).
 راجعي `../PLAN.md` (Rev 2) للـTechnical Implementation Plan الكامل —
 Architecture، Decisions & Assumptions Registry (القسم 14)، وترتيب تنفيذ
 الـbranches.
@@ -16,10 +16,10 @@ Issues" في تقرير الـbranch). يعني مجلدات `android/` و`ios/`
 أو Xcode `project.pbxproj` معقدة وbinary/generated، وتفبيركها يدوي هيديك
 مشروع "شكله شغال" بس فعليًا مكسور).
 
-**قبل أول تشغيل، شغّلي من جوه `flutter_app/` (اللي فيه `pubspec.yaml`):**
+**قبل أول تشغيل، شغّلي من جوه `flutter/` (اللي فيه `pubspec.yaml`):**
 
 ```bash
-cd flutter_app
+cd flutter
 flutter create --platforms=android,ios --org com.soutelqaa --project-name sout_el_qaa .
 ```
 
@@ -31,7 +31,7 @@ flutter create --platforms=android,ios --org com.soutelqaa --project-name sout_e
 ## تشغيل المشروع
 
 ```bash
-cd flutter_app
+cd flutter
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs   # يولّد ملفات الـl10n وأي .g.dart/.freezed.dart لاحقًا
 dart format .
@@ -46,7 +46,7 @@ flutter test
 cd backend/mock-server && npm install && npm start
 ```
 
-وشغّلي التطبيق ضده (من جوه `flutter_app/`):
+وشغّلي التطبيق ضده (من جوه `flutter/`):
 
 ```bash
 flutter run --dart-define=API_BASE_URL=http://localhost:3000

@@ -141,12 +141,12 @@ NetworkFailure / ServerFailure / CacheFailure / ValidationFailure
 ## 2. Project Structure (Folder Structure)
 
 > ✅ **[C6]** جزء من الـarchitecture المعتمدة. المحتوى الداخلي (core/features
-> composition) زي ما هو تمامًا — **التغيير الوحيد** هو الـprefix `flutter_app/`
+> composition) زي ما هو تمامًا — **التغيير الوحيد** هو الـprefix `flutter/`
 > وإضافة `common/` بدل `features/shared_widgets/`، نتيجة مباشرة لتاسك
 > الـmonorepo restructure (**[C7]**، انظر القسم 14) — مش إعادة فتح لـC6 نفسه.
 
 ```text
-flutter_app/
+flutter/
 └── lib/
     ├── main.dart                        # entrypoint واحد، يستدعي bootstrap()
     ├── bootstrap.dart                   # DI init + error zone + runApp
@@ -451,7 +451,7 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | 9 | `feature/sandy-profile` | Profile + Settings (نصوصنا المقترحة [P5])، logout، edit profile | 2 | Profile/Settings flow مكتمل | Widget + Integration (logout) |
 | 10 | `feature/spongebob-polish` | تكامل شامل، RTL/responsive verification، performance pass، إزالة أي hardcoded/mock متبقي، الاستبدال من mock server لـbackend الحقيقي **لو جهز بحلول هذه المرحلة** (مش افتراض إنه هيجهز)، regression testing كامل، **مراجعة الـProduct/Creative DoD (القسم 19)** | كل ما سبق | نسخة متكاملة جاهزة للمراجعة النهائية | Full regression suite + manual QA checklist |
 
-> **ملحوظة Backend:** REST backend مخصص **[C1]**، غير موجود بعد. الـProposed API Contract (القسم 16) هو المرجع، والـFlutter تشتغل ضد mock server محلي من branch #1. الـrepo بقى **[C7]** Monorepo واحد فيه `flutter_app/` و`backend/` — يعني الـbackend (لما يتبنى) هيكون **جوه نفس الـrepo ده** مش repository منفصل، لكن مفيش branch منفصل في الترتيب فوق مخصص لبنائه لسه (لسه Open Question جزئيًا — انظر **[Q5]**).
+> **ملحوظة Backend:** REST backend مخصص **[C1]**، غير موجود بعد. الـProposed API Contract (القسم 16) هو المرجع، والـFlutter تشتغل ضد mock server محلي من branch #1. الـrepo بقى **[C7]** Monorepo واحد فيه `flutter/` و`backend/` — يعني الـbackend (لما يتبنى) هيكون **جوه نفس الـrepo ده** مش repository منفصل، لكن مفيش branch منفصل في الترتيب فوق مخصص لبنائه لسه (لسه Open Question جزئيًا — انظر **[Q5]**).
 
 ---
 
@@ -496,7 +496,7 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | **C4** | مكتبة الخريطة: `flutter_map` (مش `google_maps_flutter`) | 24 أغسطس 2026 — سؤال مباشر |
 | **C5** | بنية ثنائية اللغة (AR/EN) من اليوم الأول، حتى لو الواجهة عربي بالكامل الآن | 24 أغسطس 2026 — سؤال مباشر |
 | **C6** | الـarchitecture العامة (Clean Architecture + layering)، تقسيم الـfeatures، استراتيجية الـbranching (10 branches)، طريقة الـtesting، وتغطية الـedge cases في هذا المستند | 24 أغسطس 2026 — موافقة نصية صريحة في مراجعتك |
-| **C7** | الـrepo بقى Monorepo واحد: `flutter_app/` + `backend/` + root-level `.vscode/`, `PLAN.md`, `README.md`, `.gitignore`. اتنفذ جوه `feature/spongebob-foundation` نفسه (مش branch منفصل) | 24 أغسطس 2026 — اختيار مباشر من سؤال (AskUserQuestion) |
+| **C7** | الـrepo بقى Monorepo واحد: `flutter/` + `backend/` + root-level `.vscode/`, `PLAN.md`, `README.md`, `.gitignore`. اتنفذ جوه `feature/spongebob-foundation` نفسه (مش branch منفصل) | 24 أغسطس 2026 — اختيار مباشر من سؤال (AskUserQuestion) |
 | **C8** | `backend/` بيبدأ بـ`dev/mock-server` بعد ما اتنقل لـ`backend/mock-server/`، متسمّى بوضوح إنه dev-only mock مش الـbackend الحقيقي (لسه مش موجود — C1 زي ما هو) | 24 أغسطس 2026 — اختيار مباشر من سؤال (AskUserQuestion) |
 
 ### 💡 Proposed (اقتراحي، مستني موافقتك)

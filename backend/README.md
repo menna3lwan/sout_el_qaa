@@ -1,7 +1,7 @@
 # Backend
 
 هذا هو الـboundary بتاع الـBackend application جوه الـMonorepo — مستقل تمامًا
-عن `flutter_app/` (مفيش Flutter dependency جواه، ومفيش الـFlutter بيعتمد على
+عن `flutter/` (مفيش Flutter dependency جواه، ومفيش الـFlutter بيعتمد على
 كوده مباشرة؛ التواصل بينهم عن طريق API contract فقط — راجعي `PLAN.md` القسم 16).
 
 ## الوضع الحالي
