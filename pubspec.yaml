@@ -1,0 +1,97 @@
+name: sout_el_qaa
+description: "صوت القاع — المنصة الرسمية لشكاوى سكان قاع الهامور."
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
+
+# ---------------------------------------------------------------------------
+# ملحوظة (foundation branch): أرقام الإصدارات هنا مبنية على أحدث نسخ مستقرة
+# معروفة وقت كتابة هذا الملف. الـsandbox المستخدم في هذه الجلسة ما عندوش وصول
+# شبكة لـ pub.dev (403 على الـegress allowlist)، فمقدرناش نشغّل `flutter pub get`
+# فعليًا هنا للتأكد من الأرقام. أول تشغيل لـ`flutter pub get` عندك محليًا ممكن
+# يحتاج bump بسيط لأي إصدار اتغيّر. موثّق كـRemaining Issue في تقرير الـbranch.
+# ---------------------------------------------------------------------------
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_bloc: ^8.1.6
+  bloc: ^8.1.4
+  equatable: ^2.0.5
+
+  # Dependency Injection
+  get_it: ^7.7.0
+  injectable: ^2.4.4
+
+  # Routing
+  go_router: ^14.2.7
+
+  # Networking
+  dio: ^5.6.0
+  pretty_dio_logger: ^1.4.0
+  connectivity_plus: ^6.0.5
+
+  # Models
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+
+  # Functional / Error handling
+  fpdart: ^1.1.0
+
+  # Local Storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  flutter_secure_storage: ^9.2.2
+  shared_preferences: ^2.3.2
+
+  # Map & Location
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  geolocator: ^13.0.1
+  permission_handler: ^11.3.1
+
+  # Media
+  image_picker: ^1.1.2
+  flutter_image_compress: ^2.3.0
+  cached_network_image: ^3.4.1
+
+  # Localization
+  # النسخة متعمّد سايبينها "any" — flutter_localizations بيفرض نسخة intl
+  # محددة بالظبط حسب إصدار الـFlutter SDK بتاعك، وأي رقم أثبته إحنا يدويًا
+  # هنا غالبًا هيتعارض معاه. `flutter pub get` هيحل الرقم الصح تلقائيًا.
+  intl: any
+
+  # Utils
+  logger: ^2.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+  build_runner: ^2.4.13
+  freezed: ^2.5.7
+  json_serializable: ^6.8.0
+  injectable_generator: ^2.6.2
+  hive_generator: ^2.0.1
+
+  bloc_test: ^9.1.7
+  mocktail: ^1.0.4
+
+flutter:
+  uses-material-design: true
+  generate: true # مطلوب لتوليد ملفات الـl10n من ARB (l10n.yaml)
+
+  # assets/fonts هتتضاف مع فروع لاحقة لما نحتاج فعليًا صور/خطوط حقيقية —
+  # مفيش أصول وهمية بتتضاف هنا بدون استخدام فعلي (المبدأ المتفق عليه في
+  # القسم 17 من الـplan: مفيش إضافة استباقية بدون سبب واضح وقريب).

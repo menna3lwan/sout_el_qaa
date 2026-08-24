@@ -1,0 +1,90 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "username": "sponge_mokhtar",
+      "email": "resident@qaa-el-hamour.eg",
+      "password": "qaaHamour1",
+      "displayName": "ساكن قاع الهامور",
+      "avatarId": null,
+      "bio": "شارع الأناناس"
+    }
+  ],
+  "categories": [
+    { "id": "water", "name": "مياه", "iconKey": "water_drop" },
+    { "id": "roads", "name": "طرق", "iconKey": "road" },
+    { "id": "cleanliness", "name": "نظافة", "iconKey": "cleaning" },
+    { "id": "electricity", "name": "كهرباء", "iconKey": "bolt" }
+  ],
+  "complaints": [
+    {
+      "id": "c1",
+      "title": "الشارع الرئيسي مكسر",
+      "description": "شهر كامل والحفرة في نص الشارع بتكبر وتتوحش! القارب اتخبط واتكسر وشفيق بقى يتفرج علينا ويضحك من بلكونته.. شوفولنا حل سريع بدل ما نطلب نجدة من البطل الخارق!",
+      "categoryId": "roads",
+      "severity": "high",
+      "status": "inReview",
+      "location": "شارع القاع البحري",
+      "lat": 30.0444,
+      "lng": 31.2357,
+      "views": 342,
+      "likes": 1248,
+      "mediaUrls": [],
+      "authorId": "u1",
+      "createdAt": "2026-08-24T10:00:00.000Z"
+    },
+    {
+      "id": "c2",
+      "title": "القمامة متراكة ف الشارع",
+      "description": "القمامة متراكمة من زمان في منطقة الأناناس، محدش بييجي يشيلها.",
+      "categoryId": "cleanliness",
+      "severity": "medium",
+      "status": "resolved",
+      "location": "منطقة الاناناس",
+      "lat": 30.05,
+      "lng": 31.24,
+      "views": 88,
+      "likes": 40,
+      "mediaUrls": [],
+      "authorId": "u1",
+      "createdAt": "2026-08-21T10:00:00.000Z"
+    },
+    {
+      "id": "c3",
+      "title": "أعمدة الإنارة لا تعمل",
+      "description": "أعمدة الإنارة في حي الرمال مطفية من اسبوعين، الشارع بقى مخيف بالليل.",
+      "categoryId": "electricity",
+      "severity": "medium",
+      "status": "resolved",
+      "location": "حى الرمال",
+      "lat": 30.06,
+      "lng": 31.22,
+      "views": 55,
+      "likes": 22,
+      "mediaUrls": [],
+      "authorId": "u1",
+      "createdAt": "2026-08-10T10:00:00.000Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": "cm1",
+      "complaintId": "c1",
+      "authorId": "u1",
+      "authorName": "شفيق",
+      "text": "والله تعبنا من هالحال، كل يوم إزعاج وتكسير وما نقدر ننام. البلدية نايمة في العسل.",
+      "createdAt": "2026-08-24T11:00:00.000Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "n1",
+      "userId": "u1",
+      "type": "statusUpdate",
+      "title": "جاري الحل",
+      "complaintId": "c1",
+      "isRead": false,
+      "createdAt": "2026-08-24T09:00:00.000Z"
+    }
+  ]
+}

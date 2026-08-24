@@ -1,0 +1,20 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Sout El-Qaa",
+
+  "navHome": "Home",
+  "navMap": "Map",
+  "navAdd": "Add",
+  "navComplaints": "Complaints",
+  "navProfile": "Profile",
+
+  "genericLoading": "Fetching the latest scoop...",
+  "genericErrorMessage": "We've got a connection problem... try again, citizen!",
+  "genericRetry": "Try Again",
+  "genericEmptyMessage": "Nothing here yet, neighbor...",
+  "placeholderScreenMessage": "Still setting this page up... check back soon 🐠",
+  "noInternetConnectionMessage": "No internet right now... even Qaa El Hamour residents need wifi! Try again.",
+  "unauthorizedMessage": "You need to sign in again, citizen — your session ended.",
+  "authLoginTitle": "Sign In"
+}

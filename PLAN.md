@@ -503,6 +503,8 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | **P9** | حذف الحساب (Account deletion) خارج نطاق الـMVP | القسم 3.10، 17 |
 | **P10** | الإعجاب على مستوى الشكوى ومستوى التعليق كـentities منفصلة منطقيًا | القسم 3.8 |
 | **P11** | تغيير حالة الشكوى read-only من جهة المواطن في الـMVP لحد ما [Q2] تتحل | القسم 3.8 |
+| **P12** | نطاق الـrouting في `feature/spongebob-foundation`: بس `/splash`، `/login`، والـ4 تابات الأساسية (Home/Map/Complaints/Profile) جوه الـStatefulShellRoute، بالإضافة لـ`/create-complaint` كـpush route. مسارات `/notifications` و`/complaints/:id` **متسجلتش خالص في الـfoundation** — كل واحد فيهم بيتسجل مع الـbranch المالك ليه (مش stub حتى) | القسم 10، 18، `core/router/app_router.dart` |
+| **P14** | `BottomNavShell`: التابات الأربعة (Home/Map/Complaints/Profile) هي الـpersistent `StatefulShellBranch`es الوحيدة. "إضافة" زرار push-action (بينادي `context.push(RoutePaths.createComplaint)`) مش تاب خامس دائم في الـIndexedStack — مبني على شكلها المرتفع في التصميم (مرتبط بـ[A1])، لكن آلية التنفيذ (push مش persistent branch) قرار تقني مني | القسم 3، `core/widgets/bottom_nav_shell.dart` |
 
 ### 🔸 Assumption (افتراض مؤقت، مش قرار product)
 
@@ -515,6 +517,8 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | **A5** | Create Complaint wizard من 3 خطوات (استنتاج من مؤشر "1/3") |
 | **A6** | إحصائيات Profile الثلاثة: شكاوى مقدمة / محلولة / نقاط |
 | **A7** | Views counter يتزود مرة واحدة لكل مستخدم (dedup منطقي، مش موثق في الـFigma) |
+| **A8** | ألوان/typography الـtheme الحالية (`AppColors`, `AppTypography`) عبارة عن palette مؤقتة مستوحاة من عالم قاع الهامور (أزرق محيط، أصفر إسفنجة، أحمر مرجاني) — **مش مستخرجة من قيم Figma الحقيقية بالبيكسل**، لأن screenshots الـFigma كانت محجوبة شبكيًا وقت تنفيذ هذا الـbranch. لازم تتأكد أو تتصحح لاحقًا من الـFigma Inspect أو hex values منك مباشرة | `core/theme/app_colors.dart`, `app_typography.dart` |
+| **A9** | الـDI حاليًا manual registration عبر `get_it` مباشرة (مش عبر `injectable` code generation رغم إن المكتبة مضافة في الـpubspec) لأن `build_runner` مقدرش يشتغل في sandbox التنفيذ ده. التحويل لـcodegen كامل تغيير في ملف واحد (`core/di/injection.dart`) بعد ما تشغّلي `dart run build_runner build` محليًا | `core/di/injection.dart` |
 
 ### ❓ Open Question (محتاجة قرارك)
 

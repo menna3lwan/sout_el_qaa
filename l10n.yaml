@@ -1,0 +1,11 @@
+arb-dir: lib/l10n
+template-arb-file: app_ar.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+output-dir: lib/l10n
+synthetic-package: false
+nullable-getter: false
+# synthetic-package: false + output-dir صريحين عمدًا (بدل الاعتماد على
+# سلوك افتراضي بيختلف بين إصدارات Flutter) — عشان استيراد
+# 'package:sout_el_qaa/l10n/app_localizations.dart' (أو relative path)
+# يفضل متوقع ومباشر، مش عبر synthetic `flutter_gen` package.
