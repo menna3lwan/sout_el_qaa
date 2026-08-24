@@ -140,42 +140,51 @@ NetworkFailure / ServerFailure / CacheFailure / ValidationFailure
 
 ## 2. Project Structure (Folder Structure)
 
-> ✅ **[C6]** جزء من الـarchitecture المعتمدة.
+> ✅ **[C6]** جزء من الـarchitecture المعتمدة. المحتوى الداخلي (core/features
+> composition) زي ما هو تمامًا — **التغيير الوحيد** هو الـprefix `flutter_app/`
+> وإضافة `common/` بدل `features/shared_widgets/`، نتيجة مباشرة لتاسك
+> الـmonorepo restructure (**[C7]**، انظر القسم 14) — مش إعادة فتح لـC6 نفسه.
 
 ```text
-lib/
-├── main.dart                        # entrypoint واحد، يستدعي bootstrap()
-├── bootstrap.dart                   # DI init + error zone + runApp
-│
-├── core/
-│   ├── constants/                   # app_strings (نصوص عالم قاع الهامور الثابتة)، api_endpoints، asset_paths
-│   ├── di/                          # injectable config (injection.dart + injection.config.dart المولّد)
-│   ├── errors/                      # Failure, Exception classes, error_mapper
-│   ├── network/                     # DioClient, interceptors, NetworkInfo (connectivity)
-│   ├── router/                      # app_router.dart (go_router), route_guards.dart
-│   ├── theme/                       # app_theme.dart, app_colors.dart, app_typography.dart, app_spacing.dart
-│   ├── localization/                # ARB files (ar الآن، هيكل جاهز لـen — [C5])، RTL helpers
-│   ├── storage/                     # SecureStorage, LocalCacheService, HiveAdapters
-│   ├── permissions/                 # PermissionService (camera/gallery/location/notifications) موحّد
-│   ├── utils/                       # extensions, validators, formatters (تاريخ نسبي "منذ ساعتين" مثلاً)
-│   └── widgets/                     # AppButton, AppTextField, LoadingView, ErrorView, EmptyView,
-│                                     # StatusBadge, QaaAvatar, BottomNavShell
-│
-├── features/
-│   ├── splash/                      # يشمل onboarding/auth-check redirect
-│   ├── auth/                        # login, register, session
-│   │   ├── presentation/  domain/  data/
-│   ├── home/                        # لوحة المعلومات الرئيسية
-│   ├── complaints/                  # feed + my complaints + status tabs + search + filters (انظر القسم 18)
-│   ├── create_complaint/            # نموذج تقديم شكوى جديدة (wizard)
-│   ├── complaint_details/           # تفاصيل الشكوى + تعليقات + تفاعلات (انظر القسم 18)
-│   ├── map/                         # الخريطة + location picker (مشترك مع create_complaint)
-│   ├── notifications/
-│   ├── profile/                     # profile + settings + logout + edit profile
-│   └── shared_widgets/              # widgets تخص أكتر من feature بس مش core عام
-│                                     # (مثال: ComplaintCard يُستخدم في Home وComplaints وProfile)
-│
-└── l10n/                            # generated localization
+flutter_app/
+└── lib/
+    ├── main.dart                        # entrypoint واحد، يستدعي bootstrap()
+    ├── bootstrap.dart                   # DI init + error zone + runApp
+    │
+    ├── core/                            # feature-agnostic بحق — لو الكود عارف حاجة عن
+    │   │                                 # business domain معين (زي complaint status/category)
+    │   │                                 # فمكانه جوه الـfeature بتاعته، مش هنا (انظر [P15])
+    │   ├── constants/                   # api_endpoints، app_config — identifiers عامة للتطبيق كله بس
+    │   ├── di/                          # injection.dart (get_it manual — [A9])
+    │   ├── errors/                      # Failure, Exception classes, error_mapper
+    │   ├── network/                     # DioClient, interceptors, NetworkInfo (connectivity)
+    │   ├── router/                      # app_router.dart (go_router), route_paths.dart
+    │   ├── theme/                       # app_theme.dart, app_colors.dart, app_typography.dart, app_spacing.dart
+    │   ├── localization/                # ARB files (ar الآن، هيكل جاهز لـen — [C5])، RTL helpers
+    │   ├── storage/                     # SecureStorage, LocalCacheService, HiveAdapters
+    │   ├── permissions/                 # PermissionService (camera/gallery/location/notifications) موحّد
+    │   ├── utils/                       # extensions, validators, formatters (تاريخ نسبي "منذ ساعتين" مثلاً)
+    │   └── widgets/                     # AppButton, AppTextField, LoadingView, ErrorView, EmptyView,
+    │                                     # QaaAvatar, BottomNavShell — generic بحق، من غير أي معرفة بـdomain
+    │
+    ├── common/                          # widgets مشتركة بين features، مش infrastructure، ومش مرتبطة
+    │   └── widgets/                      # بـbusiness logic معين — لو مرتبطة، تتحط جوه الـfeature بتاعتها
+    │                                      # مثال: PlaceholderScreen (انظر [P16])
+    │
+    ├── features/
+    │   ├── splash/                      # يشمل onboarding/auth-check redirect
+    │   ├── auth/                        # login, register, session
+    │   │   ├── presentation/  domain/  data/
+    │   ├── home/                        # لوحة المعلومات الرئيسية
+    │   ├── complaints/                  # feed + my complaints + status tabs + search + filters (انظر القسم 18)
+    │   │                                 # domain/constants/complaint_constants.dart، presentation/widgets/status_badge.dart
+    │   ├── create_complaint/            # نموذج تقديم شكوى جديدة (wizard)
+    │   ├── complaint_details/           # تفاصيل الشكوى + تعليقات + تفاعلات (انظر القسم 18)
+    │   ├── map/                         # الخريطة + location picker (مشترك مع create_complaint)
+    │   ├── notifications/
+    │   └── profile/                     # profile + settings + logout + edit profile
+    │
+    └── l10n/                            # generated localization
 ```
 
 ### 2.1 هيكل داخلي لكل feature (مثال: `complaints/`)
@@ -442,7 +451,7 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | 9 | `feature/sandy-profile` | Profile + Settings (نصوصنا المقترحة [P5])، logout، edit profile | 2 | Profile/Settings flow مكتمل | Widget + Integration (logout) |
 | 10 | `feature/spongebob-polish` | تكامل شامل، RTL/responsive verification، performance pass، إزالة أي hardcoded/mock متبقي، الاستبدال من mock server لـbackend الحقيقي **لو جهز بحلول هذه المرحلة** (مش افتراض إنه هيجهز)، regression testing كامل، **مراجعة الـProduct/Creative DoD (القسم 19)** | كل ما سبق | نسخة متكاملة جاهزة للمراجعة النهائية | Full regression suite + manual QA checklist |
 
-> **ملحوظة Backend:** REST backend مخصص **[C1]**، غير موجود بعد. الـProposed API Contract (القسم 16) هو المرجع، والـFlutter تشتغل ضد mock server محلي من branch #1. مفيش branch منفصل لبناء الـbackend لأنه خارج نطاق هذا الـrepo — لو ده غير مقصود، محتاجين نتكلم عنه.
+> **ملحوظة Backend:** REST backend مخصص **[C1]**، غير موجود بعد. الـProposed API Contract (القسم 16) هو المرجع، والـFlutter تشتغل ضد mock server محلي من branch #1. الـrepo بقى **[C7]** Monorepo واحد فيه `flutter_app/` و`backend/` — يعني الـbackend (لما يتبنى) هيكون **جوه نفس الـrepo ده** مش repository منفصل، لكن مفيش branch منفصل في الترتيب فوق مخصص لبنائه لسه (لسه Open Question جزئيًا — انظر **[Q5]**).
 
 ---
 
@@ -487,6 +496,8 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | **C4** | مكتبة الخريطة: `flutter_map` (مش `google_maps_flutter`) | 24 أغسطس 2026 — سؤال مباشر |
 | **C5** | بنية ثنائية اللغة (AR/EN) من اليوم الأول، حتى لو الواجهة عربي بالكامل الآن | 24 أغسطس 2026 — سؤال مباشر |
 | **C6** | الـarchitecture العامة (Clean Architecture + layering)، تقسيم الـfeatures، استراتيجية الـbranching (10 branches)، طريقة الـtesting، وتغطية الـedge cases في هذا المستند | 24 أغسطس 2026 — موافقة نصية صريحة في مراجعتك |
+| **C7** | الـrepo بقى Monorepo واحد: `flutter_app/` + `backend/` + root-level `.vscode/`, `PLAN.md`, `README.md`, `.gitignore`. اتنفذ جوه `feature/spongebob-foundation` نفسه (مش branch منفصل) | 24 أغسطس 2026 — اختيار مباشر من سؤال (AskUserQuestion) |
+| **C8** | `backend/` بيبدأ بـ`dev/mock-server` بعد ما اتنقل لـ`backend/mock-server/`، متسمّى بوضوح إنه dev-only mock مش الـbackend الحقيقي (لسه مش موجود — C1 زي ما هو) | 24 أغسطس 2026 — اختيار مباشر من سؤال (AskUserQuestion) |
 
 ### 💡 Proposed (اقتراحي، مستني موافقتك)
 
@@ -519,6 +530,8 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | **A7** | Views counter يتزود مرة واحدة لكل مستخدم (dedup منطقي، مش موثق في الـFigma) |
 | **A8** | ألوان/typography الـtheme الحالية (`AppColors`, `AppTypography`) عبارة عن palette مؤقتة مستوحاة من عالم قاع الهامور (أزرق محيط، أصفر إسفنجة، أحمر مرجاني) — **مش مستخرجة من قيم Figma الحقيقية بالبيكسل**، لأن screenshots الـFigma كانت محجوبة شبكيًا وقت تنفيذ هذا الـbranch. لازم تتأكد أو تتصحح لاحقًا من الـFigma Inspect أو hex values منك مباشرة | `core/theme/app_colors.dart`, `app_typography.dart` |
 | **A9** | الـDI حاليًا manual registration عبر `get_it` مباشرة (مش عبر `injectable` code generation رغم إن المكتبة مضافة في الـpubspec) لأن `build_runner` مقدرش يشتغل في sandbox التنفيذ ده. التحويل لـcodegen كامل تغيير في ملف واحد (`core/di/injection.dart`) بعد ما تشغّلي `dart run build_runner build` محليًا | `core/di/injection.dart` |
+| **P15** | `core/widgets/status_badge.dart` (الـwidget + `ComplaintStatus` enum) و`core/constants/app_strings.dart` (category/status/severity slugs) اتنقلوا برا `core/` لأنهم عارفين تفاصيل عن domain الشكاوى تحديدًا (نفس مبدأ "Category مش core" من تاسك الـmonorepo restructure) — بقوا جوه `features/complaints/` (`presentation/widgets/status_badge.dart`، `domain/constants/complaint_constants.dart`، والكلاس اتسمى `ComplaintConstants` مش `AppStrings`) | تاسك الـmonorepo restructure، قسم 6 |
+| **P16** | `features/shared_widgets/` (كان اسمه كده في القسم 2 الأصلي) اتحول لـ`common/widgets/` — نفس المحتوى والغرض (`PlaceholderScreen`)، الاسم والموقع بس اللي اتغيروا، عشان يطابق تعريف "common" في تاسك الـmonorepo restructure (قسم 7) | تاسك الـmonorepo restructure، قسم 7 |
 
 ### ❓ Open Question (محتاجة قرارك)
 
@@ -528,6 +541,7 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | **Q2** | نطاق الدور الإداري: تغيير حالة الشكوى backend-only بالكامل، ولا فيه دور داخل نفس الـapp يقدر يغيّرها؟ |
 | **Q3** | زرار "عرض الكل" في Notifications: صفحة كاملة، ولا "تحديد الكل كمقروء"؟ |
 | **Q4** | التفاصيل الدقيقة لسيمانتيك الإعجاب/التفاعل عند وجود backend حقيقي (P10 اقتراحنا المبدئي، لسه محتاج تأكيد منتج) |
+| **Q5** | الـstack/framework الفعلي للـbackend الحقيقي (Node/NestJS، إلخ) لسه مش متقرر — `backend/` بقى موجود كـboundary واضح **[C7]**، لكن مفيش قرار بعد عن التقنية أو عن branch مخصص لبنائه |
 
 ---
 

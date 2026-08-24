@@ -13,9 +13,10 @@ build/
 
 # IDE
 .idea/
-.vscode/
 *.iml
 *.iws
+# .vscode/ متتبّع عمدًا (settings.json بس، مفيش machine-specific files فيه) —
+# انظر .vscode/settings.json
 
 # macOS
 .DS_Store
@@ -56,6 +57,9 @@ coverage/
 android/key.properties
 ios/Runner/Secrets.xcconfig
 
-# Mock server (dev-only, انظر dev/mock-server/README.md)
-dev/mock-server/node_modules/
+# Mock server (dev-only, انظر backend/mock-server/README.md)
+backend/mock-server/node_modules/
+
+# ملفات housekeeping مؤقتة من عملية النقل/الـrestructure (مش جزء من المشروع) —
+# راجعي التقرير للتفاصيل، وامسحي الفولدر ده بنفسك وقت ما تحبي
 _to_delete/
