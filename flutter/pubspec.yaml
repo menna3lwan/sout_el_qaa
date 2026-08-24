@@ -28,7 +28,11 @@ dependencies:
 
   # Dependency Injection
   get_it: ^7.7.0
-  injectable: ^2.4.4
+  # [Remaining Issue، جلسة تشغيل فعلي 2026-08-25] رقم مثبّت كان بيعمل
+  # version-solving conflict حقيقي مع freezed/bloc_test عبر سلسلة تبعيات
+  # analyzer (تفاصيل في تقرير الجلسة) — سايبها "any" زي intl، والـpaired
+  # injectable_generator تحت، عشان الـresolver يلاقي إصدارين متوافقين فعليًا.
+  injectable: any
 
   # Routing
   go_router: ^14.2.7
@@ -39,8 +43,12 @@ dependencies:
   connectivity_plus: ^6.0.5
 
   # Models
-  freezed_annotation: ^2.4.4
-  json_annotation: ^4.9.0
+  # [Remaining Issue، جلسة تشغيل فعلي 2026-08-25] freezed/json_serializable
+  # تحت كانوا مركز أغلب الـversion-solving conflicts اللي ظهرت (تفاصيل في
+  # تقرير الجلسة) — سايبين الـannotations هنا "any" برضه عشان تتطابق مع أي
+  # إصدار الـresolver يختاره للـgenerators المقابلة تحت.
+  freezed_annotation: any
+  json_annotation: any
 
   # Functional / Error handling
   fpdart: ^1.1.0
@@ -80,12 +88,28 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
   build_runner: ^2.4.13
-  freezed: ^2.5.7
-  json_serializable: ^6.8.0
-  injectable_generator: ^2.6.2
-  hive_generator: ^2.0.1
+  # [Remaining Issue، جلسة تشغيل فعلي 2026-08-25] الأرقام المثبّتة الأصلية
+  # (freezed ^2.5.7، json_serializable ^6.8.0، injectable_generator ^2.6.2)
+  # عملوا سلسلة version-solving conflicts حقيقية مع بعض ومع bloc_test عبر
+  # analyzer (3 محاولات تباعًا، تفاصيل كاملة في تقرير الجلسة) — سايبينهم
+  # "any" عشان الـresolver يلاقي frontier متوافق فعليًا ضد الـSDK الحقيقي
+  # عندك، بدل ما نستمر نخمّن أرقام واحد ورا التاني.
+  freezed: any
+  json_serializable: any
+  injectable_generator: any
+  # [Remaining Issue، جلسة تشغيل فعلي 2026-08-25] hive_generator اتشال مؤقتًا.
+  # كل إصدار جربته (^2.0.1 pinned، وبعدين "any") عمل version-solving conflict
+  # حقيقي وdeadlock فعلي مع freezed عبر analyzer/macros/source_gen (تفاصيل
+  # كاملة في تقرير الجلسة). مفيش أي كلاس `@HiveType` مستخدم فعليًا في الكود
+  # لحد دلوقتي (local_cache_service.dart بيستخدم Hive.initFlutter() بس)،
+  # فمفيش أي تأثير وظيفي من شيله دلوقتي. هيترجع لما فعليًا نحتاج Hive codegen
+  # (drafts box — branch sandy-create-complaint)، وقتها هيتحدد إصدار متوافق
+  # فعليًا ضد pub.dev الحقيقي مش تخمين.
 
-  bloc_test: ^9.1.7
+  # [Remaining Issue، جلسة تشغيل فعلي 2026-08-25] bloc_test ^9.1.7 كان جزء
+  # من الـconflict chain (اتعارض مع injectable_generator ^2.5.0 عبر
+  # flutter_test/analyzer — تفاصيل في تقرير الجلسة) — سايبينه "any" برضه.
+  bloc_test: any
   mocktail: ^1.0.4
 
 flutter:
