@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/route_paths.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/message_key_resolver.dart';
 import '../../../../core/widgets/app_button.dart';
@@ -13,40 +12,45 @@ import '../../../../core/widgets/app_text_field.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 
-/// Real implementation of the screen [C3] we design ourselves (Figma has no Login/Register frame, PLAN.md section 3.2) — same visual language (screen background, pill inputs/buttons, Baloo Bhaijaan 2 heading) as every Figma-designed screen.
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+/// New screen, not in Figma — [C3] same reasoning as LoginPage; required so "App Launch -> Splash -> Auth -> Home" is a real, complete flow instead of Login being a dead end with no way to create an account.
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<AuthCubit>(),
-      child: const _LoginView(),
+      child: const _RegisterView(),
     );
   }
 }
 
-class _LoginView extends StatefulWidget {
-  const _LoginView();
+class _RegisterView extends StatefulWidget {
+  const _RegisterView();
 
   @override
-  State<_LoginView> createState() => _LoginViewState();
+  State<_RegisterView> createState() => _RegisterViewState();
 }
 
-class _LoginViewState extends State<_LoginView> {
+class _RegisterViewState extends State<_RegisterView> {
+  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
+    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text(context.l10n.authRegisterTitle)),
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state.status == AuthStatus.success) {
@@ -61,27 +65,19 @@ class _LoginViewState extends State<_LoginView> {
         builder: (context, state) {
           return SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-                vertical: AppSpacing.xxl,
-              ),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Icon(Icons.waves_rounded, size: 56, color: context.colorScheme.primary),
+                  AppTextField(
+                    label: context.l10n.authUsernameLabel,
+                    controller: _usernameController,
+                    textInputAction: TextInputAction.next,
+                    errorText: state.fieldErrors['username'] == null
+                        ? null
+                        : resolveMessageKey(context, state.fieldErrors['username']!),
+                  ),
                   const SizedBox(height: AppSpacing.md),
-                  Text(
-                    context.l10n.appTitle,
-                    textAlign: TextAlign.center,
-                    style: AppTypography.displayLarge,
-                  ),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    context.l10n.authLoginTitle,
-                    textAlign: TextAlign.center,
-                    style: context.textTheme.bodyMedium,
-                  ),
-                  const SizedBox(height: AppSpacing.xl),
                   AppTextField(
                     label: context.l10n.authEmailLabel,
                     controller: _emailController,
@@ -96,28 +92,40 @@ class _LoginViewState extends State<_LoginView> {
                     label: context.l10n.authPasswordLabel,
                     controller: _passwordController,
                     obscureText: true,
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                     errorText: state.fieldErrors['password'] == null
                         ? null
                         : resolveMessageKey(context, state.fieldErrors['password']!),
                   ),
+                  const SizedBox(height: AppSpacing.md),
+                  AppTextField(
+                    label: context.l10n.authConfirmPasswordLabel,
+                    controller: _confirmPasswordController,
+                    obscureText: true,
+                    textInputAction: TextInputAction.done,
+                    errorText: state.fieldErrors['confirmPassword'] == null
+                        ? null
+                        : resolveMessageKey(context, state.fieldErrors['confirmPassword']!),
+                  ),
                   const SizedBox(height: AppSpacing.xl),
                   AppButton(
-                    label: context.l10n.authLoginButton,
+                    label: context.l10n.authRegisterButton,
                     isLoading: state.status == AuthStatus.submitting,
-                    onPressed: () => context.read<AuthCubit>().login(
+                    onPressed: () => context.read<AuthCubit>().register(
+                          username: _usernameController.text.trim(),
                           email: _emailController.text.trim(),
                           password: _passwordController.text,
+                          confirmPassword: _confirmPasswordController.text,
                         ),
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(context.l10n.authNoAccountPrompt, style: context.textTheme.bodySmall),
+                      Text(context.l10n.authHaveAccountPrompt, style: context.textTheme.bodySmall),
                       TextButton(
-                        onPressed: () => context.push(RoutePaths.register),
-                        child: Text(context.l10n.authRegisterLink),
+                        onPressed: () => context.pop(),
+                        child: Text(context.l10n.authLoginLink),
                       ),
                     ],
                   ),
