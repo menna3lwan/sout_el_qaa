@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/extensions/context_extensions.dart';
 
-/// حالة الـEmpty الموحّدة. زي [ErrorView]، الرسالة بتتحدد لكل feature على
-/// حدة بروح قاع الهامور (أمثلة فعلية في القسم 3 من الـplan)، مش نص عام.
+/// Unified empty state; like [ErrorView], each feature supplies its own message in the app's voice (see PLAN.md section 3), not a generic string.
 class EmptyView extends StatelessWidget {
   const EmptyView({
     super.key,

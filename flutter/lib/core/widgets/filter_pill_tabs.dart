@@ -4,16 +4,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
 
-/// شريط فلاتر بشكل pills أفقية — **component مشترك حقيقي**، ظهر بنفس
-/// الفكرة (خيار مختار بلون مختلف + باقي الخيارات بحدود رمادية) في شاشتين
-/// منفصلتين تمامًا: تابات "كل الشكاوى/شكوائي/تم حلها" (Complaints List)
-/// وفلاتر "الكل/شكاوى/تفاعلات/عام" (Notifications). بنوهما كـwidget واحد
-/// بدل نسخهم في كل feature — ده بالظبط النوع اللي التاسك طلب نتجنبه من
-/// "Different styling لنفس component بين screens".
-///
-/// الفروق الصغيرة بين الشاشتين (سمك الحدود 1px مقابل 2px، حجم الـpadding)
-/// اتوحدت هنا على القيمة الأكتر شيوعًا؛ التفاصيل الدقيقة لكل استخدام قابلة
-/// للتعديل وقت تنفيذ الـfeature الفعلي لو لزم.
+/// Horizontal pill filter bar — a real shared component, used with the same pattern (selected pill in a different color, others with a gray border) on two separate screens: the "All/Mine/Resolved" tabs (Complaints List) and the "All/Complaints/Reactions/General" filters (Notifications); built once instead of duplicated per feature. Minor differences between the two screens (1px vs 2px border, padding) are unified on the more common value; adjust per use later if needed.
 class FilterPillTabs extends StatelessWidget {
   const FilterPillTabs({
     required this.options,
@@ -22,8 +13,7 @@ class FilterPillTabs extends StatelessWidget {
     super.key,
   });
 
-  /// نصوص الخيارات بالترتيب — النصوص نفسها (ومعناها) بتتحدد بالكامل من
-  /// الـfeature المستخدم، الـwidget ده مسؤول عن الشكل البصري فقط.
+  /// Option labels in order — their text and meaning are fully owned by the consuming feature; this widget only owns the visual style.
   final List<String> options;
   final int selectedIndex;
   final ValueChanged<int> onSelected;

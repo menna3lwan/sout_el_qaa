@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../common/widgets/placeholder_screen.dart';
 
-/// Placeholder — التنفيذ الفعلي (فورم 3 مراحل [A5]، رفع وسائط، severity،
-/// ربط بالخريطة) هيتم جوه `feature/sandy-create-complaint` مطابقًا لـFigma
-/// node 33:210 (القسم 3.6).
+/// Placeholder — real implementation (3-stage form [A5], media upload, severity, map linking) lands in feature/sandy-create-complaint, matching Figma node 33:210 (PLAN.md section 3.6).
 class CreateComplaintPage extends StatelessWidget {
   const CreateComplaintPage({super.key});
 

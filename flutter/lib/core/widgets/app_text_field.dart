@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// حقل إدخال موحّد — بيعرض رسالة الـvalidation جوه نفس الحقل (inline)، مطابق
-/// لقرار الـplan (القسم 7): ValidationFailure تتعرض جنب كل حقل، مش snackbar.
+/// Unified input field showing validation messages inline, matching PLAN.md section 7: a ValidationFailure appears next to its field, not in a snackbar.
 class AppTextField extends StatelessWidget {
   const AppTextField({
     required this.label,

@@ -1,24 +1,14 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-/// نطاق foundation branch متعمّد إنه محدود: بس تهيئة Hive + فتح boxes عامة.
-///
-/// **ملحوظة مهمة (تعليمات صريحة):** إحنا مش بنبني offline-first architecture
-/// كاملة هنا (background sync, conflict resolution, إلخ) — ده Future/Optional
-/// حسب القسم 17 من الـplan. اللي فعلًا MVP دلوقتي هو drafts تقديم الشكوى بس،
-/// وده هيتضاف كـbox خاص بيه (`create_complaint_drafts`) جوه
-/// `feature/sandy-create-complaint` نفسها لما الـfeature تتنفذ، مش هنا —
-/// عشان الملف ده يفضل بلا معرفة بأي feature معينة (Core لازم يكون
-/// feature-agnostic، القسم 1.10).
+/// Deliberately minimal: only Hive init + generic box helpers, no offline-first sync/conflict-resolution logic (PLAN.md section 17); feature-specific boxes register inside their own feature branch to keep Core feature-agnostic (PLAN.md section 1.10).
 abstract final class LocalCacheService {
-  /// بينادى مرة واحدة من [bootstrap.dart] قبل أي استخدام لـHive.
+  /// Called once from [bootstrap.dart] before any Hive usage.
   static Future<void> init() async {
     await Hive.initFlutter();
-    // TypeAdapters بتتسجل هنا فرع بفرع لما الـmodels الفعلية تتعمل
-    // (Hive.registerAdapter(...))  — مفيش أي box يتفتح هنا استباقيًا.
+    // TypeAdapters register here per branch as real models land — no box is opened speculatively.
   }
 
-  /// helper عام لأي feature تحتاج تفتح box بسيط لاحقًا، بدل ما كل feature
-  /// تكرر منطق `Hive.openBox` بنفسها.
+  /// Generic helper for any feature that needs to open a simple box later, instead of repeating Hive.openBox logic.
   static Future<Box<T>> openBox<T>(String name) {
     if (Hive.isBoxOpen(name)) {
       return Future.value(Hive.box<T>(name));

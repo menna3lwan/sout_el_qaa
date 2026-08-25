@@ -3,23 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
 
-/// أشكال الأفاتار الموجودة فعليًا في الـFigma — شكلين بصريين مختلفين
-/// حسب مكان الاستخدام، مش تدرج حجم بسيط:
-/// - [header]: أفاتار الـheader (44px) — خلفية زرقاء فاتحة، حدود صفراء رفيعة،
-///   ظل ناعم.
-/// - [profile]: أفاتار صفحة الملف الشخصي (128px) — خلفية سماوية فاتحة،
-///   حدود كحلية غامقة أوضح، ظل "صلب" ثلاثي الأبعاد (4px 4px 0px، مش blur).
+/// The two avatar shapes actually found in Figma, not a simple size scale: [header] (44px, light-blue background, thin yellow border, soft shadow) and [profile] (128px, light-sky background, darker navy border, hard 3D shadow at 4px/4px/0px with no blur).
 enum QaaAvatarVariant { header, profile }
 
-/// أفاتار موحّد — مقابل الـcomponent "SpongeBob Avatar" المؤكد وجوده في كل
-/// الشاشات المصممة (Home, Complaint Details, Profile، إلخ — القسم 3 من
-/// الـplan). الشكلين البصريين ([QaaAvatarVariant]) مستخرجين من الـFigma
-/// الحقيقي (24 أغسطس 2026)، مش مخترعين.
-///
-/// **لسه بدون أصول شخصيات حقيقية** — الصور الفعلية (SpongeBob وغيره) موجودة
-/// في الـFigma لكن تعذّر تحميل الـbytes بتاعتها في هذه الجلسة (راجعي تقرير
-/// الجلسة — مشكلة شبكة/allowlist، مش قرار تصميم). دلوقتي بيعرض: صورة
-/// المستخدم لو موجود URL، وإلا حرف أول اسمه كـfallback بسيط.
+/// Unified avatar matching the "SpongeBob Avatar" component confirmed across every designed screen (Home, Complaint Details, Profile, etc. — PLAN.md section 3); the two [QaaAvatarVariant] shapes are extracted from the real Figma review (24 Aug 2026), not invented. No real character art yet — the actual images exist in Figma but their bytes couldn't be downloaded in this session (network/allowlist issue, not a design decision — see branch report); shows the user's image if a URL exists, otherwise their first initial as a fallback.
 class QaaAvatar extends StatelessWidget {
   const QaaAvatar({
     super.key,
@@ -59,7 +46,7 @@ class QaaAvatar extends StatelessWidget {
           ],
         QaaAvatarVariant.profile => const [
             BoxShadow(
-              // ظل "صلب" بدون blur — نفس نمط أزرار الـCTA
+              // Hard shadow, no blur — matches the CTA button style
               color: Color(0x33002431),
               offset: Offset(4, 4),
             ),

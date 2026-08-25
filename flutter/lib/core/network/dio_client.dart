@@ -4,9 +4,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../constants/app_config.dart';
 import 'interceptors/auth_interceptor.dart';
 
-/// نقطة إنشاء واحدة لـ[Dio] مضبوطة بالـinterceptors المطلوبة. الـbaseUrl
-/// مش hardcoded — بييجي من [AppConfig.apiBaseUrl] عشان يقدر يتغيّر بين
-/// الـmock server المحلي والـbackend الحقيقي بدون تعديل كود (القسم 16).
+/// Single [Dio] instance wired with the required interceptors; baseUrl comes from [AppConfig.apiBaseUrl] so it can switch between the mock server and the real backend without code changes (PLAN.md section 16).
 final class DioClientFactory {
   const DioClientFactory(this._authInterceptor);
 
@@ -18,7 +16,7 @@ final class DioClientFactory {
         baseUrl: AppConfig.apiBaseUrl,
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
-        sendTimeout: const Duration(seconds: 30), // أطول شوية لرفع الوسائط
+        sendTimeout: const Duration(seconds: 30), // Longer, to allow for media uploads
         headers: {'Accept': 'application/json'},
       ),
     );

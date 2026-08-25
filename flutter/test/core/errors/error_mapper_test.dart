@@ -4,10 +4,7 @@ import 'package:sout_el_qaa/core/errors/error_mapper.dart';
 import 'package:sout_el_qaa/core/errors/exceptions.dart';
 import 'package:sout_el_qaa/core/errors/failures.dart';
 
-/// اختبار إضافي (مش مطلوب صراحة في DoD الـfoundation، لكن ErrorMapper عمود
-/// أساسي في الـarchitecture المعتمدة [C6] — القسم 7 من الـplan — وأي خلل فيه
-/// بيأثر على كل feature branch جاية بصمت. اتضاف كـsafety net منخفض التكلفة،
-/// مش توسيع scope.
+/// Extra test (not explicitly required in the foundation DoD, but ErrorMapper is a core pillar of the accepted architecture [C6], PLAN.md section 7, and any bug in it silently affects every future feature branch); added as a low-cost safety net, not a scope expansion.
 void main() {
   group('ErrorMapper.map', () {
     test('maps NoInternetException to NetworkFailure', () {

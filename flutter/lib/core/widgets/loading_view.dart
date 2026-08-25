@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/extensions/context_extensions.dart';
 
-/// حالة الـLoading الموحّدة — بتتستخدم في كل Cubit state من نوع Loading،
-/// بدل ما كل شاشة تبني spinner بنفسها (القسم 6: نموذج الحالات الموحّد).
+/// Unified loading state used for every Loading Cubit state, instead of each screen building its own spinner (PLAN.md section 6: unified state model).
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key, this.message});
 

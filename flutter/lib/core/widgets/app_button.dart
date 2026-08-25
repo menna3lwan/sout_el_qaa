@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// زرار أساسي موحّد — بيغلف [ElevatedButton] بدعم loading state مدمج، عشان
-/// كل شاشة فورم (Login, Create Complaint...) متكررش نفس منطق "عطّل الزرار
-/// وأظهر spinner وقت الإرسال" بنفسها.
+/// Unified primary button wrapping [ElevatedButton] with a built-in loading state, so every form screen (Login, Create Complaint...) doesn't repeat "disable + show spinner while submitting" logic.
 class AppButton extends StatelessWidget {
   const AppButton({
     required this.label,

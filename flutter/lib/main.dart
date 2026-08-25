@@ -9,9 +9,7 @@ import 'l10n/app_localizations.dart';
 
 Future<void> main() => bootstrap(() => const SoutElQaaApp());
 
-/// جذر التطبيق. عربي فقط في الواجهة دلوقتي (بنية bilingual جاهزة — [C5])،
-/// RTL بييجي تلقائيًا من `Locale('ar')` + `flutter_localizations` بدل ما
-/// يتفرض يدويًا بـ`Directionality` منفصل.
+/// App root. Arabic-only UI for now (bilingual structure is ready, decision [C5]); RTL comes automatically from Locale('ar') + flutter_localizations instead of a separate manual Directionality.
 class SoutElQaaApp extends StatelessWidget {
   const SoutElQaaApp({super.key});
 

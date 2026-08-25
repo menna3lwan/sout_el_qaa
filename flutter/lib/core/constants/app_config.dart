@@ -1,10 +1,4 @@
-/// إعدادات بيئة التشغيل — بتتحدد وقت الـbuild عبر `--dart-define`، مش
-/// hardcoded ومش .env داخل الـrepo (تجنبًا لأي secret يتسرب بالغلط).
-///
-/// مثال تشغيل ضد الـmock server المحلي (القسم 16 + backend/mock-server/):
-/// ```
-/// flutter run --dart-define=API_BASE_URL=http://localhost:3000
-/// ```
+/// Runtime env config set via --dart-define (no .env in the repo, to avoid leaking secrets); e.g. flutter run --dart-define=API_BASE_URL=http://localhost:3000
 abstract final class AppConfig {
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',

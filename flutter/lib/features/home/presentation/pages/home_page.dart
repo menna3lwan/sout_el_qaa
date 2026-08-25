@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../common/widgets/placeholder_screen.dart';
 
-/// Placeholder — التنفيذ الفعلي (feed, categories, recent activity) هيتم
-/// جوه `feature/squidward-home` مطابقًا لـFigma node 33:21 (القسم 3.3).
+/// Placeholder — real implementation (feed, categories, recent activity) lands in feature/squidward-home, matching Figma node 33:21 (PLAN.md section 3.3).
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 

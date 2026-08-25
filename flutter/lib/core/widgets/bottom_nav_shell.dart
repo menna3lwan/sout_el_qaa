@@ -5,16 +5,7 @@ import '../router/route_paths.dart';
 import '../theme/app_spacing.dart';
 import '../utils/extensions/context_extensions.dart';
 
-/// الـShell البصري لـBottomNavBar — 5 تابات مؤكدة من الـFigma في كل شاشة
-/// (القسم 1.5 من الـplan): الرئيسية / الخريطة / إضافة / شكاوي / الملف الشخصي.
-///
-/// **[P14] قرار تنفيذي اتاخد أثناء بناء الـfoundation، مش موجود صراحة في
-/// الـplan الأصلي:** التابات الأربعة (Home/Map/Complaints/Profile) بس هي
-/// [StatefulShellRoute] branches حقيقية (بتحافظ على الـstate بتاعها). تاب
-/// "إضافة" اتعامل معاه كـaction button بيعمل `push` لـ`/create-complaint`
-/// فوق الشاشة الحالية، مش branch خامس — لأن flow تقديم شكوى مفروض يبدأ من
-/// جديد كل مرة (زي أي "+" flow)، مش يحافظ على "آخر حالة" كتاب متصفح عادي.
-/// ده قرار Proposed جديد محتاج تأكيدك، موثّق في تقرير الـbranch.
+/// BottomNavBar shell — 5 tabs confirmed from Figma on every screen (PLAN.md section 1.5): Home/Map/Add/Complaints/Profile. [P14] Execution decision, not explicit in the original plan: only Home/Map/Complaints/Profile are real [StatefulShellRoute] branches that preserve state, while "Add" pushes /create-complaint as a one-off flow rather than a 5th branch, since submitting a complaint should always start fresh — a new Proposed decision needing your confirmation (see branch report).
 class BottomNavShell extends StatelessWidget {
   const BottomNavShell({
     required this.navigationShell,
@@ -74,8 +65,7 @@ class BottomNavShell extends StatelessWidget {
   void _goToBranch(int index) {
     navigationShell.goBranch(
       index,
-      // الرجوع لنفس التاب تاني بيرجّعه لأول صفحة فيه (initialLocation),
-      // مش يحافظ على أعمق navigation state لو المستخدم كان عامل push جواه.
+      // Tapping the current tab again returns to its first page (initialLocation), not the deepest state if the user had pushed further.
       initialLocation: index == navigationShell.currentIndex,
     );
   }
@@ -121,8 +111,7 @@ class _NavItem extends StatelessWidget {
   }
 }
 
-/// التاب الأوسط المرتفع بصريًا (نمط FAB مدمج) — [A1] افتراض مبني على
-/// الـstyling المتكرر (`Group 2` / `Background+Border`) في كل الشاشات.
+/// Visually raised center tab (built-in FAB style) — [A1] assumption based on the repeated styling (`Group 2` / `Background+Border`) across all screens.
 class _AddNavItem extends StatelessWidget {
   const _AddNavItem({required this.label, required this.onTap});
 

@@ -2,19 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/utils/extensions/context_extensions.dart';
 
-/// شاشة placeholder موحّدة لأي feature لسه ما اتنفذتش (foundation branch
-/// فقط). كل الـfeature branches الجاية (patrick-auth, squidward-home,
-/// plankton-map, mrkrabs-complaints, sandy-profile...) هتستبدل الصفحة اللي
-/// بتستخدم الـwidget ده بتنفيذها الفعلي المطابق للـFigma.
-///
-/// **ملحوظة معمارية (بعد الـmonorepo restructure):** الـwidget ده جوه
-/// `common/widgets/` مش `core/widgets/` عمدًا — الفرق بينهم مش "reusable
-/// ولا لأ"، الفرق إن `core/` مخصص للحاجات الـinfrastructure-ish (DI, routing,
-/// theme, error handling...) بينما `common/` مخصص لـUI مشتركة بين features
-/// بس مش infrastructure ومش مرتبطة بـbusiness domain معين. `PlaceholderScreen`
-/// بالظبط كده: مفهوم "صفحة لسه ماتنفذتش" عام تمامًا، مالوش أي علاقة بـ
-/// domain الشكاوى أو أي feature بعينها — عكس `StatusBadge` مثلًا (اللي اتحط
-/// جوه `features/complaints/` مش هنا، لأنه عارف تفاصيل domain الشكاوى).
+/// Unified placeholder for any feature not yet implemented (foundation branch only); every upcoming feature branch (patrick-auth, squidward-home, plankton-map, mrkrabs-complaints, sandy-profile...) replaces this widget's usage with its real Figma-matching implementation. Deliberately lives in common/widgets/, not core/widgets/: core/ is for infrastructure (DI, routing, theme, error handling...), while common/ is shared UI that isn't infrastructure and isn't tied to a specific business domain — unlike e.g. StatusBadge, which lives in features/complaints/ because it knows complaint-domain details.
 class PlaceholderScreen extends StatelessWidget {
   const PlaceholderScreen({required this.title, super.key, this.icon});
 

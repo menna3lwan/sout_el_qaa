@@ -3,16 +3,12 @@ import 'package:dio/dio.dart';
 import 'exceptions.dart';
 import 'failures.dart';
 
-/// نقطة تحويل واحدة من أي exception تقني لـ[Failure] مفهوم للـPresentation.
-/// كل RepositoryImpl لازم يلف استدعاء الـDataSource بـtry/catch وينادي
-/// [ErrorMapper.map] بدل ما يعمل mapping يدوي متكرر في كل مكان (DRY).
-///
-/// انظر القسم 7 من الـplan لتصنيف الأخطاء الكامل.
+/// Converts any technical exception into a [Failure] the Presentation layer understands (PLAN.md section 7) — call [ErrorMapper.map] instead of mapping ad hoc.
 abstract final class ErrorMapper {
   static Failure map(Object error, {String? fallbackMessage}) {
     return switch (error) {
       NoInternetException() => const NetworkFailure(
-          message: 'noInternetConnectionMessage', // مفتاح ARB، يتترجم في الـCubit
+          message: 'noInternetConnectionMessage', // ARB key, resolved to text in the Cubit
         ),
       ServerException(:final statusCode, :final message) =>
         statusCode == 401
@@ -21,7 +17,7 @@ abstract final class ErrorMapper {
       CacheException(:final message) => CacheFailure(message: message),
       DioException() => _mapDioException(error),
       _ => UnknownFailure(
-          message: fallbackMessage ?? 'genericErrorMessage', // مفتاح ARB
+          message: fallbackMessage ?? 'genericErrorMessage', // ARB key
         ),
     };
   }

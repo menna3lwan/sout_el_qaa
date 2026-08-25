@@ -1,17 +1,4 @@
-/**
- * Mock server محلي — بيطبّق شكل الـ**Proposed API Contract** (القسم 16 من
- * PLAN.md) فوق json-server، عشان الـFlutter تقدر تشتغل ضد حاجة حقيقية بدل
- * الانتظار لحد ما الـbackend الحقيقي [C1] يتبنى.
- *
- * dev tooling بس — مش جزء من التطبيق (القسم 4/17 من الـplan)، ومش production
- * backend حقيقي: التوكنات هنا شكلية (fake)، وفيه تبسيطات موثّقة تحت "ملاحظات"
- * في نهاية الملف.
- *
- * تشغيل:
- *   cd dev/mock-server && npm install && npm start
- *   # السيرفر هيشتغل على http://localhost:3000
- *   # شغّلي التطبيق بـ: flutter run --dart-define=API_BASE_URL=http://localhost:3000
- */
+// Local mock server implementing the Proposed API Contract (PLAN.md section 16) on top of json-server, so Flutter can run against something real instead of waiting for the real backend [C1]; dev tooling only, not part of the app or a real production backend, and its tokens are fake. Run: cd backend/mock-server && npm install && npm start (serves http://localhost:3000; run Flutter with --dart-define=API_BASE_URL=http://localhost:3000).
 
 const jsonServer = require('json-server');
 const { randomUUID } = require('crypto');
@@ -83,7 +70,7 @@ server.post(`${PREFIX}/auth/login`, (req, res) => {
 });
 
 server.post(`${PREFIX}/auth/refresh`, (req, res) => {
-  // Mock فقط — بيرجّع access token جديد شكلي بدون فحص حقيقي لصلاحية الـrefresh token.
+  // Mock only — returns a fake new access token without actually validating the refresh token.
   return res.status(200).json({ accessToken: fakeToken('refreshed') });
 });
 
@@ -119,8 +106,7 @@ server.get(`${PREFIX}/users/me/recent-activity`, (req, res) => {
 });
 
 // ---------------------------------------------------------------------
-// Comments & Reactions (nested paths — json-server الافتراضي مبيدعمش
-// nesting، فمحتاجين routes مخصصة)
+// Comments & Reactions (nested paths — default json-server doesn't support nesting, so custom routes are needed)
 // ---------------------------------------------------------------------
 
 server.get(`${PREFIX}/complaints/:id/comments`, (req, res) => {
@@ -159,7 +145,7 @@ server.delete(`${PREFIX}/complaints/:id/reactions`, (req, res) => {
 });
 
 // ---------------------------------------------------------------------
-// Complaint status (نطاقها معلّق على Q2 في الـplan — مفتوحة هنا للتطوير فقط)
+// Complaint status (scope pending Q2 in PLAN.md — open here for development only)
 // ---------------------------------------------------------------------
 
 server.patch(`${PREFIX}/complaints/:id/status`, (req, res) => {
@@ -170,7 +156,7 @@ server.patch(`${PREFIX}/complaints/:id/status`, (req, res) => {
 });
 
 // ---------------------------------------------------------------------
-// Map — projection خفيفة (id/lat/lng/categoryId/status بس)
+// Map — lightweight projection (id/lat/lng/categoryId/status only)
 // ---------------------------------------------------------------------
 
 server.get(`${PREFIX}/complaints/map`, (_req, res) => {
@@ -218,7 +204,7 @@ server.patch(`${PREFIX}/users/me`, (req, res) => {
 });
 
 // ---------------------------------------------------------------------
-// Media (رفع وهمي — بيرجّع URL شكلي بدل ما يخزّن ملف حقيقي)
+// Media (fake upload — returns a placeholder URL instead of storing a real file)
 // ---------------------------------------------------------------------
 
 server.post(`${PREFIX}/media`, (_req, res) => {
@@ -230,9 +216,7 @@ server.post(`${PREFIX}/media`, (_req, res) => {
 });
 
 // ---------------------------------------------------------------------
-// باقي الـresources العادية (categories, complaints CRUD/list/detail) —
-// بتتغطى تلقائيًا من json-server router الافتراضي، بعد إعادة كتابة
-// المسار من /api/v1/x لـ/x.
+// Remaining standard resources (categories, complaints CRUD/list/detail) are covered automatically by the default json-server router, after rewriting /api/v1/x to /x.
 // ---------------------------------------------------------------------
 
 server.use(jsonServer.rewriter({ '/api/v1/*': '/$1' }));

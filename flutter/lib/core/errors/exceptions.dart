@@ -1,8 +1,7 @@
-/// Exceptions تقنية تتقفل جوه الـData layer بس، وتتحوّل فورًا لـ[Failure]
-/// (انظر [error_mapper.dart]). ممنوع تتسرب لأي طبقة تانية.
+/// Technical exceptions confined to the Data layer, always mapped to a [Failure] immediately (see error_mapper.dart) — never leaks to another layer.
 library;
 
-/// خطأ راجع من السيرفر (REST — مقترح القسم 16) بـstatus code واضح.
+/// Server error (REST, PLAN.md section 16) with an explicit status code.
 final class ServerException implements Exception {
   const ServerException({required this.message, this.statusCode});
 
@@ -10,14 +9,14 @@ final class ServerException implements Exception {
   final int? statusCode;
 }
 
-/// فشل قراءة/كتابة محلية (Hive/SecureStorage).
+/// Local read/write failure (Hive/SecureStorage).
 final class CacheException implements Exception {
   const CacheException({required this.message});
 
   final String message;
 }
 
-/// مفيش اتصال بالإنترنت (بيتفحص عن طريق [NetworkInfo] قبل أي remote call).
+/// No internet connection (checked via [NetworkInfo] before any remote call).
 final class NoInternetException implements Exception {
   const NoInternetException();
 }

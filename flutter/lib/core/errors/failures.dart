@@ -1,28 +1,22 @@
 import 'package:equatable/equatable.dart';
 
-/// تصنيف الأخطاء الموحّد على مستوى الـDomain/Presentation — القسم 7 من الـplan.
-///
-/// أي exception تقني (DioException, SocketException, HiveError...) لازم
-/// يتحوّل لـ[Failure] داخل الـData layer فقط (DataSource/RepositoryImpl).
-/// الـPresentation layer ميشوفش أي exception خام إطلاقًا — انظر [core/errors/error_mapper.dart].
+/// Unified error classification for the Domain/Presentation layers (PLAN.md section 7).
 sealed class Failure extends Equatable {
   const Failure({required this.message});
 
-  /// رسالة جاهزة للعرض للمستخدم — لازم تكون بروح قاع الهامور (القسم 19 من
-  /// الـplan)، مش رسالة تقنية عامة. الترجمة الفعلية بتتحدد وقت الإنشاء عبر
-  /// [core/l10n] في الـCubit، مش هنا.
+  /// User-facing message in the app's own voice (PLAN.md section 19); actual translation is resolved via [core/l10n] in the Cubit, not here.
   final String message;
 
   @override
   List<Object?> get props => [message];
 }
 
-/// مفيش اتصال بالإنترنت خالص.
+/// No internet connection at all.
 final class NetworkFailure extends Failure {
   const NetworkFailure({required super.message});
 }
 
-/// خطأ راجع من الـbackend نفسه (أو الـmock server أثناء التطوير).
+/// Error returned by the backend itself (or the mock server during development).
 final class ServerFailure extends Failure {
   const ServerFailure({required super.message, this.statusCode});
 
@@ -32,12 +26,12 @@ final class ServerFailure extends Failure {
   List<Object?> get props => [message, statusCode];
 }
 
-/// فشل قراءة/كتابة محلية (Hive/SecureStorage/SharedPreferences).
+/// Local read/write failure (Hive/SecureStorage/SharedPreferences).
 final class CacheFailure extends Failure {
   const CacheFailure({required super.message});
 }
 
-/// أخطاء فورم — بتتعرض inline جنب كل حقل، مش snackbar عام.
+/// Form errors, shown inline next to each field rather than as a generic snackbar.
 final class ValidationFailure extends Failure {
   const ValidationFailure({
     required super.message,
@@ -50,7 +44,7 @@ final class ValidationFailure extends Failure {
   List<Object?> get props => [message, fieldErrors];
 }
 
-/// كاميرا/موقع/إشعارات مرفوضة.
+/// Camera/location/notifications permission denied.
 final class PermissionFailure extends Failure {
   const PermissionFailure({required super.message, required this.permissionType});
 
@@ -62,13 +56,12 @@ final class PermissionFailure extends Failure {
 
 enum PermissionFailureType { camera, gallery, location, notifications }
 
-/// الـtoken منتهي/غير صالح. بيتعالج مركزيًا في [core/network] interceptor
-/// (auto-logout + redirect لـLogin) — مش متكرر يدويًا في كل feature.
+/// Token expired or invalid; handled centrally by the [core/network] interceptor (auto-logout + redirect to Login) rather than per feature.
 final class UnauthorizedFailure extends Failure {
   const UnauthorizedFailure({required super.message});
 }
 
-/// أي حاجة تانية غير متوقعة.
+/// Any other unexpected error.
 final class UnknownFailure extends Failure {
   const UnknownFailure({required super.message});
 }

@@ -1,11 +1,6 @@
-/// مسارات الـAPI — مبنية على الـ**Proposed API Contract** (القسم 16 من
-/// الـplan). العقد ده مقترح مبدئي مش نهائي [P2] — لما الـbackend الحقيقي
-/// يتبنى، الملف ده هو المكان الوحيد المتوقع يتغيّر فيه شكل المسارات لو
-/// اختلفت عن المقترح.
+/// Proposed API contract (PLAN.md section 16, P2) — only file expected to change if the real backend's paths differ.
 abstract final class ApiEndpoints {
-  /// أثناء التطوير: mock server محلي (json-server) — انظر backend/mock-server/.
-  /// القيمة دي بتتحدد فعليًا وقت التشغيل عبر `--dart-define=API_BASE_URL=...`
-  /// (انظر core/constants/app_config.dart) مش hardcoded هنا.
+  /// Points at the local mock server (backend/mock-server/) by default; overridden via --dart-define=API_BASE_URL.
   static const String apiVersionPrefix = '/api/v1';
 
   // Auth

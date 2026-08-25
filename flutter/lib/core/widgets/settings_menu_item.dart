@@ -4,11 +4,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
 
-/// صف قائمة إعدادات — مطابق لعناصر "المعلومات الشخصية / شكاوي / المفضلة /
-/// الإعدادات / تسجيل الخروج" في صفحة الملف الشخصي (Profile)، مستخرج من
-/// الـFigma الحقيقي. الاستخدام "الهدّام" (logout) بلون نص مختلف
-/// ([isDestructive]) — نفس لون "عاجل" في Home، مؤكد كدلالة "destructive"
-/// موحّدة عبر الشاشتين.
+/// Settings-list row matching "Personal Info / Complaints / Favorites / Settings / Log Out" on the Profile page, extracted from the real Figma; the "destructive" (logout) variant ([isDestructive]) reuses Home's "Urgent" red, confirmed as a unified destructive token across both screens.
 class SettingsMenuItem extends StatelessWidget {
   const SettingsMenuItem({
     required this.label,
@@ -43,7 +39,7 @@ class SettingsMenuItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.chevron_left, size: 16), // اتجاه RTL
+            const Icon(Icons.chevron_left, size: 16), // RTL direction
             const Spacer(),
             Text(
               label,

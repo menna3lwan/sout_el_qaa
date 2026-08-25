@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../common/widgets/placeholder_screen.dart';
 
-/// Placeholder — التنفيذ الفعلي هيتم جوه `feature/sandy-profile` مطابقًا
-/// لـFigma node 33:794 (القسم 3.10).
+/// Placeholder — real implementation lands in feature/sandy-profile, matching Figma node 33:794 (PLAN.md section 3.10).
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 

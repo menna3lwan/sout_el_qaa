@@ -7,13 +7,7 @@ environment:
   sdk: ">=3.4.0 <4.0.0"
   flutter: ">=3.22.0"
 
-# ---------------------------------------------------------------------------
-# ملحوظة (foundation branch): أرقام الإصدارات هنا مبنية على أحدث نسخ مستقرة
-# معروفة وقت كتابة هذا الملف. الـsandbox المستخدم في هذه الجلسة ما عندوش وصول
-# شبكة لـ pub.dev (403 على الـegress allowlist)، فمقدرناش نشغّل `flutter pub get`
-# فعليًا هنا للتأكد من الأرقام. أول تشغيل لـ`flutter pub get` عندك محليًا ممكن
-# يحتاج bump بسيط لأي إصدار اتغيّر. موثّق كـRemaining Issue في تقرير الـbranch.
-# ---------------------------------------------------------------------------
+# Note (foundation branch): version numbers reflect the latest stable releases known when this file was written; this sandbox has no network access to pub.dev (403 on the egress allowlist) so `flutter pub get` couldn't actually run here — your first local `flutter pub get` may need a small bump for anything that changed since (documented as a Remaining Issue in the branch report).
 
 dependencies:
   flutter:
@@ -28,10 +22,7 @@ dependencies:
 
   # Dependency Injection
   get_it: ^7.7.0
-  # [Remaining Issue، جلسة تشغيل فعلي 2026-08-25] رقم مثبّت كان بيعمل
-  # version-solving conflict حقيقي مع freezed/bloc_test عبر سلسلة تبعيات
-  # analyzer (تفاصيل في تقرير الجلسة) — سايبها "any" زي intl، والـpaired
-  # injectable_generator تحت، عشان الـresolver يلاقي إصدارين متوافقين فعليًا.
+  # [Remaining Issue, 2026-08-25 live run] the pinned version caused a real version-solving conflict with freezed/bloc_test via the analyzer dependency chain — left as "any" like intl, along with the paired injectable_generator below, so the resolver can find versions that actually work together.
   injectable: any
 
   # Routing
@@ -43,10 +34,7 @@ dependencies:
   connectivity_plus: ^6.0.5
 
   # Models
-  # [Remaining Issue، جلسة تشغيل فعلي 2026-08-25] freezed/json_serializable
-  # تحت كانوا مركز أغلب الـversion-solving conflicts اللي ظهرت (تفاصيل في
-  # تقرير الجلسة) — سايبين الـannotations هنا "any" برضه عشان تتطابق مع أي
-  # إصدار الـresolver يختاره للـgenerators المقابلة تحت.
+  # [Remaining Issue, 2026-08-25 live run] freezed/json_serializable below were the center of most version-solving conflicts found — these annotations are also left as "any" to match whatever version the resolver picks for their generators below.
   freezed_annotation: any
   json_annotation: any
 
@@ -71,17 +59,11 @@ dependencies:
   cached_network_image: ^3.4.1
 
   # Localization
-  # النسخة متعمّد سايبينها "any" — flutter_localizations بيفرض نسخة intl
-  # محددة بالظبط حسب إصدار الـFlutter SDK بتاعك، وأي رقم أثبته إحنا يدويًا
-  # هنا غالبًا هيتعارض معاه. `flutter pub get` هيحل الرقم الصح تلقائيًا.
+  # Deliberately left as "any" — flutter_localizations forces an exact intl version tied to your Flutter SDK, and any version pinned here would likely conflict; `flutter pub get` resolves the right number automatically.
   intl: any
 
   # Typography
-  # [P — Proposed، جلسة Figma foundation 24 أغسطس 2026] الـFigma الحقيقي
-  # بيستخدم 3 خطوط حقيقية (Baloo Bhaijaan 2 / Cairo / Be Vietnam Pro)، مش
-  # خط النظام الافتراضي. google_fonts أبسط طريقة نجيبهم بيها ومدعومين عربي.
-  # البديل (تحميل .ttf يدويًا + تسجيلهم في flutter/fonts تحت) متاح لاحقًا لو
-  # حبيتي ضمان عمل offline من أول تشغيل. راجعي تقرير الجلسة لتفاصيل الخطوط.
+  # [P — Proposed, Figma foundation session, 24 Aug 2026] the real Figma uses 3 real fonts (Baloo Bhaijaan 2 / Cairo / Be Vietnam Pro), not the default system font; google_fonts is the simplest way to get them, with Arabic support. The alternative (manually bundling .ttf files under flutter/fonts) is available later if offline-from-first-run is required — see the branch report for font details.
   google_fonts: ^6.2.1
 
   # Utils
@@ -96,34 +78,18 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
   build_runner: ^2.4.13
-  # [Remaining Issue، جلسة تشغيل فعلي 2026-08-25] الأرقام المثبّتة الأصلية
-  # (freezed ^2.5.7، json_serializable ^6.8.0، injectable_generator ^2.6.2)
-  # عملوا سلسلة version-solving conflicts حقيقية مع بعض ومع bloc_test عبر
-  # analyzer (3 محاولات تباعًا، تفاصيل كاملة في تقرير الجلسة) — سايبينهم
-  # "any" عشان الـresolver يلاقي frontier متوافق فعليًا ضد الـSDK الحقيقي
-  # عندك، بدل ما نستمر نخمّن أرقام واحد ورا التاني.
+  # [Remaining Issue, 2026-08-25 live run] the originally pinned versions (freezed ^2.5.7, json_serializable ^6.8.0, injectable_generator ^2.6.2) caused real version-solving conflicts with each other and with bloc_test via the analyzer dependency chain (3 attempts, full details in the session report) — left as "any" so the resolver can find a working frontier against your real SDK instead of guessing versions one by one.
   freezed: any
   json_serializable: any
   injectable_generator: any
-  # [Remaining Issue، جلسة تشغيل فعلي 2026-08-25] hive_generator اتشال مؤقتًا.
-  # كل إصدار جربته (^2.0.1 pinned، وبعدين "any") عمل version-solving conflict
-  # حقيقي وdeadlock فعلي مع freezed عبر analyzer/macros/source_gen (تفاصيل
-  # كاملة في تقرير الجلسة). مفيش أي كلاس `@HiveType` مستخدم فعليًا في الكود
-  # لحد دلوقتي (local_cache_service.dart بيستخدم Hive.initFlutter() بس)،
-  # فمفيش أي تأثير وظيفي من شيله دلوقتي. هيترجع لما فعليًا نحتاج Hive codegen
-  # (drafts box — branch sandy-create-complaint)، وقتها هيتحدد إصدار متوافق
-  # فعليًا ضد pub.dev الحقيقي مش تخمين.
+  # [Remaining Issue, 2026-08-25 live run] hive_generator was temporarily removed — every version tried (pinned ^2.0.1, then "any") caused a real version-solving conflict/deadlock with freezed via analyzer/macros/source_gen; no @HiveType class is actually used yet (local_cache_service.dart only calls Hive.initFlutter()), so removing it has no functional effect now — it returns once Hive codegen is actually needed (the drafts box, branch sandy-create-complaint), when a version genuinely compatible with pub.dev can be pinned instead of guessed.
 
-  # [Remaining Issue، جلسة تشغيل فعلي 2026-08-25] bloc_test ^9.1.7 كان جزء
-  # من الـconflict chain (اتعارض مع injectable_generator ^2.5.0 عبر
-  # flutter_test/analyzer — تفاصيل في تقرير الجلسة) — سايبينه "any" برضه.
+  # [Remaining Issue, 2026-08-25 live run] bloc_test ^9.1.7 was part of the conflict chain (clashed with injectable_generator ^2.5.0 via flutter_test/analyzer) — also left as "any".
   bloc_test: any
   mocktail: ^1.0.4
 
 flutter:
   uses-material-design: true
-  generate: true # مطلوب لتوليد ملفات الـl10n من ARB (l10n.yaml)
+  generate: true # Required to generate l10n files from ARB (l10n.yaml)
 
-  # assets/fonts هتتضاف مع فروع لاحقة لما نحتاج فعليًا صور/خطوط حقيقية —
-  # مفيش أصول وهمية بتتضاف هنا بدون استخدام فعلي (المبدأ المتفق عليه في
-  # القسم 17 من الـplan: مفيش إضافة استباقية بدون سبب واضح وقريب).
+  # assets/fonts are added in later branches once real images/fonts are actually needed — no placeholder assets added here without real use (PLAN.md section 17: no speculative additions without a clear, near-term reason).

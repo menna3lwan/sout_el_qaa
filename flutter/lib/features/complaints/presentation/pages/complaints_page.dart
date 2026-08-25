@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../common/widgets/placeholder_screen.dart';
 
-/// Placeholder — التنفيذ الفعلي (تابات، فلترة، بطاقات) هيتم جوه
-/// `feature/mrkrabs-complaints` مطابقًا لـFigma node 33:663 (القسم 3.5).
-/// تذكير حدود المسؤولية (القسم 18 من الـplan): الشاشة دي هتملك القائمة
-/// بس، مش تفاصيل شكوى فردية.
+/// Placeholder — real implementation (tabs, filtering, cards) lands in feature/mrkrabs-complaints, matching Figma node 33:663 (PLAN.md section 3.5); scope reminder (PLAN.md section 18): this screen owns only the list, not individual complaint details.
 class ComplaintsPage extends StatelessWidget {
   const ComplaintsPage({super.key});
 

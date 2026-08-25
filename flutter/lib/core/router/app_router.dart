@@ -12,13 +12,7 @@ import '../storage/secure_storage_service.dart';
 import '../widgets/bottom_nav_shell.dart';
 import 'route_paths.dart';
 
-/// نقطة إنشاء الـ[GoRouter] — الـshell بتاع الـ5 تابات + auth guard.
-///
-/// **نطاق foundation المتعمّد [P12]:** المسارات المسجّلة هنا بس هي
-/// splash/login + الـ4 تابات الرئيسية + create-complaint كـpush route
-/// (انظر [P14] في core/widgets/bottom_nav_shell.dart). أي مسار تاني
-/// (`/notifications`, `/complaints/:id`) بيتسجل مع الـfeature branch اللي
-/// بتملكه.
+/// Creates the [GoRouter]: 5-tab shell + auth guard; only splash/login, the 4 tabs, and create-complaint (push route, P14 in bottom_nav_shell.dart) are registered here — other routes register with their owning feature branch (P12).
 final class AppRouterFactory {
   const AppRouterFactory(this._secureStorage);
 
@@ -83,14 +77,7 @@ final class AppRouterFactory {
     );
   }
 
-  /// Guard بسيط: لو مفيش access token محفوظ، أي محاولة دخول لأي تاب من
-  /// الـ5 تابات (أو create-complaint) بترجّع لـ/login. القسم 3.1: منطق
-  /// "Checking Auth → Redirect" اتحط هنا مقصودًا (core/router) بدل جوه
-  /// widget الـSplash نفسه — انظر التعليق في splash_page.dart.
-  ///
-  /// **ملحوظة نطاق:** الـsession الحقيقية (تسجيل دخول فعلي، refresh token،
-  /// auto-logout) لسه مش متنفذة — هتتضاف مع `feature/patrick-auth`. دلوقتي
-  /// الـguard بيتأكد بس من وجود token محفوظ محليًا.
+  /// Redirects to /login when no access token is stored; "Checking Auth → Redirect" deliberately lives here (core/router), not in SplashPage — see splash_page.dart. Real session lifecycle (login, refresh, auto-logout) lands with feature/patrick-auth.
   Future<String?> _redirect(BuildContext context, GoRouterState state) async {
     final isGoingToLogin = state.matchedLocation == RoutePaths.login;
     final isGoingToSplash = state.matchedLocation == RoutePaths.splash;

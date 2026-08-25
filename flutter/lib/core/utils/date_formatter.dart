@@ -1,8 +1,4 @@
-/// تنسيق تاريخ نسبي — مطابق حرفيًا للأمثلة المؤكدة من الـFigma (القسم 3.5):
-/// "منذ ساعتين" (dual، بلا رقم)، "منذ 3 ايام" (جمع، مع الرقم)، "منذ اسبوعين"
-/// (dual، بلا رقم). النصوص عربي مباشر مؤقتًا؛ هتتحول لمفاتيح ARB بدعم plural
-/// حقيقي لما التطبيق يبقى فعليًا bilingual في الاستخدام، مش بس في البنية
-/// (القرار [C5] بنية بس دلوقتي).
+/// Relative-time formatting, matching the confirmed Figma examples exactly (PLAN.md section 3.5): "منذ ساعتين" (dual, no digit), "منذ 3 ايام" (plural, with digit), "منذ اسبوعين" (dual, no digit); the Arabic strings are hardcoded for now and become ARB plural keys once the app is bilingual in use, not just in structure (decision [C5]).
 abstract final class DateFormatter {
   static String relative(DateTime dateTime, {DateTime? now}) {
     final reference = now ?? DateTime.now();
@@ -16,8 +12,7 @@ abstract final class DateFormatter {
       return _phrase(difference.inHours, 'ساعة', 'ساعتين', 'ساعات');
     }
     if (difference.inDays < 7) {
-      // "ايام" بدون همزة عمدًا — نفس الإملاء الحرفي الظاهر في نص الـFigma
-      // المؤكد ("منذ 3 ايام"، القسم 3.5 من الـplan)، مش الإملاء الرسمي "أيام".
+      // "ايام" is deliberately spelled without the hamza, matching the literal Figma text ("منذ 3 ايام", PLAN.md section 3.5), not the formal "أيام".
       return _phrase(difference.inDays, 'يوم', 'يومين', 'ايام');
     }
 
@@ -30,9 +25,7 @@ abstract final class DateFormatter {
     return _phrase(months, 'شهر', 'شهرين', 'شهور');
   }
 
-  /// عربي: المفرد والمثنى (dual) بياخدوا شكل خاص من غير ما يتكرر معاهم الرقم
-  /// ("منذ ساعتين" مش "منذ 2 ساعتين")؛ الجمع (3+) بياخد الرقم صراحة —
-  /// النمط ده مؤكد حرفيًا من نصوص الـFigma الفعلية.
+  /// Arabic singular/dual forms omit the digit ("منذ ساعتين" not "منذ 2 ساعتين"); plural (3+) includes it explicitly — confirmed directly from the real Figma text.
   static String _phrase(int count, String singular, String dual, String plural) {
     if (count == 1) return 'منذ $singular';
     if (count == 2) return 'منذ $dual';

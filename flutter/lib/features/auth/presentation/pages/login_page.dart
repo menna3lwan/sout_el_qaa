@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../common/widgets/placeholder_screen.dart';
 
-/// Placeholder — التنفيذ الفعلي (فورم، validation، session persistence)
-/// هيتم جوه `feature/patrick-auth`. الشاشة دي [C3]: هنصممها إحنا لأن
-/// الـFigma مفيهوش تصميم أصلًا لـLogin/Register (القسم 3.2).
+/// Placeholder — real implementation (form, validation, session persistence) lands in feature/patrick-auth; this screen is [C3]: designed by us since Figma has no Login/Register design (PLAN.md section 3.2).
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 

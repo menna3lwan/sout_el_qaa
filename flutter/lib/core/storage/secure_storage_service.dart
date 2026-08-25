@@ -1,7 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-/// تخزين آمن لبيانات الجلسة الحساسة فقط (access/refresh tokens). أي بيانات
-/// تانية (flags بسيطة) تروح لـ[shared_preferences]، مش هنا — القسم 1.8.
+/// Secure storage for sensitive session data only (access/refresh tokens); simple flags belong in shared_preferences, not here (PLAN.md section 1.8).
 abstract interface class SecureStorageService {
   Future<void> saveAccessToken(String token);
   Future<String?> readAccessToken();
@@ -9,7 +8,7 @@ abstract interface class SecureStorageService {
   Future<void> saveRefreshToken(String token);
   Future<String?> readRefreshToken();
 
-  /// بتتنادى عند logout أو auto-logout بعد 401 — القسم 1.6/1.7.
+  /// Called on logout or auto-logout after a 401 (PLAN.md sections 1.6/1.7).
   Future<void> clearSession();
 }
 

@@ -98,85 +98,85 @@ abstract class AppLocalizations {
     Locale('en')
   ];
 
-  /// اسم التطبيق — يظهر في عنوان النافذة/الـtask switcher. مؤكد من مفهوم المنتج.
+  /// App name — shown in the window title/task switcher, confirmed from the product concept.
   ///
   /// In ar, this message translates to:
   /// **'صوت القاع'**
   String get appTitle;
 
-  /// تاب الشاشة الرئيسية في الـBottomNavBar — مؤكد نصيًا من الـFigma
+  /// Home tab in the BottomNavBar — text confirmed from Figma.
   ///
   /// In ar, this message translates to:
   /// **'الرئيسية'**
   String get navHome;
 
-  /// تاب الخريطة — مؤكد نصيًا من الـFigma
+  /// Map tab — text confirmed from Figma.
   ///
   /// In ar, this message translates to:
   /// **'الخريطة'**
   String get navMap;
 
-  /// تاب تقديم شكوى جديدة (الزرار الأوسط المرتفع) — مؤكد نصيًا من الـFigma
+  /// New complaint tab (the raised center button) — text confirmed from Figma.
   ///
   /// In ar, this message translates to:
   /// **'إضافة'**
   String get navAdd;
 
-  /// تاب الشكاوى — مؤكد نصيًا من الـFigma
+  /// Complaints tab — text confirmed from Figma.
   ///
   /// In ar, this message translates to:
   /// **'شكاوي'**
   String get navComplaints;
 
-  /// تاب الملف الشخصي — مؤكد نصيًا من الـFigma
+  /// Profile tab — text confirmed from Figma.
   ///
   /// In ar, this message translates to:
   /// **'الملف الشخصي'**
   String get navProfile;
 
-  /// نص افتراضي لـLoadingView المشترك، بروح قاع الهامور
+  /// Default text for the shared LoadingView, in the app's voice.
   ///
   /// In ar, this message translates to:
   /// **'بنجيب لك الآخر يا ساكن القاع...'**
   String get genericLoading;
 
-  /// رسالة الخطأ العامة الافتراضية — القسم 1.6 من الـplan
+  /// Default generic error message — PLAN.md section 1.6.
   ///
   /// In ar, this message translates to:
   /// **'معنا مشكلة في الاتصال... جرّب تاني يا ساكن القاع 🐠'**
   String get genericErrorMessage;
 
-  /// نص زرار إعادة المحاولة الافتراضي
+  /// Default retry button text.
   ///
   /// In ar, this message translates to:
   /// **'حاول تاني'**
   String get genericRetry;
 
-  /// نص افتراضي لـEmptyView المشترك
+  /// Default text for the shared EmptyView.
   ///
   /// In ar, this message translates to:
   /// **'مفيش حاجة هنا لسه يا جار...'**
   String get genericEmptyMessage;
 
-  /// نص placeholder موحّد للشاشات اللي لسه ما اتنفذتش (foundation branch فقط)
+  /// Unified placeholder text for screens not yet implemented (foundation branch only).
   ///
   /// In ar, this message translates to:
   /// **'لسه بنجهز الصفحة دي... قريب هتلاقيها هنا 🐠'**
   String get placeholderScreenMessage;
 
-  /// رسالة عدم الاتصال بالإنترنت — NetworkFailure
+  /// No-internet-connection message — NetworkFailure.
   ///
   /// In ar, this message translates to:
   /// **'مفيش نت دلوقتي... حتى سكان القاع محتاجين واي فاي! جرّب تاني.'**
   String get noInternetConnectionMessage;
 
-  /// رسالة UnauthorizedFailure — تظهر قبل auto-logout
+  /// UnauthorizedFailure message — shown before auto-logout.
   ///
   /// In ar, this message translates to:
   /// **'لازم تسجل دخول تاني يا ساكن القاع، الجلسة خلصت.'**
   String get unauthorizedMessage;
 
-  /// عنوان شاشة تسجيل الدخول — شاشة من تصميمنا [C3]، مش من الـFigma
+  /// Login screen title — a screen we designed ourselves [C3], not from Figma.
   ///
   /// In ar, this message translates to:
   /// **'تسجيل الدخول'**

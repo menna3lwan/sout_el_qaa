@@ -4,9 +4,7 @@ enum AppPermission { camera, gallery, location, notifications }
 
 enum AppPermissionStatus { granted, denied, permanentlyDenied }
 
-/// نقطة واحدة موحّدة لطلب/فحص أي إذن في التطبيق (كاميرا/جاليري/موقع/إشعارات)
-/// — بدل ما كل feature تستخدم `permission_handler` مباشرة وتكرر منطق
-/// "لو اترفض دايمًا، افتح الإعدادات" في كل مكان. القسم 1 (core/permissions).
+/// Single point for requesting/checking any app permission (camera/gallery/location/notifications) instead of each feature repeating permission_handler + "open settings if permanently denied" logic (PLAN.md section 1).
 abstract interface class PermissionService {
   Future<AppPermissionStatus> request(AppPermission permission);
   Future<AppPermissionStatus> check(AppPermission permission);

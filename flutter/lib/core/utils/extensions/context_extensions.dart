@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/app_localizations.dart';
 
-/// اختصارات شائعة على [BuildContext] — بتقلل التكرار (`Theme.of(context)`,
-/// `AppLocalizations.of(context)!`) في كل widget.
+/// Common [BuildContext] shortcuts that cut down repetition (Theme.of(context), AppLocalizations.of(context)!) in every widget.
 extension ContextExtensions on BuildContext {
   AppLocalizations get l10n => AppLocalizations.of(this);
 

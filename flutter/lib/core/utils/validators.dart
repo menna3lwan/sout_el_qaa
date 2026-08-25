@@ -1,7 +1,4 @@
-/// Validators عامة قابلة لإعادة الاستخدام عبر أي فورم في التطبيق (Login,
-/// Register, Create Complaint...). كل validator بيرجع `null` لو الإدخال
-/// صحيح، أو مفتاح رسالة (يترجم لاحقًا في الـwidget عبر ARB) لو غلط — بدل
-/// hardcoding رسائل إنجليزي/عربي جوه الـvalidator نفسه.
+/// Reusable validators for any form in the app (Login, Register, Create Complaint...); each returns null when valid or an ARB message key (translated in the widget) when invalid, instead of hardcoding English/Arabic messages here.
 abstract final class Validators {
   static final RegExp _emailRegex = RegExp(
     r'^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$',
@@ -18,8 +15,7 @@ abstract final class Validators {
     return null;
   }
 
-  /// حد أدنى 8 خانات، حرف وحرف كبير ورقم على الأقل — قابل للتشديد لاحقًا
-  /// لما متطلبات الأمان الفعلية تتأكد مع `feature/patrick-auth`.
+  /// Minimum 8 characters with at least one letter and one digit — can be tightened once real security requirements are confirmed with feature/patrick-auth.
   static String? password(String? value) {
     if (value == null || value.isEmpty) return 'validationRequired';
     if (value.length < 8) return 'validationPasswordTooShort';
@@ -35,7 +31,7 @@ abstract final class Validators {
     return null;
   }
 
-  /// وصف الشكوى — حد أقصى 300 حرف، مؤكد من الـFigma (القسم 3.6 من الـplan).
+  /// Complaint description — max 300 characters, confirmed from Figma (PLAN.md section 3.6).
   static String? complaintDescription(String? value, {int maxLength = 300}) {
     if (value == null || value.trim().isEmpty) return 'validationRequired';
     if (value.length > maxLength) return 'validationTooLong';

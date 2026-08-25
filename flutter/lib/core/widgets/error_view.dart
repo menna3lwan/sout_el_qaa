@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import '../utils/extensions/context_extensions.dart';
 import 'app_button.dart';
 
-/// حالة الـFailure الموحّدة، مع زرار "حاول تاني" اختياري. الرسالة لازم
-/// تيجي بروح قاع الهامور من الـCubit (القسم 1.6/19) — الـwidget ده بس
-/// بيعرضها، مبيقررش محتواها.
+/// Unified failure state with an optional "Try Again" button; the message must come from the Cubit in the app's voice (PLAN.md sections 1.6/19) — this widget only displays it, never decides its content.
 class ErrorView extends StatelessWidget {
   const ErrorView({
     required this.message,

@@ -4,11 +4,7 @@ import 'app_colors.dart';
 import 'app_spacing.dart';
 import 'app_typography.dart';
 
-/// [ThemeData] موحّد للتطبيق. RTL بيتحدد على مستوى [MaterialApp.locale]
-/// وليس هنا (انظر core/router/app_router.dart و l10n) — الـtheme مسؤول عن
-/// المظهر البصري فقط. القيم هنا محدّثة بالكامل بعد مراجعة الـFigma الحقيقية
-/// (24 أغسطس 2026) — راجعي app_colors.dart وapp_typography.dart لتفاصيل كل
-/// قيمة ومصدرها، وأي نقطة لسه [Requires Confirmation].
+/// Unified [ThemeData]; RTL is set via [MaterialApp.locale], not here (see core/router/app_router.dart and l10n) — this only owns visual appearance. Fully updated after the real Figma review (24 Aug 2026) — see app_colors.dart/app_typography.dart for each value's source and any open [Requires Confirmation] items.
 abstract final class AppTheme {
   static ThemeData get light {
     final colorScheme = ColorScheme.fromSeed(
@@ -58,9 +54,7 @@ abstract final class AppTheme {
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
-        // [A] لا يوجد مثال outlined button واضح في الشاشات الست المتاحة —
-        // استخدمنا نفس منطق أزرار الـseverity toggle/filter tabs غير
-        // المختارة (حدود #C3C6D3، خلفية بيضاء تقريبًا) كأقرب افتراض معقول.
+        // [A] Assumption: no clear outlined-button example in the 6 available screens — modeled on the unselected severity-toggle/filter-tab style (border #C3C6D3, near-white background) as the closest reasonable default.
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.textSecondaryGrey,
           side: const BorderSide(color: AppColors.borderNeutral, width: 2),

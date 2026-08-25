@@ -13,14 +13,7 @@ import '../storage/secure_storage_service.dart';
 
 final GetIt getIt = GetIt.instance;
 
-/// ⚠️ **Remaining Issue موثّق في تقرير الـbranch [A9]:** القرار المعتمد
-/// [C6] هو `get_it` + `injectable` مع code generation (`@lazySingleton` /
-/// `@injectable`). الـsandbox المستخدم في هذه الجلسة معندوش وصول شبكة لتشغيل
-/// `build_runner` (pub.dev/storage.googleapis.com محجوبين — Remaining
-/// Issues كاملة في تقرير الـbranch). فبدل ما نمنع كل الـfoundation على ده،
-/// التسجيل هنا **يدوي مباشر عبر get_it**، بنفس البنية والنتيجة النهائية.
-/// لما تشغّلي `build_runner` محليًا، سهل نستبدل الملف ده بـ`@InjectableInit`
-/// + الكلاسات تتحط عليها annotations — التغيير محصور في هذا الملف بس.
+/// Manual get_it registration instead of @injectable codegen — build_runner has no network access in this sandbox (see branch report A9); swap in @InjectableInit once you can run it locally.
 void configureDependencies() {
   // --- Storage ---
   getIt.registerLazySingleton<FlutterSecureStorage>(
@@ -52,7 +45,5 @@ void configureDependencies() {
     () => AppRouterFactory(getIt<SecureStorageService>()).create(),
   );
 
-  // Feature-specific registrations (repositories/usecases/cubits) بتتضاف
-  // مع كل branch لما الـfeature المعنية تتنفذ فعليًا — مفيش تسجيل استباقي
-  // لحاجة لسه مالهاش تنفيذ حقيقي (القسم 17: مفيش إضافة بدون سبب واضح وقريب).
+  // Feature-specific registrations are added per branch as features land, not speculatively (PLAN.md section 17).
 }

@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../common/widgets/placeholder_screen.dart';
 
-/// Placeholder — التنفيذ الفعلي هيتم جوه `feature/plankton-map`. الشاشة دي
-/// أصلًا مش موجودة في الـFigma (node 33:351 فارغ تمامًا — القسم 3.7)،
-/// فالتصميم هيكون منّا [P3] بنفس لغة باقي الشاشات.
+/// Placeholder — real implementation lands in feature/plankton-map; this screen doesn't exist in Figma at all (node 33:351 is completely empty, PLAN.md section 3.7), so the design will be ours [P3], matching the other screens' style.
 class MapPage extends StatelessWidget {
   const MapPage({super.key});
 
