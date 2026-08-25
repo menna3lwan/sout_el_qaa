@@ -8,6 +8,24 @@
       "displayName": "ساكن قاع الهامور",
       "avatarId": null,
       "bio": "شارع الأناناس"
+    },
+    {
+      "id": "u2",
+      "username": "patrick_star_eg",
+      "email": "patrick@qaa-el-hamour.eg",
+      "password": "qaaHamour1",
+      "displayName": "بطرس نجم",
+      "avatarId": null,
+      "bio": "تحت الصخرة، حي الرمال"
+    },
+    {
+      "id": "u3",
+      "username": "sandy_squirrel",
+      "email": "sandy@qaa-el-hamour.eg",
+      "password": "qaaHamour1",
+      "displayName": "سمر السنجاب",
+      "avatarId": null,
+      "bio": "القبة الزجاجية، حي الأشجار"
     }
   ],
   "categories": [
@@ -35,12 +53,12 @@
     },
     {
       "id": "c2",
-      "title": "القمامة متراكة ف الشارع",
+      "title": "القمامة متراكمة ف الشارع",
       "description": "القمامة متراكمة من زمان في منطقة الأناناس، محدش بييجي يشيلها.",
       "categoryId": "cleanliness",
       "severity": "medium",
       "status": "resolved",
-      "location": "منطقة الاناناس",
+      "location": "منطقة الأناناس",
       "lat": 30.05,
       "lng": 31.24,
       "views": 88,
@@ -56,7 +74,7 @@
       "categoryId": "electricity",
       "severity": "medium",
       "status": "resolved",
-      "location": "حى الرمال",
+      "location": "حي الرمال",
       "lat": 30.06,
       "lng": 31.22,
       "views": 55,
@@ -64,6 +82,86 @@
       "mediaUrls": [],
       "authorId": "u1",
       "createdAt": "2026-08-10T10:00:00.000Z"
+    },
+    {
+      "id": "c4",
+      "title": "تسريب مياه تحت البلاط",
+      "description": "في تسريب مياه غريب تحت البلاط جنب سوق الأعشاب البحرية من يومين، الأرض بقت زلقة وخطر على العيال.",
+      "categoryId": "water",
+      "severity": "high",
+      "status": "received",
+      "location": "سوق الأعشاب البحرية",
+      "lat": 30.041,
+      "lng": 31.233,
+      "views": 12,
+      "likes": 3,
+      "mediaUrls": [],
+      "authorId": "u2",
+      "createdAt": "2026-08-25T08:30:00.000Z"
+    },
+    {
+      "id": "c5",
+      "title": "الرصيف مكسور قدام المدرسة",
+      "description": "الرصيف قدام مدرسة قاع الهامور الابتدائية مكسور ومحفور، العيال بيتعثروا وهما رايحين المدرسة كل يوم.",
+      "categoryId": "roads",
+      "severity": "high",
+      "status": "inReview",
+      "location": "شارع المدرسة",
+      "lat": 30.048,
+      "lng": 31.239,
+      "views": 201,
+      "likes": 567,
+      "mediaUrls": [],
+      "authorId": "u3",
+      "createdAt": "2026-08-23T14:15:00.000Z"
+    },
+    {
+      "id": "c6",
+      "title": "صنبور مياه عام مكسور",
+      "description": "الصنبور العام جنب حديقة المرجان بيسرب مياه على طول من غير ما حد يقفله، المياه بتضيع كل يوم.",
+      "categoryId": "water",
+      "severity": "low",
+      "status": "received",
+      "location": "حديقة المرجان",
+      "lat": 30.052,
+      "lng": 31.229,
+      "views": 34,
+      "likes": 19,
+      "mediaUrls": [],
+      "authorId": "u1",
+      "createdAt": "2026-08-25T06:00:00.000Z"
+    },
+    {
+      "id": "c7",
+      "title": "صناديق القمامة مليانة وفايضة",
+      "description": "صناديق القمامة في حي الأشجار فايضة من كتر الزبالة، والريحة بقت مش محتملة.",
+      "categoryId": "cleanliness",
+      "severity": "medium",
+      "status": "inReview",
+      "location": "حي الأشجار",
+      "lat": 30.038,
+      "lng": 31.245,
+      "views": 76,
+      "likes": 95,
+      "mediaUrls": [],
+      "authorId": "u2",
+      "createdAt": "2026-08-22T09:45:00.000Z"
+    },
+    {
+      "id": "c8",
+      "title": "انقطاع كهرباء متكرر",
+      "description": "الكهرباء بتقطع كل شوية من غير سبب واضح في شارع الأناناس، الثلاجات بتتلف الأكل اللي فيها.",
+      "categoryId": "electricity",
+      "severity": "low",
+      "status": "resolved",
+      "location": "شارع الأناناس",
+      "lat": 30.043,
+      "lng": 31.236,
+      "views": 29,
+      "likes": 11,
+      "mediaUrls": [],
+      "authorId": "u1",
+      "createdAt": "2026-08-15T12:00:00.000Z"
     }
   ],
   "comments": [
@@ -72,8 +170,24 @@
       "complaintId": "c1",
       "authorId": "u1",
       "authorName": "شفيق",
-      "text": "والله تعبنا من هالحال، كل يوم إزعاج وتكسير وما نقدر ننام. البلدية نايمة في العسل.",
+      "text": "والله تعبنا من هالحال، كل يوم إزعاج وتكسير ومانقدر ننام. البلدية نايمة في العسل.",
       "createdAt": "2026-08-24T11:00:00.000Z"
+    },
+    {
+      "id": "cm2",
+      "complaintId": "c1",
+      "authorId": "u2",
+      "authorName": "بطرس نجم",
+      "text": "أنا كمان وقعت فيها امبارح وأنا ماشي، ياريت يتحلها بسرعة.",
+      "createdAt": "2026-08-24T13:20:00.000Z"
+    },
+    {
+      "id": "cm3",
+      "complaintId": "c5",
+      "authorId": "u3",
+      "authorName": "سمر السنجاب",
+      "text": "خطر حقيقي على العيال، لازم حل عاجل قبل ما حد يتصاب.",
+      "createdAt": "2026-08-23T15:00:00.000Z"
     }
   ],
   "notifications": [
@@ -81,10 +195,37 @@
       "id": "n1",
       "userId": "u1",
       "type": "statusUpdate",
-      "title": "جاري الحل",
+      "title": "جاري الحل: الشارع الرئيسي مكسر",
       "complaintId": "c1",
       "isRead": false,
       "createdAt": "2026-08-24T09:00:00.000Z"
+    },
+    {
+      "id": "n2",
+      "userId": "u1",
+      "type": "newComment",
+      "title": "بطرس نجم علّق على شكواك",
+      "complaintId": "c1",
+      "isRead": false,
+      "createdAt": "2026-08-24T13:20:00.000Z"
+    },
+    {
+      "id": "n3",
+      "userId": "u1",
+      "type": "reaction",
+      "title": "شكوى \"القمامة متراكمة ف الشارع\" اتحلت",
+      "complaintId": "c2",
+      "isRead": true,
+      "createdAt": "2026-08-21T18:00:00.000Z"
+    },
+    {
+      "id": "n4",
+      "userId": "u1",
+      "type": "general",
+      "title": "أهلاً بيك في صوت القاع، ابدأ قدّم شكواك الأولى!",
+      "complaintId": null,
+      "isRead": true,
+      "createdAt": "2026-08-09T08:00:00.000Z"
     }
   ]
 }

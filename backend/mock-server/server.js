@@ -23,6 +23,22 @@ function publicUser(user) {
   return rest;
 }
 
+// [Proposed, Demo App session] fakeToken() already encodes the userId (`mock-token-<userId>-<ts>`);
+// GET /auth/me and PATCH /users/me used to ignore the Authorization header entirely and always act
+// on router.db.get('users').first() — harmless with one seeded user, but wrong as soon as more than
+// one account exists (e.g. after registering, or with the extra demo users added for the Demo App).
+// Parsing the id back out keeps auth/me genuinely per-session without adding real JWT verification,
+// which is explicitly out of scope for a dev-only mock (C1).
+function currentUserFromRequest(req) {
+  const header = req.headers.authorization ?? '';
+  const match = header.match(/^Bearer mock-token-(.+)-\d+$/);
+  if (match) {
+    const user = router.db.get('users').find({ id: match[1] }).value();
+    if (user) return user;
+  }
+  return router.db.get('users').first().value();
+}
+
 // ---------------------------------------------------------------------
 // Auth
 // ---------------------------------------------------------------------
@@ -76,9 +92,8 @@ server.post(`${PREFIX}/auth/refresh`, (req, res) => {
 
 server.post(`${PREFIX}/auth/logout`, (_req, res) => res.status(204).send());
 
-server.get(`${PREFIX}/auth/me`, (_req, res) => {
-  const user = router.db.get('users').first().value();
-  return res.status(200).json(publicUser(user));
+server.get(`${PREFIX}/auth/me`, (req, res) => {
+  return res.status(200).json(publicUser(currentUserFromRequest(req)));
 });
 
 // ---------------------------------------------------------------------
@@ -97,8 +112,13 @@ server.get(`${PREFIX}/complaints/trending`, (req, res) => {
 
 server.get(`${PREFIX}/users/me/recent-activity`, (req, res) => {
   const limit = Number(req.query.limit) || 5;
+  const currentUser = currentUserFromRequest(req);
+  // [Proposed] Filtered to the current user's own complaints, matching the endpoint's name/purpose
+  // ("Your Recent Activity", PLAN.md section 3.3) — it previously returned every complaint in the
+  // system regardless of author, which is really the trending/global feed's job, not this one's.
   const recent = router.db
     .get('complaints')
+    .filter({ authorId: currentUser.id })
     .orderBy(['createdAt'], ['desc'])
     .take(limit)
     .value();
@@ -188,17 +208,21 @@ server.post(`${PREFIX}/devices`, (_req, res) => res.status(201).json({ ok: true 
 // Profile
 // ---------------------------------------------------------------------
 
-server.get(`${PREFIX}/users/me/stats`, (_req, res) => {
-  const complaints = router.db.get('complaints').value();
+server.get(`${PREFIX}/users/me/stats`, (req, res) => {
+  const currentUser = currentUserFromRequest(req);
+  // [Proposed] Same fix as recent-activity above: "my stats" must count this user's complaints, not
+  // every complaint in Qaa El Hamour.
+  const myComplaints = router.db.get('complaints').filter({ authorId: currentUser.id }).value();
   return res.status(200).json({
-    submittedCount: complaints.length,
-    resolvedCount: complaints.filter((c) => c.status === 'resolved').length,
-    points: complaints.length * 10,
+    submittedCount: myComplaints.length,
+    resolvedCount: myComplaints.filter((c) => c.status === 'resolved').length,
+    points: myComplaints.length * 10,
   });
 });
 
 server.patch(`${PREFIX}/users/me`, (req, res) => {
-  const user = router.db.get('users').first();
+  const currentUser = currentUserFromRequest(req);
+  const user = router.db.get('users').find({ id: currentUser.id });
   user.assign(req.body ?? {}).write();
   return res.status(200).json(publicUser(user.value()));
 });
