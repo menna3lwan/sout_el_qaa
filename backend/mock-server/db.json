@@ -2,47 +2,90 @@
   "users": [
     {
       "id": "u1",
-      "username": "sponge_mokhtar",
-      "email": "resident@qaa-el-hamour.eg",
+      "username": "spongebob_squarepants",
+      "email": "spongebob@qaa-el-hamour.eg",
       "password": "qaaHamour1",
-      "displayName": "ساكن قاع الهامور",
+      "displayName": "سبونج بوب سكوير بانتس",
       "avatarId": null,
       "bio": "شارع الأناناس"
     },
     {
       "id": "u2",
-      "username": "patrick_star_eg",
+      "username": "patrick_star",
       "email": "patrick@qaa-el-hamour.eg",
       "password": "qaaHamour1",
-      "displayName": "بطرس نجم",
+      "displayName": "باتريك ستار",
       "avatarId": null,
       "bio": "تحت الصخرة، حي الرمال"
     },
     {
       "id": "u3",
-      "username": "sandy_squirrel",
+      "username": "sandy_cheeks",
       "email": "sandy@qaa-el-hamour.eg",
       "password": "qaaHamour1",
-      "displayName": "سمر السنجاب",
+      "displayName": "ساندي تشيكس",
       "avatarId": null,
       "bio": "القبة الزجاجية، حي الأشجار"
+    },
+    {
+      "id": "u4",
+      "username": "squidward_tentacles",
+      "email": "squidward@qaa-el-hamour.eg",
+      "password": "qaaHamour1",
+      "displayName": "سكويدوارد تنتاكلز",
+      "avatarId": null,
+      "bio": "بيت الرأس التيكي، شارع الأناناس"
+    },
+    {
+      "id": "u5",
+      "username": "mr_krabs",
+      "email": "krabs@qaa-el-hamour.eg",
+      "password": "qaaHamour1",
+      "displayName": "مستر كرابز",
+      "avatarId": null,
+      "bio": "مطعم كرستي كراب، شارع الأناناس"
+    },
+    {
+      "id": "u6",
+      "username": "plankton",
+      "email": "plankton@qaa-el-hamour.eg",
+      "password": "qaaHamour1",
+      "displayName": "بلانكتون",
+      "avatarId": null,
+      "bio": "مطعم الحلبة المثلجة، شارع الأناناس"
     }
   ],
   "categories": [
-    { "id": "water", "name": "مياه", "iconKey": "water_drop" },
-    { "id": "roads", "name": "طرق", "iconKey": "road" },
-    { "id": "cleanliness", "name": "نظافة", "iconKey": "cleaning" },
-    { "id": "electricity", "name": "كهرباء", "iconKey": "bolt" }
+    {
+      "id": "water",
+      "name": "مياه",
+      "iconKey": "water_drop"
+    },
+    {
+      "id": "roads",
+      "name": "طرق",
+      "iconKey": "road"
+    },
+    {
+      "id": "cleanliness",
+      "name": "نظافة",
+      "iconKey": "cleaning"
+    },
+    {
+      "id": "electricity",
+      "name": "كهرباء",
+      "iconKey": "bolt"
+    }
   ],
   "complaints": [
     {
       "id": "c1",
       "title": "الشارع الرئيسي مكسر",
-      "description": "شهر كامل والحفرة في نص الشارع بتكبر وتتوحش! القارب اتخبط واتكسر وشفيق بقى يتفرج علينا ويضحك من بلكونته.. شوفولنا حل سريع بدل ما نطلب نجدة من البطل الخارق!",
+      "description": "شهر كامل والحفرة في نص شارع الأناناس بتكبر وتتوحش! قارب باتريك اتخبط فيها وانكسر، وسكويدوارد بقى يتفرج علينا من شباك بيته ويضحك. شوفولنا حل سريع بدل ما نضطر نستنى Mermaid Man وBarnacle Boy يجولنا بالنجدة!",
       "categoryId": "roads",
       "severity": "high",
       "status": "inReview",
-      "location": "شارع القاع البحري",
+      "location": "الطريق الرئيسي، شارع الأناناس",
       "lat": 30.0444,
       "lng": 31.2357,
       "views": 342,
@@ -54,7 +97,7 @@
     {
       "id": "c2",
       "title": "القمامة متراكمة ف الشارع",
-      "description": "القمامة متراكمة من زمان في منطقة الأناناس، محدش بييجي يشيلها.",
+      "description": "الزبالة متراكمة من زمان في شارع الأناناس، محدش بييجي يشيلها ولا حتى جاري بيقرب منها!",
       "categoryId": "cleanliness",
       "severity": "medium",
       "status": "resolved",
@@ -70,7 +113,7 @@
     {
       "id": "c3",
       "title": "أعمدة الإنارة لا تعمل",
-      "description": "أعمدة الإنارة في حي الرمال مطفية من اسبوعين، الشارع بقى مخيف بالليل.",
+      "description": "أعمدة الإنارة في حي الرمال قدام صخرة باتريك مطفية من اسبوعين، الشارع بقى مخيف بالليل وأنا قلقان عليه وهو راجع البيت لوحده.",
       "categoryId": "electricity",
       "severity": "medium",
       "status": "resolved",
@@ -86,7 +129,7 @@
     {
       "id": "c4",
       "title": "تسريب مياه تحت البلاط",
-      "description": "في تسريب مياه غريب تحت البلاط جنب سوق الأعشاب البحرية من يومين، الأرض بقت زلقة وخطر على العيال.",
+      "description": "في مية بتتسرب من تحت البلاط جنب سوق الأعشاب البحرية، مش عارف منين بالظبط، بس الأرض بقت زلقة وأنا وقعت فيها مرتين وأنا رايح آكل. حد يصلحها بسرعة!",
       "categoryId": "water",
       "severity": "high",
       "status": "received",
@@ -134,7 +177,7 @@
     {
       "id": "c7",
       "title": "صناديق القمامة مليانة وفايضة",
-      "description": "صناديق القمامة في حي الأشجار فايضة من كتر الزبالة، والريحة بقت مش محتملة.",
+      "description": "صناديق القمامة في حي الأشجار قرب القبة الزجاجية بقت فايضة، والريحة والحشرات بقت مشكلة صحية حقيقية. لازم جدول تفريغ أسرع.",
       "categoryId": "cleanliness",
       "severity": "medium",
       "status": "inReview",
@@ -144,13 +187,13 @@
       "views": 76,
       "likes": 95,
       "mediaUrls": [],
-      "authorId": "u2",
+      "authorId": "u3",
       "createdAt": "2026-08-22T09:45:00.000Z"
     },
     {
       "id": "c8",
       "title": "انقطاع كهرباء متكرر",
-      "description": "الكهرباء بتقطع كل شوية من غير سبب واضح في شارع الأناناس، الثلاجات بتتلف الأكل اللي فيها.",
+      "description": "الكهرباء بتقطع كل شوية في شارع الأناناس من غير سبب واضح، وتلاجات مطعمي بتتلف، الزبدة والجمبري بيروح على الفاضي! أنا خسران فلوس كل يوم، لازم حد يحل المشكلة دي بسرعة قبل ما أفلس!",
       "categoryId": "electricity",
       "severity": "low",
       "status": "resolved",
@@ -160,24 +203,40 @@
       "views": 29,
       "likes": 11,
       "mediaUrls": [],
-      "authorId": "u1",
+      "authorId": "u5",
       "createdAt": "2026-08-15T12:00:00.000Z"
+    },
+    {
+      "id": "c9",
+      "title": "الزبالة قدام محلي بتبعد الزباين",
+      "description": "الزبالة اللي بتتكوم قدام محل الحلبة المثلجة بتاعي بتخلي الناس تعدي الشارع وتروح لمطعم كرابز بدل عندي! أنا متضايق جدًا من التمييز ده، حد يحل المشكلة.",
+      "categoryId": "cleanliness",
+      "severity": "low",
+      "status": "received",
+      "location": "شارع الأناناس، قدام الحلبة المثلجة",
+      "lat": 30.0435,
+      "lng": 31.2365,
+      "views": 5,
+      "likes": 1,
+      "mediaUrls": [],
+      "authorId": "u6",
+      "createdAt": "2026-08-20T10:00:00.000Z"
     }
   ],
   "comments": [
     {
       "id": "cm1",
       "complaintId": "c1",
-      "authorId": "u1",
-      "authorName": "شفيق",
-      "text": "والله تعبنا من هالحال، كل يوم إزعاج وتكسير ومانقدر ننام. البلدية نايمة في العسل.",
+      "authorId": "u4",
+      "authorName": "سكويدوارد تنتاكلز",
+      "text": "والله تعبنا من هالحال، كل يوم إزعاج وتكسير ومانقدر ننام. متوقعش حاجة تتغير برضو، البلدية زي العادة نايمة في العسل.",
       "createdAt": "2026-08-24T11:00:00.000Z"
     },
     {
       "id": "cm2",
       "complaintId": "c1",
       "authorId": "u2",
-      "authorName": "بطرس نجم",
+      "authorName": "باتريك ستار",
       "text": "أنا كمان وقعت فيها امبارح وأنا ماشي، ياريت يتحلها بسرعة.",
       "createdAt": "2026-08-24T13:20:00.000Z"
     },
@@ -185,9 +244,33 @@
       "id": "cm3",
       "complaintId": "c5",
       "authorId": "u3",
-      "authorName": "سمر السنجاب",
+      "authorName": "ساندي تشيكس",
       "text": "خطر حقيقي على العيال، لازم حل عاجل قبل ما حد يتصاب.",
       "createdAt": "2026-08-23T15:00:00.000Z"
+    },
+    {
+      "id": "cm4",
+      "complaintId": "c4",
+      "authorId": "u1",
+      "authorName": "سبونج بوب سكوير بانتس",
+      "text": "يا باتريك! خد بالك من نفسك يا صاحبي، أنا جاي أساعدك نحل الموضوع ده!",
+      "createdAt": "2026-08-25T09:00:00.000Z"
+    },
+    {
+      "id": "cm5",
+      "complaintId": "c9",
+      "authorId": "u5",
+      "authorName": "مستر كرابز",
+      "text": "مفيش زباين بيهربوا من عندك يا بلانكتون، الأكل بتاعك هو المشكلة مش الزبالة!",
+      "createdAt": "2026-08-20T12:00:00.000Z"
+    },
+    {
+      "id": "cm6",
+      "complaintId": "c8",
+      "authorId": "u4",
+      "authorName": "سكويدوارد تنتاكلز",
+      "text": "طبعًا، وأنا اللي هقف في المطبخ من غير تكييف لحد ما يتصلح. يوم تاني حلو في الشغل.",
+      "createdAt": "2026-08-15T13:00:00.000Z"
     }
   ],
   "notifications": [
@@ -197,16 +280,16 @@
       "type": "statusUpdate",
       "title": "جاري الحل: الشارع الرئيسي مكسر",
       "complaintId": "c1",
-      "isRead": false,
+      "isRead": true,
       "createdAt": "2026-08-24T09:00:00.000Z"
     },
     {
       "id": "n2",
       "userId": "u1",
       "type": "newComment",
-      "title": "بطرس نجم علّق على شكواك",
+      "title": "باتريك ستار علّق على شكواك",
       "complaintId": "c1",
-      "isRead": false,
+      "isRead": true,
       "createdAt": "2026-08-24T13:20:00.000Z"
     },
     {
