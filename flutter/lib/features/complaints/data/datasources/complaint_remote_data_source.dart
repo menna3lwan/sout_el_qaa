@@ -12,12 +12,14 @@ abstract interface class ComplaintRemoteDataSource {
   Future<List<CategoryModel>> getCategories();
   Future<List<ComplaintModel>> getTrending(int limit);
   Future<List<ComplaintModel>> getRecentActivity(int limit);
-  Future<List<ComplaintModel>> getComplaints({String? authorId, ComplaintStatus? status});
+  Future<List<ComplaintModel>> getComplaints(
+      {String? authorId, ComplaintStatus? status});
   Future<ComplaintModel> getComplaintById(String id);
   Future<ComplaintModel> createComplaint(Map<String, dynamic> body);
   Future<String> uploadMedia(String filePath);
   Future<List<CommentModel>> getComments(String complaintId);
-  Future<CommentModel> addComment(String complaintId, {required String text, required String authorName});
+  Future<CommentModel> addComment(String complaintId,
+      {required String text, required String authorName});
   Future<int> like(String complaintId);
   Future<int> unlike(String complaintId);
   Future<List<ComplaintMapPinModel>> getMapPins();
@@ -30,7 +32,8 @@ final class ComplaintRemoteDataSourceImpl implements ComplaintRemoteDataSource {
 
   @override
   Future<List<CategoryModel>> getCategories() async {
-    final response = await guardDioCall(() => _dio.get<List<dynamic>>(ApiEndpoints.categories));
+    final response = await guardDioCall(
+        () => _dio.get<List<dynamic>>(ApiEndpoints.categories));
     return response.data!
         .map((json) => CategoryModel.fromJson(json as Map<String, dynamic>))
         .toList();
@@ -59,7 +62,8 @@ final class ComplaintRemoteDataSourceImpl implements ComplaintRemoteDataSource {
   }
 
   @override
-  Future<List<ComplaintModel>> getComplaints({String? authorId, ComplaintStatus? status}) async {
+  Future<List<ComplaintModel>> getComplaints(
+      {String? authorId, ComplaintStatus? status}) async {
     final response = await guardDioCall(
       () => _dio.get<List<dynamic>>(
         ApiEndpoints.complaints,
@@ -85,7 +89,8 @@ final class ComplaintRemoteDataSourceImpl implements ComplaintRemoteDataSource {
   @override
   Future<ComplaintModel> createComplaint(Map<String, dynamic> body) async {
     final response = await guardDioCall(
-      () => _dio.post<Map<String, dynamic>>(ApiEndpoints.complaints, data: body),
+      () =>
+          _dio.post<Map<String, dynamic>>(ApiEndpoints.complaints, data: body),
     );
     return ComplaintModel.fromJson(response.data!);
   }
@@ -107,7 +112,9 @@ final class ComplaintRemoteDataSourceImpl implements ComplaintRemoteDataSource {
       () => _dio.get<Map<String, dynamic>>(ApiEndpoints.comments(complaintId)),
     );
     final items = response.data!['items'] as List<dynamic>;
-    return items.map((json) => CommentModel.fromJson(json as Map<String, dynamic>)).toList();
+    return items
+        .map((json) => CommentModel.fromJson(json as Map<String, dynamic>))
+        .toList();
   }
 
   @override
@@ -127,27 +134,31 @@ final class ComplaintRemoteDataSourceImpl implements ComplaintRemoteDataSource {
 
   @override
   Future<int> like(String complaintId) async {
-    await guardDioCall(() => _dio.post<Map<String, dynamic>>(ApiEndpoints.reactions(complaintId)));
+    await guardDioCall(() =>
+        _dio.post<Map<String, dynamic>>(ApiEndpoints.reactions(complaintId)));
     final complaint = await getComplaintById(complaintId);
     return complaint.likes;
   }
 
   @override
   Future<int> unlike(String complaintId) async {
-    await guardDioCall(() => _dio.delete<Map<String, dynamic>>(ApiEndpoints.reactions(complaintId)));
+    await guardDioCall(() =>
+        _dio.delete<Map<String, dynamic>>(ApiEndpoints.reactions(complaintId)));
     final complaint = await getComplaintById(complaintId);
     return complaint.likes;
   }
 
   @override
   Future<List<ComplaintMapPinModel>> getMapPins() async {
-    final response = await guardDioCall(() => _dio.get<List<dynamic>>(ApiEndpoints.complaintsMap));
+    final response = await guardDioCall(
+        () => _dio.get<List<dynamic>>(ApiEndpoints.complaintsMap));
     return response.data!
-        .map((json) => ComplaintMapPinModel.fromJson(json as Map<String, dynamic>))
+        .map((json) =>
+            ComplaintMapPinModel.fromJson(json as Map<String, dynamic>))
         .toList();
   }
 
-  List<ComplaintModel> _toComplaintList(List<dynamic> data) =>
-      data.map((json) => ComplaintModel.fromJson(json as Map<String, dynamic>)).toList();
-
+  List<ComplaintModel> _toComplaintList(List<dynamic> data) => data
+      .map((json) => ComplaintModel.fromJson(json as Map<String, dynamic>))
+      .toList();
 }

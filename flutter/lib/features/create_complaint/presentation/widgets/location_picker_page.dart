@@ -61,7 +61,8 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
             options: MapOptions(
               initialCenter: _center,
               initialZoom: MapConfig.defaultZoom,
-              onPositionChanged: (camera, hasGesture) => _center = camera.center,
+              onPositionChanged: (camera, hasGesture) =>
+                  _center = camera.center,
             ),
             children: [
               TileLayer(
@@ -70,7 +71,8 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
               ),
             ],
           ),
-          const Icon(Icons.location_pin, size: 44, color: AppColors.urgentDestructive),
+          const Icon(Icons.location_pin,
+              size: 44, color: AppColors.urgentDestructive),
           Positioned(
             bottom: 24,
             left: 24,

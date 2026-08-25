@@ -11,7 +11,8 @@ enum ComplaintStatus { received, inReview, resolved }
 /// The one place [ComplaintStatus] maps to localized text — [StatusBadge], [ComplaintStatusStepper],
 /// [ComplaintListCard], the details page, and the map's marker sheet all show the same 3 labels, so
 /// they all call this instead of five separate switch statements drifting apart.
-String complaintStatusLabel(BuildContext context, ComplaintStatus status) => switch (status) {
+String complaintStatusLabel(BuildContext context, ComplaintStatus status) =>
+    switch (status) {
       ComplaintStatus.received => context.l10n.statusReceivedLabel,
       ComplaintStatus.inReview => context.l10n.statusInReviewLabel,
       ComplaintStatus.resolved => context.l10n.statusResolvedLabel,

@@ -5,7 +5,8 @@ import '../../domain/repositories/notification_repository.dart';
 import 'notifications_state.dart';
 
 final class NotificationsCubit extends Cubit<NotificationsState> {
-  NotificationsCubit(this._repository, this._secureStorage) : super(const NotificationsLoading());
+  NotificationsCubit(this._repository, this._secureStorage)
+      : super(const NotificationsLoading());
 
   final NotificationRepository _repository;
   final SecureStorageService _secureStorage;
@@ -22,7 +23,8 @@ final class NotificationsCubit extends Cubit<NotificationsState> {
     final result = await _repository.getNotifications(userId: userId);
     result.fold(
       (failure) => emit(NotificationsError(failure.message)),
-      (notifications) => emit(NotificationsLoaded(notifications: notifications)),
+      (notifications) =>
+          emit(NotificationsLoaded(notifications: notifications)),
     );
   }
 
@@ -54,7 +56,9 @@ final class NotificationsCubit extends Cubit<NotificationsState> {
 
     emit(
       current.copyWith(
-        notifications: [for (final n in current.notifications) n.copyWithRead(true)],
+        notifications: [
+          for (final n in current.notifications) n.copyWithRead(true)
+        ],
       ),
     );
     await _repository.markAllRead();

@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 /// comment on one of your complaints, a reaction, or a general/system message with no linked complaint.
 enum NotificationType { statusUpdate, newComment, reaction, general }
 
-final class AppNotification extends Equatable {
+base class AppNotification extends Equatable {
   const AppNotification({
     required this.id,
     required this.userId,
@@ -37,5 +37,6 @@ final class AppNotification extends Equatable {
       );
 
   @override
-  List<Object?> get props => [id, userId, type, title, complaintId, isRead, createdAt];
+  List<Object?> get props =>
+      [id, userId, type, title, complaintId, isRead, createdAt];
 }

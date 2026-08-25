@@ -10,7 +10,8 @@ abstract interface class NotificationRemoteDataSource {
   Future<void> markAllRead();
 }
 
-final class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
+final class NotificationRemoteDataSourceImpl
+    implements NotificationRemoteDataSource {
   const NotificationRemoteDataSourceImpl(this._dio);
 
   final Dio _dio;
@@ -20,7 +21,11 @@ final class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSo
     final response = await guardDioCall(
       () => _dio.get<List<dynamic>>(
         ApiEndpoints.notifications,
-        queryParameters: {'userId': userId, '_sort': 'createdAt', '_order': 'desc'},
+        queryParameters: {
+          'userId': userId,
+          '_sort': 'createdAt',
+          '_order': 'desc'
+        },
       ),
     );
     return response.data!

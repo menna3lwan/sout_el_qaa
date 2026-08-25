@@ -29,19 +29,22 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
   void updateTitle(String value) =>
       emit(state.copyWith(title: value, status: CreateComplaintStatus.editing));
 
-  void updateDescription(String value) =>
-      emit(state.copyWith(description: value, status: CreateComplaintStatus.editing));
+  void updateDescription(String value) => emit(state.copyWith(
+      description: value, status: CreateComplaintStatus.editing));
 
-  void selectCategory(String categoryId) =>
-      emit(state.copyWith(categoryId: categoryId, status: CreateComplaintStatus.editing));
+  void selectCategory(String categoryId) => emit(state.copyWith(
+      categoryId: categoryId, status: CreateComplaintStatus.editing));
 
   /// Sets the label only — lat/lng are untouched (omitted, so [CreateComplaintState.copyWith] keeps
   /// whatever was already picked, or stays null). Typing the label before tapping "pick on map" must
   /// never silently fabricate a (0, 0) coordinate that would pass [hasLocation]'s null-check.
-  void updateLocationLabel(String value) =>
-      emit(state.copyWith(location: value, status: CreateComplaintStatus.editing));
+  void updateLocationLabel(String value) => emit(
+      state.copyWith(location: value, status: CreateComplaintStatus.editing));
 
-  void selectLocation({required double lat, required double lng, required String location}) =>
+  void selectLocation(
+          {required double lat,
+          required double lng,
+          required String location}) =>
       emit(
         state.copyWith(
           lat: lat,
@@ -51,31 +54,34 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
         ),
       );
 
-  void selectSeverity(ComplaintSeverity severity) =>
-      emit(state.copyWith(severity: severity, status: CreateComplaintStatus.editing));
+  void selectSeverity(ComplaintSeverity severity) => emit(state.copyWith(
+      severity: severity, status: CreateComplaintStatus.editing));
 
   Future<void> attachPhoto(String filePath) async {
     emit(state.copyWith(isUploadingMedia: true));
     final result = await _repository.uploadMedia(filePath);
     result.fold(
       (failure) => emit(
-        state.copyWith(isUploadingMedia: false, failureMessageKey: failure.message),
+        state.copyWith(
+            isUploadingMedia: false, failureMessageKey: failure.message),
       ),
       (url) => emit(
-        state.copyWith(isUploadingMedia: false, mediaUrls: [...state.mediaUrls, url]),
+        state.copyWith(
+            isUploadingMedia: false, mediaUrls: [...state.mediaUrls, url]),
       ),
     );
   }
 
-  void removePhoto(String url) =>
-      emit(state.copyWith(mediaUrls: state.mediaUrls.where((u) => u != url).toList()));
+  void removePhoto(String url) => emit(state.copyWith(
+      mediaUrls: state.mediaUrls.where((u) => u != url).toList()));
 
   /// Validates only the fields owned by the current step, then advances — so an error on step 3
   /// (Location) doesn't block a user who hasn't reached it yet from filling in step 1.
   void nextStep() {
     final errors = _validateStep(state.step);
     if (errors.isNotEmpty) {
-      emit(state.copyWith(status: CreateComplaintStatus.validationError, fieldErrors: errors));
+      emit(state.copyWith(
+          status: CreateComplaintStatus.validationError, fieldErrors: errors));
       return;
     }
 
@@ -96,7 +102,8 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
     final steps = CreateComplaintStep.values;
     final prevIndex = steps.indexOf(state.step) - 1;
     if (prevIndex >= 0) {
-      emit(state.copyWith(step: steps[prevIndex], status: CreateComplaintStatus.editing));
+      emit(state.copyWith(
+          step: steps[prevIndex], status: CreateComplaintStatus.editing));
     }
   }
 
@@ -105,7 +112,8 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
     switch (step) {
       case CreateComplaintStep.fill:
         final titleError = Validators.required(state.title);
-        final descriptionError = Validators.complaintDescription(state.description);
+        final descriptionError =
+            Validators.complaintDescription(state.description);
         if (titleError != null) errors['title'] = titleError;
         if (descriptionError != null) errors['description'] = descriptionError;
       case CreateComplaintStep.category:
@@ -121,7 +129,8 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
   Future<void> submit() async {
     final errors = _validateStep(CreateComplaintStep.severity);
     if (errors.isNotEmpty) {
-      emit(state.copyWith(status: CreateComplaintStatus.validationError, fieldErrors: errors));
+      emit(state.copyWith(
+          status: CreateComplaintStatus.validationError, fieldErrors: errors));
       return;
     }
 
@@ -152,10 +161,13 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
 
     result.fold(
       (failure) => emit(
-        state.copyWith(status: CreateComplaintStatus.failure, failureMessageKey: failure.message),
+        state.copyWith(
+            status: CreateComplaintStatus.failure,
+            failureMessageKey: failure.message),
       ),
       (complaint) => emit(
-        state.copyWith(status: CreateComplaintStatus.success, createdComplaint: complaint),
+        state.copyWith(
+            status: CreateComplaintStatus.success, createdComplaint: complaint),
       ),
     );
   }

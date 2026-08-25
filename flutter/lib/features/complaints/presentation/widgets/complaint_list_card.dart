@@ -29,7 +29,8 @@ class ComplaintListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isUrgent = showUrgentBadge && complaint.severity == ComplaintSeverity.high;
+    final isUrgent =
+        showUrgentBadge && complaint.severity == ComplaintSeverity.high;
 
     return InkWell(
       onTap: onTap,
@@ -72,7 +73,8 @@ class ComplaintListCard extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
             Row(
               children: [
-                const Icon(Icons.location_on_outlined, size: 14, color: AppColors.textMutedGrey),
+                const Icon(Icons.location_on_outlined,
+                    size: 14, color: AppColors.textMutedGrey),
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
                   child: Text(
@@ -83,19 +85,24 @@ class ComplaintListCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
-                Text(DateFormatter.relative(complaint.createdAt), style: AppTypography.metaText),
+                Text(DateFormatter.relative(complaint.createdAt),
+                    style: AppTypography.metaText),
               ],
             ),
             const SizedBox(height: AppSpacing.xs),
             Row(
               children: [
-                const Icon(Icons.remove_red_eye_outlined, size: 14, color: AppColors.textMutedGrey),
+                const Icon(Icons.remove_red_eye_outlined,
+                    size: 14, color: AppColors.textMutedGrey),
                 const SizedBox(width: AppSpacing.xs),
-                Text(context.l10n.homeViewsCount(complaint.views), style: AppTypography.metaText),
+                Text(context.l10n.homeViewsCount(complaint.views),
+                    style: AppTypography.metaText),
                 const SizedBox(width: AppSpacing.md),
-                const Icon(Icons.favorite_outline, size: 14, color: AppColors.textMutedGrey),
+                const Icon(Icons.favorite_outline,
+                    size: 14, color: AppColors.textMutedGrey),
                 const SizedBox(width: AppSpacing.xs),
-                Text(context.l10n.homeLikesCount(complaint.likes), style: AppTypography.metaText),
+                Text(context.l10n.homeLikesCount(complaint.likes),
+                    style: AppTypography.metaText),
               ],
             ),
           ],
@@ -114,7 +121,8 @@ class _UrgentBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: AppSpacing.xs),
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+      padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
       decoration: BoxDecoration(
         color: AppColors.urgentDestructive,
         borderRadius: BorderRadius.circular(AppSpacing.radiusPill),

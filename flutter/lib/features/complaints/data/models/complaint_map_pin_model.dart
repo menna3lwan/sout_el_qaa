@@ -10,7 +10,8 @@ final class ComplaintMapPinModel extends ComplaintMapPin {
     required super.status,
   });
 
-  factory ComplaintMapPinModel.fromJson(Map<String, dynamic> json) => ComplaintMapPinModel(
+  factory ComplaintMapPinModel.fromJson(Map<String, dynamic> json) =>
+      ComplaintMapPinModel(
         id: json['id'] as String,
         lat: (json['lat'] as num).toDouble(),
         lng: (json['lng'] as num).toDouble(),

@@ -4,7 +4,8 @@ abstract final class Validators {
     r'^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$',
   );
 
-  static String? required(String? value, {String errorKey = 'validationRequired'}) {
+  static String? required(String? value,
+      {String errorKey = 'validationRequired'}) {
     if (value == null || value.trim().isEmpty) return errorKey;
     return null;
   }

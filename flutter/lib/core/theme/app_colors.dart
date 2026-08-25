@@ -95,20 +95,27 @@ abstract final class AppColors {
   // ---------------------------------------------------------------------
 
   static const Color textOnBrand = Colors.white;
-  static const Color textPrimaryDark = Color(0xFF191C1D); // Primary dark body text
-  static const Color textSecondaryGrey = Color(0xFF434751); // Secondary body text
+  static const Color textPrimaryDark =
+      Color(0xFF191C1D); // Primary dark body text
+  static const Color textSecondaryGrey =
+      Color(0xFF434751); // Secondary body text
   static const Color textMutedGrey = Color(0xFF737782); // Muted/helper text
-  static const Color textPlaceholderGrey = Color(0xFF9CA3AF); // Field placeholder text
+  static const Color textPlaceholderGrey =
+      Color(0xFF9CA3AF); // Field placeholder text
 
   // ---------------------------------------------------------------------
   // Surfaces
   // ---------------------------------------------------------------------
 
   static const Color surfaceWhite = Colors.white;
-  static const Color surfaceOffWhite = Color(0xFFF8F9FA); // Form cards, unselected buttons
-  static const Color surfaceLightGrey = Color(0xFFF3F4F5); // BottomNavBar background, textarea
-  static const Color surfaceIconCircle = Color(0xFFEDEEEF); // Icon-circle backgrounds
-  static const Color borderNeutral = Color(0xFFC3C6D3); // General light-gray border
+  static const Color surfaceOffWhite =
+      Color(0xFFF8F9FA); // Form cards, unselected buttons
+  static const Color surfaceLightGrey =
+      Color(0xFFF3F4F5); // BottomNavBar background, textarea
+  static const Color surfaceIconCircle =
+      Color(0xFFEDEEEF); // Icon-circle backgrounds
+  static const Color borderNeutral =
+      Color(0xFFC3C6D3); // General light-gray border
 
   // ---------------------------------------------------------------------
   // Category chip colors (Home) — each category has its own bg/border pair
@@ -127,9 +134,12 @@ abstract final class AppColors {
   // Glass/blurred overlay cards (Trending card, Profile stats/menu, Notification cards) — same "semi-transparent glass" idea, slightly different alpha
   // ---------------------------------------------------------------------
 
-  static const Color glassOverlayTrending = Color(0xD9FFFFFF); // rgba(255,255,255,0.85)
-  static const Color glassOverlayNotificationFilter = Color(0xCCFFFFFF); // rgba(255,255,255,0.8)
-  static const Color glassOverlayNotificationCard = Color(0xE6F2FBFF); // rgba(242,251,255,0.9)
+  static const Color glassOverlayTrending =
+      Color(0xD9FFFFFF); // rgba(255,255,255,0.85)
+  static const Color glassOverlayNotificationFilter =
+      Color(0xCCFFFFFF); // rgba(255,255,255,0.8)
+  static const Color glassOverlayNotificationCard =
+      Color(0xE6F2FBFF); // rgba(242,251,255,0.9)
 
   // ---------------------------------------------------------------------
   // Notification icon-badge pastels (Notifications) — icon-circle backgrounds

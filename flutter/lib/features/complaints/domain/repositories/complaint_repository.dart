@@ -17,7 +17,8 @@ abstract interface class ComplaintRepository {
   Future<Either<Failure, List<Complaint>>> getRecentActivity({int limit = 5});
 
   /// [authorId]/[status] filter server-side (json-server query params); both null returns every complaint.
-  Future<Either<Failure, List<Complaint>>> getComplaints({String? authorId, ComplaintStatus? status});
+  Future<Either<Failure, List<Complaint>>> getComplaints(
+      {String? authorId, ComplaintStatus? status});
 
   Future<Either<Failure, Complaint>> getComplaintById(String id);
 

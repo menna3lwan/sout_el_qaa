@@ -42,9 +42,12 @@ class _CreateComplaintView extends StatelessWidget {
       appBar: AppBar(title: Text(context.l10n.createComplaintTitle)),
       body: BlocConsumer<CreateComplaintCubit, CreateComplaintState>(
         listener: (context, state) {
-          if (state.status == CreateComplaintStatus.failure && state.failureMessageKey != null) {
+          if (state.status == CreateComplaintStatus.failure &&
+              state.failureMessageKey != null) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(resolveMessageKey(context, state.failureMessageKey!))),
+              SnackBar(
+                  content: Text(
+                      resolveMessageKey(context, state.failureMessageKey!))),
             );
           }
         },
@@ -112,7 +115,9 @@ class _StepIndicator extends StatelessWidget {
             margin: EdgeInsets.only(left: index == 0 ? 0 : AppSpacing.xs),
             height: AppSpacing.xs,
             decoration: BoxDecoration(
-              color: isReached ? AppColors.statusStepReached : AppColors.statusStepPending,
+              color: isReached
+                  ? AppColors.statusStepReached
+                  : AppColors.statusStepPending,
               borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
             ),
           ),
@@ -148,7 +153,9 @@ class _NavButtons extends StatelessWidget {
         Expanded(
           flex: 2,
           child: AppButton(
-            label: isLastStep ? context.l10n.submitComplaintButton : context.l10n.genericNext,
+            label: isLastStep
+                ? context.l10n.submitComplaintButton
+                : context.l10n.genericNext,
             isLoading: isSubmitting,
             onPressed: isLastStep
                 ? () => context.read<CreateComplaintCubit>().submit()
@@ -222,7 +229,8 @@ class _MediaPicker extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
-                child: Image.network(url, width: 72, height: 72, fit: BoxFit.cover),
+                child: Image.network(url,
+                    width: 72, height: 72, fit: BoxFit.cover),
               ),
               Positioned(
                 top: -8,
@@ -240,7 +248,8 @@ class _MediaPicker extends StatelessWidget {
           onTap: state.isUploadingMedia
               ? null
               : () async {
-                  final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
+                  final picked = await ImagePicker()
+                      .pickImage(source: ImageSource.gallery);
                   if (picked != null) await cubit.attachPhoto(picked.path);
                 },
           borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
@@ -274,7 +283,8 @@ class _CategoryStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(context.l10n.stepCategoryTitle, style: AppTypography.headingMedium),
+        Text(context.l10n.stepCategoryTitle,
+            style: AppTypography.headingMedium),
         const SizedBox(height: AppSpacing.md),
         Wrap(
           spacing: AppSpacing.sm,
@@ -313,7 +323,8 @@ class _LocationStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(context.l10n.stepLocationTitle, style: AppTypography.headingMedium),
+        Text(context.l10n.stepLocationTitle,
+            style: AppTypography.headingMedium),
         const SizedBox(height: AppSpacing.md),
         AppTextField(
           label: context.l10n.locationLabel,
@@ -324,7 +335,8 @@ class _LocationStep extends StatelessWidget {
         OutlinedButton.icon(
           onPressed: () async {
             final picked = await Navigator.of(context).push<LatLng>(
-              MaterialPageRoute<LatLng>(builder: (_) => const LocationPickerPage()),
+              MaterialPageRoute<LatLng>(
+                  builder: (_) => const LocationPickerPage()),
             );
             if (picked != null) {
               cubit.selectLocation(
@@ -366,15 +378,28 @@ class _SeverityStep extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<CreateComplaintCubit>();
     final options = [
-      (ComplaintSeverity.high, context.l10n.severityHighLabel, AppColors.severityHighSelected),
-      (ComplaintSeverity.medium, context.l10n.severityMediumLabel, AppColors.statusInProgressChip),
-      (ComplaintSeverity.low, context.l10n.severityLowLabel, AppColors.statusStepReached),
+      (
+        ComplaintSeverity.high,
+        context.l10n.severityHighLabel,
+        AppColors.severityHighSelected
+      ),
+      (
+        ComplaintSeverity.medium,
+        context.l10n.severityMediumLabel,
+        AppColors.statusInProgressChip
+      ),
+      (
+        ComplaintSeverity.low,
+        context.l10n.severityLowLabel,
+        AppColors.statusStepReached
+      ),
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(context.l10n.stepSeverityTitle, style: AppTypography.headingMedium),
+        Text(context.l10n.stepSeverityTitle,
+            style: AppTypography.headingMedium),
         const SizedBox(height: AppSpacing.md),
         Row(
           children: options.map((option) {
@@ -387,10 +412,12 @@ class _SeverityStep extends StatelessWidget {
                   onTap: () => cubit.selectSeverity(severity),
                   borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: AppSpacing.md),
                     decoration: BoxDecoration(
                       color: isSelected ? color : AppColors.surfaceOffWhite,
-                      borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+                      borderRadius:
+                          BorderRadius.circular(AppSpacing.radiusPill),
                       border: Border.all(
                         color: isSelected ? color : AppColors.borderNeutral,
                         width: 2,
@@ -400,7 +427,9 @@ class _SeverityStep extends StatelessWidget {
                       label,
                       textAlign: TextAlign.center,
                       style: AppTypography.chipLabel.copyWith(
-                        color: isSelected ? AppColors.textOnBrand : AppColors.textSecondaryGrey,
+                        color: isSelected
+                            ? AppColors.textOnBrand
+                            : AppColors.textSecondaryGrey,
                       ),
                     ),
                   ),
@@ -434,7 +463,8 @@ class _SuccessView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.check_circle, size: 72, color: AppColors.statusResolvedChip),
+            const Icon(Icons.check_circle,
+                size: 72, color: AppColors.statusResolvedChip),
             const SizedBox(height: AppSpacing.lg),
             Text(
               context.l10n.successTitle,

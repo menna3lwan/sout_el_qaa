@@ -95,7 +95,8 @@ class _MapView extends StatelessWidget {
 }
 
 class _MapPinMarker extends StatelessWidget {
-  const _MapPinMarker({required this.categoryId, required this.status, required this.onTap});
+  const _MapPinMarker(
+      {required this.categoryId, required this.status, required this.onTap});
 
   final String categoryId;
   final ComplaintStatus status;
@@ -111,10 +112,12 @@ class _MapPinMarker extends StatelessWidget {
           color: complaintStatusColor(status),
           border: Border.all(color: AppColors.surfaceWhite, width: 2),
           boxShadow: const [
-            BoxShadow(color: Color(0x33000000), blurRadius: 4, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Color(0x33000000), blurRadius: 4, offset: Offset(0, 2)),
           ],
         ),
-        child: Icon(categoryIcon(categoryId), color: AppColors.textOnBrand, size: 18),
+        child: Icon(categoryIcon(categoryId),
+            color: AppColors.textOnBrand, size: 18),
       ),
     );
   }
@@ -142,7 +145,8 @@ class _MapPinSheetState extends State<_MapPinSheet> {
   }
 
   Future<void> _load() async {
-    final result = await getIt<ComplaintRepository>().getComplaintById(widget.complaintId);
+    final result =
+        await getIt<ComplaintRepository>().getComplaintById(widget.complaintId);
     if (!mounted) return;
     setState(() {
       _complaint = result.fold((_) => null, (complaint) => complaint);

@@ -44,7 +44,8 @@ final class SecureStorageServiceImpl implements SecureStorageService {
   Future<String?> readRefreshToken() => _storage.read(key: _refreshTokenKey);
 
   @override
-  Future<void> saveUserId(String userId) => _storage.write(key: _userIdKey, value: userId);
+  Future<void> saveUserId(String userId) =>
+      _storage.write(key: _userIdKey, value: userId);
 
   @override
   Future<String?> readUserId() => _storage.read(key: _userIdKey);

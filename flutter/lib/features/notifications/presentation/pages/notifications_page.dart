@@ -45,7 +45,8 @@ class _NotificationsView extends StatelessWidget {
             builder: (context, state) {
               if (state is! NotificationsLoaded) return const SizedBox.shrink();
               return TextButton(
-                onPressed: () => context.read<NotificationsCubit>().markAllRead(),
+                onPressed: () =>
+                    context.read<NotificationsCubit>().markAllRead(),
                 child: Text(context.l10n.notificationsMarkAllRead),
               );
             },
@@ -54,8 +55,9 @@ class _NotificationsView extends StatelessWidget {
       ),
       body: BlocBuilder<NotificationsCubit, NotificationsState>(
         builder: (context, state) {
-          final selectedFilter =
-              state is NotificationsLoaded ? state.filter : NotificationsFilter.all;
+          final selectedFilter = state is NotificationsLoaded
+              ? state.filter
+              : NotificationsFilter.all;
 
           return Column(
             children: [
@@ -69,8 +71,9 @@ class _NotificationsView extends StatelessWidget {
                     context.l10n.notificationsFilterGeneral,
                   ],
                   selectedIndex: _filters.indexOf(selectedFilter),
-                  onSelected: (index) =>
-                      context.read<NotificationsCubit>().setFilter(_filters[index]),
+                  onSelected: (index) => context
+                      .read<NotificationsCubit>()
+                      .setFilter(_filters[index]),
                 ),
               ),
               Expanded(child: _buildBody(context, state)),
@@ -88,10 +91,12 @@ class _NotificationsView extends StatelessWidget {
           message: resolveMessageKey(context, messageKey),
           onRetry: () => context.read<NotificationsCubit>().load(),
         ),
-      NotificationsLoaded(:final visibleNotifications) when visibleNotifications.isEmpty =>
+      NotificationsLoaded(:final visibleNotifications)
+          when visibleNotifications.isEmpty =>
         EmptyView(message: context.l10n.notificationsEmptyMessage),
       NotificationsLoaded(:final visibleNotifications) => ListView.separated(
-          padding: const EdgeInsets.fromLTRB(AppSpacing.md, 0, AppSpacing.md, AppSpacing.md),
+          padding: const EdgeInsets.fromLTRB(
+              AppSpacing.md, 0, AppSpacing.md, AppSpacing.md),
           itemCount: visibleNotifications.length,
           separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.sm),
           itemBuilder: (context, index) {

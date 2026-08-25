@@ -12,19 +12,23 @@ abstract final class ApiEndpoints {
 
   // Home
   static const String categories = '$apiVersionPrefix/categories';
-  static const String trendingComplaints = '$apiVersionPrefix/complaints/trending';
-  static const String recentActivity = '$apiVersionPrefix/users/me/recent-activity';
+  static const String trendingComplaints =
+      '$apiVersionPrefix/complaints/trending';
+  static const String recentActivity =
+      '$apiVersionPrefix/users/me/recent-activity';
 
   // Complaints
   static const String complaints = '$apiVersionPrefix/complaints';
   static String complaintById(String id) => '$apiVersionPrefix/complaints/$id';
   static const String media = '$apiVersionPrefix/media';
-  static String complaintStatus(String id) => '$apiVersionPrefix/complaints/$id/status';
+  static String complaintStatus(String id) =>
+      '$apiVersionPrefix/complaints/$id/status';
 
   // Comments & Reactions
   static String comments(String complaintId) =>
       '$apiVersionPrefix/complaints/$complaintId/comments';
-  static String comment(String commentId) => '$apiVersionPrefix/comments/$commentId';
+  static String comment(String commentId) =>
+      '$apiVersionPrefix/comments/$commentId';
   static String reactions(String complaintId) =>
       '$apiVersionPrefix/complaints/$complaintId/reactions';
 
@@ -33,8 +37,10 @@ abstract final class ApiEndpoints {
 
   // Notifications
   static const String notifications = '$apiVersionPrefix/notifications';
-  static String notificationRead(String id) => '$apiVersionPrefix/notifications/$id/read';
-  static const String notificationsReadAll = '$apiVersionPrefix/notifications/read-all';
+  static String notificationRead(String id) =>
+      '$apiVersionPrefix/notifications/$id/read';
+  static const String notificationsReadAll =
+      '$apiVersionPrefix/notifications/read-all';
   static const String devices = '$apiVersionPrefix/devices';
 
   // Profile

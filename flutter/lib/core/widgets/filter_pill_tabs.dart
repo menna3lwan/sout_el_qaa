@@ -62,9 +62,8 @@ class _Pill extends StatelessWidget {
               : AppColors.surfaceOffWhite,
           borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
           border: Border.all(
-            color: isSelected
-                ? AppColors.headerBorder
-                : AppColors.borderNeutral,
+            color:
+                isSelected ? AppColors.headerBorder : AppColors.borderNeutral,
             width: 2,
           ),
         ),

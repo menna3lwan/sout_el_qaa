@@ -83,10 +83,12 @@ final class ComplaintRepositoryImpl implements ComplaintRepository {
     required String text,
     required String authorName,
   }) =>
-      _run(() => _remote.addComment(complaintId, text: text, authorName: authorName));
+      _run(() =>
+          _remote.addComment(complaintId, text: text, authorName: authorName));
 
   @override
-  Future<Either<Failure, int>> like(String complaintId) => _run(() => _remote.like(complaintId));
+  Future<Either<Failure, int>> like(String complaintId) =>
+      _run(() => _remote.like(complaintId));
 
   @override
   Future<Either<Failure, int>> unlike(String complaintId) =>

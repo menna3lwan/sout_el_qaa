@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 /// The signed-in resident of Qaa El Hamour; a pure Domain entity — no JSON/Dio knowledge (that's [UserModel]'s job in the Data layer).
-final class User extends Equatable {
+base class User extends Equatable {
   const User({
     required this.id,
     required this.username,

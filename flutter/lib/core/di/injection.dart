@@ -85,10 +85,12 @@ void configureDependencies() {
     () => ComplaintRemoteDataSourceImpl(getIt<Dio>()),
   );
   getIt.registerLazySingleton<ComplaintRepository>(
-    () => ComplaintRepositoryImpl(getIt<ComplaintRemoteDataSource>(), getIt<NetworkInfo>()),
+    () => ComplaintRepositoryImpl(
+        getIt<ComplaintRemoteDataSource>(), getIt<NetworkInfo>()),
   );
   getIt.registerFactory<ComplaintsCubit>(
-    () => ComplaintsCubit(getIt<ComplaintRepository>(), getIt<SecureStorageService>()),
+    () => ComplaintsCubit(
+        getIt<ComplaintRepository>(), getIt<SecureStorageService>()),
   );
   getIt.registerFactory<ComplaintDetailsCubit>(
     () => ComplaintDetailsCubit(
@@ -105,7 +107,8 @@ void configureDependencies() {
 
   // --- Create Complaint feature ---
   getIt.registerFactory<CreateComplaintCubit>(
-    () => CreateComplaintCubit(getIt<ComplaintRepository>(), getIt<SecureStorageService>()),
+    () => CreateComplaintCubit(
+        getIt<ComplaintRepository>(), getIt<SecureStorageService>()),
   );
 
   // --- Map feature ---
@@ -116,10 +119,12 @@ void configureDependencies() {
     () => NotificationRemoteDataSourceImpl(getIt<Dio>()),
   );
   getIt.registerLazySingleton<NotificationRepository>(
-    () => NotificationRepositoryImpl(getIt<NotificationRemoteDataSource>(), getIt<NetworkInfo>()),
+    () => NotificationRepositoryImpl(
+        getIt<NotificationRemoteDataSource>(), getIt<NetworkInfo>()),
   );
   getIt.registerFactory<NotificationsCubit>(
-    () => NotificationsCubit(getIt<NotificationRepository>(), getIt<SecureStorageService>()),
+    () => NotificationsCubit(
+        getIt<NotificationRepository>(), getIt<SecureStorageService>()),
   );
 
   // --- Profile feature ---
@@ -127,7 +132,8 @@ void configureDependencies() {
     () => ProfileRemoteDataSourceImpl(getIt<Dio>()),
   );
   getIt.registerLazySingleton<ProfileRepository>(
-    () => ProfileRepositoryImpl(getIt<ProfileRemoteDataSource>(), getIt<NetworkInfo>()),
+    () => ProfileRepositoryImpl(
+        getIt<ProfileRemoteDataSource>(), getIt<NetworkInfo>()),
   );
   getIt.registerFactory<ProfileCubit>(
     () => ProfileCubit(getIt<AuthRepository>(), getIt<ProfileRepository>()),

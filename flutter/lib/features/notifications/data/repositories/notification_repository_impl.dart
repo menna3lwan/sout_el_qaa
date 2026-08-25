@@ -14,14 +14,17 @@ final class NotificationRepositoryImpl implements NotificationRepository {
   final NetworkInfo _networkInfo;
 
   @override
-  Future<Either<Failure, List<AppNotification>>> getNotifications({required String userId}) =>
+  Future<Either<Failure, List<AppNotification>>> getNotifications(
+          {required String userId}) =>
       _run(() => _remote.getNotifications(userId));
 
   @override
-  Future<Either<Failure, void>> markRead(String id) => _run(() => _remote.markRead(id));
+  Future<Either<Failure, void>> markRead(String id) =>
+      _run(() => _remote.markRead(id));
 
   @override
-  Future<Either<Failure, void>> markAllRead() => _run(() => _remote.markAllRead());
+  Future<Either<Failure, void>> markAllRead() =>
+      _run(() => _remote.markAllRead());
 
   Future<Either<Failure, T>> _run<T>(Future<T> Function() call) async {
     if (!await _networkInfo.isConnected) {

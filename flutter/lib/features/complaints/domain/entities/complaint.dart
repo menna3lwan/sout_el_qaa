@@ -6,7 +6,7 @@ import '../../presentation/widgets/status_badge.dart' show ComplaintStatus;
 enum ComplaintSeverity { high, medium, low }
 
 /// A single complaint against Qaa El Hamour's infrastructure — the entity shared by Home (trending/recent), Complaints List, Complaint Details, Map, and Profile/My Complaints (PLAN.md section 18: these screens are different views over one domain concept, not five separate ones).
-final class Complaint extends Equatable {
+base class Complaint extends Equatable {
   const Complaint({
     required this.id,
     required this.title,
@@ -79,7 +79,7 @@ final class Complaint extends Equatable {
 }
 
 /// Lightweight projection returned by GET /complaints/map (id/lat/lng/categoryId/status only, PLAN.md section 16) — a distinct entity rather than reusing [Complaint] with fake defaults, since the server deliberately doesn't send the other fields for this endpoint.
-final class ComplaintMapPin extends Equatable {
+base class ComplaintMapPin extends Equatable {
   const ComplaintMapPin({
     required this.id,
     required this.lat,

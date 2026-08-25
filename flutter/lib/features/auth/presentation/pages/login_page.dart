@@ -52,9 +52,12 @@ class _LoginViewState extends State<_LoginView> {
           if (state.status == AuthStatus.success) {
             context.go(RoutePaths.home);
           }
-          if (state.status == AuthStatus.failure && state.failureMessageKey != null) {
+          if (state.status == AuthStatus.failure &&
+              state.failureMessageKey != null) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(resolveMessageKey(context, state.failureMessageKey!))),
+              SnackBar(
+                  content: Text(
+                      resolveMessageKey(context, state.failureMessageKey!))),
             );
           }
         },
@@ -68,7 +71,8 @@ class _LoginViewState extends State<_LoginView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Icon(Icons.waves_rounded, size: 56, color: context.colorScheme.primary),
+                  Icon(Icons.waves_rounded,
+                      size: 56, color: context.colorScheme.primary),
                   const SizedBox(height: AppSpacing.md),
                   Text(
                     context.l10n.appTitle,
@@ -89,7 +93,8 @@ class _LoginViewState extends State<_LoginView> {
                     textInputAction: TextInputAction.next,
                     errorText: state.fieldErrors['email'] == null
                         ? null
-                        : resolveMessageKey(context, state.fieldErrors['email']!),
+                        : resolveMessageKey(
+                            context, state.fieldErrors['email']!),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   AppTextField(
@@ -99,7 +104,8 @@ class _LoginViewState extends State<_LoginView> {
                     textInputAction: TextInputAction.done,
                     errorText: state.fieldErrors['password'] == null
                         ? null
-                        : resolveMessageKey(context, state.fieldErrors['password']!),
+                        : resolveMessageKey(
+                            context, state.fieldErrors['password']!),
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   AppButton(
@@ -114,7 +120,8 @@ class _LoginViewState extends State<_LoginView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(context.l10n.authNoAccountPrompt, style: context.textTheme.bodySmall),
+                      Text(context.l10n.authNoAccountPrompt,
+                          style: context.textTheme.bodySmall),
                       TextButton(
                         onPressed: () => context.push(RoutePaths.register),
                         child: Text(context.l10n.authRegisterLink),

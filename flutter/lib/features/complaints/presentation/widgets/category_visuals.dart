@@ -26,4 +26,5 @@ const Map<String, Color> categoryBorderColors = {
   'electricity': AppColors.categoryElectricityBorder,
 };
 
-IconData categoryIcon(String categoryId) => categoryIcons[categoryId] ?? Icons.category_outlined;
+IconData categoryIcon(String categoryId) =>
+    categoryIcons[categoryId] ?? Icons.category_outlined;

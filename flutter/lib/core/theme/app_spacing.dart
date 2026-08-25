@@ -13,7 +13,8 @@ abstract final class AppSpacing {
 
   static const double radiusSm = 8; // Image-upload box, location box
   static const double radiusMd = 12; // Stat cards, settings list
-  static const double radiusLg = 16; // Most cards (Trending, Description, Notification)
+  static const double radiusLg =
+      16; // Most cards (Trending, Description, Notification)
 
   /// [New] Corner radius for the header and the BottomNavBar's top corners — 100% consistent across all 6 screens, distinct from radiusLg.
   static const double radiusXl = 32;

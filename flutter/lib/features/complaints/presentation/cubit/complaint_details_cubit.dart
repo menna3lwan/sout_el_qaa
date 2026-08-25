@@ -6,7 +6,8 @@ import '../../domain/repositories/complaint_repository.dart';
 import 'complaint_details_state.dart';
 
 final class ComplaintDetailsCubit extends Cubit<ComplaintDetailsState> {
-  ComplaintDetailsCubit(this._repository, this._authRepository, this._secureStorage)
+  ComplaintDetailsCubit(
+      this._repository, this._authRepository, this._secureStorage)
       : super(const ComplaintDetailsLoading());
 
   final ComplaintRepository _repository;
@@ -28,7 +29,8 @@ final class ComplaintDetailsCubit extends Cubit<ComplaintDetailsState> {
         commentsResult.fold(
           (failure) => emit(ComplaintDetailsError(failure.message)),
           (comments) => emit(
-            ComplaintDetailsLoaded(complaint: complaint, comments: comments, isLiked: false),
+            ComplaintDetailsLoaded(
+                complaint: complaint, comments: comments, isLiked: false),
           ),
         );
       },
@@ -66,7 +68,8 @@ final class ComplaintDetailsCubit extends Cubit<ComplaintDetailsState> {
     emit(current.copyWith(isPostingComment: true));
 
     final userResult = await _authRepository.currentUser();
-    final authorName = userResult.fold((_) => 'ساكن القاع', (user) => user.displayName);
+    final authorName =
+        userResult.fold((_) => 'ساكن القاع', (user) => user.displayName);
 
     final result = await _repository.addComment(
       complaintId: current.complaint.id,

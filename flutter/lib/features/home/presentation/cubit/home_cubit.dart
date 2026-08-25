@@ -8,7 +8,8 @@ import 'home_state.dart';
 /// deliberately not 4 separate BlocProviders, since Home shows all 4 together and a single Loading/
 /// Error is simpler to reason about than 4 partially-loaded regions (PLAN.md section 6).
 final class HomeCubit extends Cubit<HomeState> {
-  HomeCubit(this._authRepository, this._complaintRepository) : super(const HomeLoading());
+  HomeCubit(this._authRepository, this._complaintRepository)
+      : super(const HomeLoading());
 
   final AuthRepository _authRepository;
   final ComplaintRepository _complaintRepository;
@@ -41,7 +42,8 @@ final class HomeCubit extends Cubit<HomeState> {
 
     emit(
       HomeLoaded(
-        user: userResult.getOrElse((_) => throw StateError('unreachable — checked above')),
+        user: userResult
+            .getOrElse((_) => throw StateError('unreachable — checked above')),
         categories: categoriesResult.getOrElse((_) => const []),
         trending: trendingResult.getOrElse((_) => const []),
         recentActivity: recentResult.getOrElse((_) => const []),

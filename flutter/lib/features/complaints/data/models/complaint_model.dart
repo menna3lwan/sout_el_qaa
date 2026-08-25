@@ -57,12 +57,14 @@ final class ComplaintModel extends Complaint {
       };
 }
 
-ComplaintSeverity severityFromSlug(String slug) => ComplaintSeverity.values.firstWhere(
+ComplaintSeverity severityFromSlug(String slug) =>
+    ComplaintSeverity.values.firstWhere(
       (value) => value.name == slug,
       orElse: () => ComplaintSeverity.medium,
     );
 
-ComplaintStatus statusFromSlug(String slug) => ComplaintStatus.values.firstWhere(
+ComplaintStatus statusFromSlug(String slug) =>
+    ComplaintStatus.values.firstWhere(
       (value) => value.name == slug,
       orElse: () => ComplaintStatus.received,
     );

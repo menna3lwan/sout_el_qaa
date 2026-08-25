@@ -10,7 +10,13 @@ enum CreateComplaintStep { fill, category, location, severity }
 /// [Initial]=[Editing] here (a fresh form and an in-progress one are the same shape, just empty) —
 /// the brief's "Initial/Editing/ValidationError/Submitting/Success/Failure" list maps onto one status
 /// enum instead of 6 state subclasses, since every step shares the same underlying draft fields.
-enum CreateComplaintStatus { editing, validationError, submitting, success, failure }
+enum CreateComplaintStatus {
+  editing,
+  validationError,
+  submitting,
+  success,
+  failure
+}
 
 final class CreateComplaintState extends Equatable {
   const CreateComplaintState({

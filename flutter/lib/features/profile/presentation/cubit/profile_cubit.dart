@@ -5,7 +5,8 @@ import '../../domain/repositories/profile_repository.dart';
 import 'profile_state.dart';
 
 final class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit(this._authRepository, this._profileRepository) : super(const ProfileLoading());
+  ProfileCubit(this._authRepository, this._profileRepository)
+      : super(const ProfileLoading());
 
   final AuthRepository _authRepository;
   final ProfileRepository _profileRepository;
@@ -27,8 +28,10 @@ final class ProfileCubit extends Cubit<ProfileState> {
 
     emit(
       ProfileLoaded(
-        user: userResult.getOrElse((_) => throw StateError('unreachable — checked above')),
-        stats: statsResult.getOrElse((_) => throw StateError('unreachable — checked above')),
+        user: userResult
+            .getOrElse((_) => throw StateError('unreachable — checked above')),
+        stats: statsResult
+            .getOrElse((_) => throw StateError('unreachable — checked above')),
       ),
     );
   }

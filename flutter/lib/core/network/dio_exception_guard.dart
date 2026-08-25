@@ -14,6 +14,7 @@ Future<Response<T>> guardDioCall<T>(Future<Response<T>> Function() call) async {
     final message = data is Map && data['message'] is String
         ? data['message'] as String
         : (error.message ?? 'genericErrorMessage');
-    throw ServerException(message: message, statusCode: error.response?.statusCode);
+    throw ServerException(
+        message: message, statusCode: error.response?.statusCode);
   }
 }

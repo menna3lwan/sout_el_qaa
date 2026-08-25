@@ -11,7 +11,8 @@ final class NotificationModel extends AppNotification {
     required super.createdAt,
   });
 
-  factory NotificationModel.fromJson(Map<String, dynamic> json) => NotificationModel(
+  factory NotificationModel.fromJson(Map<String, dynamic> json) =>
+      NotificationModel(
         id: json['id'] as String,
         userId: json['userId'] as String,
         type: _typeFromSlug(json['type'] as String),
@@ -21,7 +22,8 @@ final class NotificationModel extends AppNotification {
         createdAt: DateTime.parse(json['createdAt'] as String),
       );
 
-  static NotificationType _typeFromSlug(String slug) => NotificationType.values.firstWhere(
+  static NotificationType _typeFromSlug(String slug) =>
+      NotificationType.values.firstWhere(
         (value) => value.name == slug,
         orElse: () => NotificationType.general,
       );

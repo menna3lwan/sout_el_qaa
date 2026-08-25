@@ -76,14 +76,16 @@ class _HomeContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(context.l10n.homeCategoriesHeading, style: AppTypography.headingMedium),
+                Text(context.l10n.homeCategoriesHeading,
+                    style: AppTypography.headingMedium),
                 const SizedBox(height: AppSpacing.sm),
                 SizedBox(
                   height: 96,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: state.categories.length,
-                    separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.sm),
+                    separatorBuilder: (_, __) =>
+                        const SizedBox(width: AppSpacing.sm),
                     itemBuilder: (context, index) =>
                         CategoryChip(category: state.categories[index]),
                   ),
@@ -106,22 +108,26 @@ class _HomeContent extends StatelessWidget {
                     child: ComplaintListCard(
                       complaint: complaint,
                       showUrgentBadge: true,
-                      onTap: () => context.push(RoutePaths.complaintDetails(complaint.id)),
+                      onTap: () => context
+                          .push(RoutePaths.complaintDetails(complaint.id)),
                     ),
                   ),
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                Text(context.l10n.homeRecentActivityHeading, style: AppTypography.sectionLabel),
+                Text(context.l10n.homeRecentActivityHeading,
+                    style: AppTypography.sectionLabel),
                 const SizedBox(height: AppSpacing.sm),
                 if (state.recentActivity.isEmpty)
-                  Text(context.l10n.genericEmptyMessage, style: AppTypography.metaText)
+                  Text(context.l10n.genericEmptyMessage,
+                      style: AppTypography.metaText)
                 else
                   ...state.recentActivity.map(
                     (complaint) => Padding(
                       padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                       child: ComplaintListCard(
                         complaint: complaint,
-                        onTap: () => context.push(RoutePaths.complaintDetails(complaint.id)),
+                        onTap: () => context
+                            .push(RoutePaths.complaintDetails(complaint.id)),
                       ),
                     ),
                   ),
@@ -150,7 +156,8 @@ class _Header extends StatelessWidget {
       ),
       decoration: const BoxDecoration(
         color: AppColors.headerBackground,
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(AppSpacing.radiusXl)),
+        borderRadius:
+            BorderRadius.vertical(bottom: Radius.circular(AppSpacing.radiusXl)),
       ),
       child: Row(
         children: [
@@ -165,7 +172,8 @@ class _Header extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.notifications_outlined, color: AppColors.textOnBrand),
+            icon: const Icon(Icons.notifications_outlined,
+                color: AppColors.textOnBrand),
             onPressed: () => context.push(RoutePaths.notifications),
           ),
         ],
@@ -190,7 +198,8 @@ class _SectionHeader extends StatelessWidget {
           onPressed: onViewAll,
           child: Text(
             context.l10n.homeViewAll,
-            style: AppTypography.metaText.copyWith(color: AppColors.homeLinkText),
+            style:
+                AppTypography.metaText.copyWith(color: AppColors.homeLinkText),
           ),
         ),
       ],

@@ -10,7 +10,8 @@ import 'category_visuals.dart';
 /// Figma's Home category grid, app_colors.dart's "Category chip colors" block) — a shared lookup
 /// table instead of storing UI-specific colors on the [Category] entity itself.
 class CategoryChip extends StatelessWidget {
-  const CategoryChip({required this.category, super.key, this.isSelected = false, this.onTap});
+  const CategoryChip(
+      {required this.category, super.key, this.isSelected = false, this.onTap});
 
   final Category category;
   final bool isSelected;
@@ -18,7 +19,8 @@ class CategoryChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final background = categoryBackgroundColors[category.id] ?? AppColors.surfaceOffWhite;
+    final background =
+        categoryBackgroundColors[category.id] ?? AppColors.surfaceOffWhite;
     final border = categoryBorderColors[category.id] ?? AppColors.borderNeutral;
 
     return InkWell(
@@ -26,7 +28,8 @@ class CategoryChip extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
       child: Container(
         width: 84,
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md, horizontal: AppSpacing.sm),
+        padding: const EdgeInsets.symmetric(
+            vertical: AppSpacing.md, horizontal: AppSpacing.sm),
         decoration: BoxDecoration(
           color: background,
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
@@ -35,7 +38,8 @@ class CategoryChip extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(categoryIcon(category.id), color: AppColors.headerBackground, size: 26),
+            Icon(categoryIcon(category.id),
+                color: AppColors.headerBackground, size: 26),
             const SizedBox(height: AppSpacing.xs),
             Text(
               category.name,

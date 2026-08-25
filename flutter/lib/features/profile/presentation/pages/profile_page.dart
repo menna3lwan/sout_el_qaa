@@ -67,7 +67,9 @@ class _ProfileContent extends StatelessWidget {
         Center(
           child: Column(
             children: [
-              QaaAvatar(displayName: state.user.displayName, variant: QaaAvatarVariant.profile),
+              QaaAvatar(
+                  displayName: state.user.displayName,
+                  variant: QaaAvatarVariant.profile),
               const SizedBox(height: AppSpacing.md),
               Text(state.user.displayName, style: AppTypography.profileName),
               if (state.user.bio != null && state.user.bio!.isNotEmpty)
@@ -87,7 +89,9 @@ class _ProfileContent extends StatelessWidget {
               value: '${state.stats.resolvedCount}',
               label: context.l10n.profileStatResolved,
             ),
-            StatCard(value: '${state.stats.points}', label: context.l10n.profileStatPoints),
+            StatCard(
+                value: '${state.stats.points}',
+                label: context.l10n.profileStatPoints),
           ],
         ),
         const SizedBox(height: AppSpacing.lg),

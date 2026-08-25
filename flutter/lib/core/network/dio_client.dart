@@ -16,7 +16,8 @@ final class DioClientFactory {
         baseUrl: AppConfig.apiBaseUrl,
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
-        sendTimeout: const Duration(seconds: 30), // Longer, to allow for media uploads
+        sendTimeout:
+            const Duration(seconds: 30), // Longer, to allow for media uploads
         headers: {'Accept': 'application/json'},
       ),
     );

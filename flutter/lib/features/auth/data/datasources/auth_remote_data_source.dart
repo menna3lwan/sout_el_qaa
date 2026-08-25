@@ -6,7 +6,8 @@ import '../models/user_model.dart';
 
 /// Raw REST calls only — no [Either]/[Failure] here, that's [AuthRepositoryImpl]'s job; every Dio failure is normalized into a [ServerException] (see [guardDioCall]) so the Repository has one exception shape to catch.
 abstract interface class AuthRemoteDataSource {
-  Future<AuthResponseModel> login({required String email, required String password});
+  Future<AuthResponseModel> login(
+      {required String email, required String password});
   Future<AuthResponseModel> register({
     required String username,
     required String email,
@@ -22,7 +23,8 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final Dio _dio;
 
   @override
-  Future<AuthResponseModel> login({required String email, required String password}) async {
+  Future<AuthResponseModel> login(
+      {required String email, required String password}) async {
     final response = await guardDioCall(
       () => _dio.post<Map<String, dynamic>>(
         ApiEndpoints.login,
@@ -54,7 +56,8 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserModel> getCurrentUser() async {
-    final response = await guardDioCall(() => _dio.get<Map<String, dynamic>>(ApiEndpoints.me));
+    final response = await guardDioCall(
+        () => _dio.get<Map<String, dynamic>>(ApiEndpoints.me));
     return UserModel.fromJson(response.data!);
   }
 }

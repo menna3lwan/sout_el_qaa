@@ -11,7 +11,8 @@ import '../datasources/auth_remote_data_source.dart';
 import '../models/user_model.dart';
 
 final class AuthRepositoryImpl implements AuthRepository {
-  const AuthRepositoryImpl(this._remote, this._networkInfo, this._secureStorage);
+  const AuthRepositoryImpl(
+      this._remote, this._networkInfo, this._secureStorage);
 
   final AuthRemoteDataSource _remote;
   final NetworkInfo _networkInfo;
@@ -37,7 +38,8 @@ final class AuthRepositoryImpl implements AuthRepository {
       // session to expire), so the mock server's own message is shown instead of the misleading
       // "sign in again, your session ended" copy. Every other 401 in the app (an authenticated
       // request rejected mid-session) still goes through ErrorMapper as session-expired, unchanged.
-      return Left(ServerFailure(message: error.message, statusCode: error.statusCode));
+      return Left(
+          ServerFailure(message: error.message, statusCode: error.statusCode));
     } catch (error) {
       return Left(ErrorMapper.map(error));
     }
@@ -50,7 +52,8 @@ final class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) =>
       _runAuth(
-        () => _remote.register(username: username, email: email, password: password),
+        () => _remote.register(
+            username: username, email: email, password: password),
       );
 
   @override

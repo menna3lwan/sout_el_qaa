@@ -55,7 +55,8 @@ void main() {
 
   group('Validators.confirmPassword', () {
     test('rejects empty confirmation', () {
-      expect(Validators.confirmPassword('', 'qaaHamour1'), 'validationRequired');
+      expect(
+          Validators.confirmPassword('', 'qaaHamour1'), 'validationRequired');
     });
 
     test('rejects mismatch', () {
@@ -81,7 +82,8 @@ void main() {
       expect(Validators.complaintDescription(exactly300), isNull);
     });
 
-    test('rejects description over the 300-char limit (confirmed by Figma)', () {
+    test('rejects description over the 300-char limit (confirmed by Figma)',
+        () {
       final over300 = 'ح' * 301;
       expect(Validators.complaintDescription(over300), 'validationTooLong');
     });

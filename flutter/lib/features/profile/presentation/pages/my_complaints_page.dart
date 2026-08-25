@@ -24,7 +24,8 @@ class MyComplaintsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<ComplaintsCubit>()..load(filter: ComplaintsFilter.mine),
+      create: (_) =>
+          getIt<ComplaintsCubit>()..load(filter: ComplaintsFilter.mine),
       child: const _MyComplaintsView(),
     );
   }
@@ -43,20 +44,23 @@ class _MyComplaintsView extends StatelessWidget {
             ComplaintsLoading() => const LoadingView(),
             ComplaintsError(:final messageKey) => ErrorView(
                 message: resolveMessageKey(context, messageKey),
-                onRetry: () =>
-                    context.read<ComplaintsCubit>().load(filter: ComplaintsFilter.mine),
+                onRetry: () => context
+                    .read<ComplaintsCubit>()
+                    .load(filter: ComplaintsFilter.mine),
               ),
             ComplaintsLoaded(:final complaints) when complaints.isEmpty =>
               EmptyView(message: context.l10n.complaintsEmptyMessage),
             ComplaintsLoaded(:final complaints) => ListView.separated(
                 padding: const EdgeInsets.all(AppSpacing.md),
                 itemCount: complaints.length,
-                separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.sm),
+                separatorBuilder: (_, __) =>
+                    const SizedBox(height: AppSpacing.sm),
                 itemBuilder: (context, index) {
                   final complaint = complaints[index];
                   return ComplaintListCard(
                     complaint: complaint,
-                    onTap: () => context.push(RoutePaths.complaintDetails(complaint.id)),
+                    onTap: () =>
+                        context.push(RoutePaths.complaintDetails(complaint.id)),
                   );
                 },
               ),

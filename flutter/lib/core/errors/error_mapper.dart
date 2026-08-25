@@ -8,12 +8,12 @@ abstract final class ErrorMapper {
   static Failure map(Object error, {String? fallbackMessage}) {
     return switch (error) {
       NoInternetException() => const NetworkFailure(
-          message: 'noInternetConnectionMessage', // ARB key, resolved to text in the Cubit
+          message:
+              'noInternetConnectionMessage', // ARB key, resolved to text in the Cubit
         ),
-      ServerException(:final statusCode, :final message) =>
-        statusCode == 401
-            ? const UnauthorizedFailure(message: 'unauthorizedMessage')
-            : ServerFailure(message: message, statusCode: statusCode),
+      ServerException(:final statusCode, :final message) => statusCode == 401
+          ? const UnauthorizedFailure(message: 'unauthorizedMessage')
+          : ServerFailure(message: message, statusCode: statusCode),
       CacheException(:final message) => CacheFailure(message: message),
       DioException() => _mapDioException(error),
       _ => UnknownFailure(

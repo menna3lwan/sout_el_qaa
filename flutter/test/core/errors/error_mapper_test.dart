@@ -28,7 +28,8 @@ void main() {
     });
 
     test('maps CacheException to CacheFailure', () {
-      final failure = ErrorMapper.map(const CacheException(message: 'hive error'));
+      final failure =
+          ErrorMapper.map(const CacheException(message: 'hive error'));
       expect(failure, isA<CacheFailure>());
     });
 

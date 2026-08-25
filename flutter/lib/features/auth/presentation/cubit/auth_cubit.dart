@@ -18,7 +18,8 @@ final class AuthCubit extends Cubit<AuthState> {
     if (passwordError != null) fieldErrors['password'] = passwordError;
 
     if (fieldErrors.isNotEmpty) {
-      emit(state.copyWith(status: AuthStatus.validationError, fieldErrors: fieldErrors));
+      emit(state.copyWith(
+          status: AuthStatus.validationError, fieldErrors: fieldErrors));
       return;
     }
 
@@ -26,7 +27,8 @@ final class AuthCubit extends Cubit<AuthState> {
     final result = await _repository.login(email: email, password: password);
     result.fold(
       (failure) => emit(
-        state.copyWith(status: AuthStatus.failure, failureMessageKey: failure.message),
+        state.copyWith(
+            status: AuthStatus.failure, failureMessageKey: failure.message),
       ),
       (user) => emit(state.copyWith(status: AuthStatus.success, user: user)),
     );
@@ -49,7 +51,8 @@ final class AuthCubit extends Cubit<AuthState> {
     if (confirmError != null) fieldErrors['confirmPassword'] = confirmError;
 
     if (fieldErrors.isNotEmpty) {
-      emit(state.copyWith(status: AuthStatus.validationError, fieldErrors: fieldErrors));
+      emit(state.copyWith(
+          status: AuthStatus.validationError, fieldErrors: fieldErrors));
       return;
     }
 
@@ -61,7 +64,8 @@ final class AuthCubit extends Cubit<AuthState> {
     );
     result.fold(
       (failure) => emit(
-        state.copyWith(status: AuthStatus.failure, failureMessageKey: failure.message),
+        state.copyWith(
+            status: AuthStatus.failure, failureMessageKey: failure.message),
       ),
       (user) => emit(state.copyWith(status: AuthStatus.success, user: user)),
     );

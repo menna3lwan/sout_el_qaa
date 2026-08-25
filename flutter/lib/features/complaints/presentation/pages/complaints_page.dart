@@ -57,8 +57,9 @@ class _ComplaintsView extends StatelessWidget {
                     context.l10n.complaintsFilterResolved,
                   ],
                   selectedIndex: _filters.indexOf(selectedFilter),
-                  onSelected: (index) =>
-                      context.read<ComplaintsCubit>().load(filter: _filters[index]),
+                  onSelected: (index) => context
+                      .read<ComplaintsCubit>()
+                      .load(filter: _filters[index]),
                 ),
               ),
               Expanded(child: _buildBody(context, state)),
@@ -91,7 +92,8 @@ class _ComplaintsView extends StatelessWidget {
             final complaint = complaints[index];
             return ComplaintListCard(
               complaint: complaint,
-              onTap: () => context.push(RoutePaths.complaintDetails(complaint.id)),
+              onTap: () =>
+                  context.push(RoutePaths.complaintDetails(complaint.id)),
             );
           },
         ),

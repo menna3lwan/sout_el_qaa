@@ -7,7 +7,8 @@ final class ProfileStatsModel extends ProfileStats {
     required super.points,
   });
 
-  factory ProfileStatsModel.fromJson(Map<String, dynamic> json) => ProfileStatsModel(
+  factory ProfileStatsModel.fromJson(Map<String, dynamic> json) =>
+      ProfileStatsModel(
         submittedCount: json['submittedCount'] as int,
         resolvedCount: json['resolvedCount'] as int,
         points: json['points'] as int,

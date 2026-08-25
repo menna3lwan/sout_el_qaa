@@ -117,10 +117,13 @@ class _DetailsBody extends StatelessWidget {
         const SizedBox(height: AppSpacing.xs),
         Row(
           children: [
-            const Icon(Icons.location_on_outlined, size: 16, color: AppColors.textMutedGrey),
+            const Icon(Icons.location_on_outlined,
+                size: 16, color: AppColors.textMutedGrey),
             const SizedBox(width: AppSpacing.xs),
-            Expanded(child: Text(complaint.location, style: AppTypography.metaText)),
-            Text(DateFormatter.relative(complaint.createdAt), style: AppTypography.metaText),
+            Expanded(
+                child: Text(complaint.location, style: AppTypography.metaText)),
+            Text(DateFormatter.relative(complaint.createdAt),
+                style: AppTypography.metaText),
           ],
         ),
         const SizedBox(height: AppSpacing.lg),
@@ -131,7 +134,8 @@ class _DetailsBody extends StatelessWidget {
           resolvedLabel: context.l10n.statusResolvedLabel,
         ),
         const SizedBox(height: AppSpacing.lg),
-        Text(context.l10n.detailsSectionHeading, style: AppTypography.sectionLabel),
+        Text(context.l10n.detailsSectionHeading,
+            style: AppTypography.sectionLabel),
         const SizedBox(height: AppSpacing.sm),
         Container(
           width: double.infinity,
@@ -152,9 +156,11 @@ class _DetailsBody extends StatelessWidget {
               onTap: () => context.read<ComplaintDetailsCubit>().toggleLike(),
             ),
             const SizedBox(width: AppSpacing.md),
-            Icon(Icons.remove_red_eye_outlined, size: 16, color: AppColors.textMutedGrey),
+            Icon(Icons.remove_red_eye_outlined,
+                size: 16, color: AppColors.textMutedGrey),
             const SizedBox(width: AppSpacing.xs),
-            Text(context.l10n.homeViewsCount(complaint.views), style: AppTypography.metaText),
+            Text(context.l10n.homeViewsCount(complaint.views),
+                style: AppTypography.metaText),
           ],
         ),
         const SizedBox(height: AppSpacing.lg),
@@ -163,12 +169,14 @@ class _DetailsBody extends StatelessWidget {
         if (state.comments.isEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-            child: Text(context.l10n.commentsEmptyMessage, style: AppTypography.metaText),
+            child: Text(context.l10n.commentsEmptyMessage,
+                style: AppTypography.metaText),
           )
         else
           ...state.comments.map((comment) => _CommentTile(comment: comment)),
         const SizedBox(height: AppSpacing.md),
-        _CommentInput(controller: commentController, isPosting: state.isPostingComment),
+        _CommentInput(
+            controller: commentController, isPosting: state.isPostingComment),
       ],
     );
   }
@@ -189,7 +197,8 @@ class _ReactionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? AppColors.urgentDestructive : AppColors.textMutedGrey;
+    final color =
+        isActive ? AppColors.urgentDestructive : AppColors.textMutedGrey;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
@@ -227,7 +236,8 @@ class _CommentTile extends StatelessWidget {
                   children: [
                     Text(
                       comment.authorName,
-                      style: AppTypography.fieldLabel.copyWith(fontWeight: FontWeight.w700),
+                      style: AppTypography.fieldLabel
+                          .copyWith(fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(width: AppSpacing.xs),
                     Text(
@@ -259,7 +269,8 @@ class _CommentInput extends StatelessWidget {
         Expanded(
           child: TextField(
             controller: controller,
-            decoration: InputDecoration(hintText: context.l10n.commentInputHint),
+            decoration:
+                InputDecoration(hintText: context.l10n.commentInputHint),
             enabled: !isPosting,
           ),
         ),

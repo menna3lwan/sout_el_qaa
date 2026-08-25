@@ -15,7 +15,8 @@ final class UserModel extends User {
         id: json['id'] as String,
         username: json['username'] as String,
         email: json['email'] as String,
-        displayName: json['displayName'] as String? ?? json['username'] as String,
+        displayName:
+            json['displayName'] as String? ?? json['username'] as String,
         avatarId: json['avatarId'] as String?,
         bio: json['bio'] as String?,
       );
@@ -38,7 +39,8 @@ final class AuthResponseModel {
     required this.refreshToken,
   });
 
-  factory AuthResponseModel.fromJson(Map<String, dynamic> json) => AuthResponseModel(
+  factory AuthResponseModel.fromJson(Map<String, dynamic> json) =>
+      AuthResponseModel(
         user: UserModel.fromJson(json['user'] as Map<String, dynamic>),
         accessToken: json['accessToken'] as String,
         refreshToken: json['refreshToken'] as String,

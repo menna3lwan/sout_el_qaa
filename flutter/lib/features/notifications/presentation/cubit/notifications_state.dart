@@ -19,7 +19,8 @@ final class NotificationsLoading extends NotificationsState {
 }
 
 final class NotificationsLoaded extends NotificationsState {
-  const NotificationsLoaded({required this.notifications, this.filter = NotificationsFilter.all});
+  const NotificationsLoaded(
+      {required this.notifications, this.filter = NotificationsFilter.all});
 
   final List<AppNotification> notifications;
   final NotificationsFilter filter;
@@ -29,16 +30,20 @@ final class NotificationsLoaded extends NotificationsState {
         NotificationsFilter.complaints => notifications
             .where(
               (n) =>
-                  n.type == NotificationType.statusUpdate || n.type == NotificationType.newComment,
+                  n.type == NotificationType.statusUpdate ||
+                  n.type == NotificationType.newComment,
             )
             .toList(),
-        NotificationsFilter.reactions =>
-          notifications.where((n) => n.type == NotificationType.reaction).toList(),
-        NotificationsFilter.general =>
-          notifications.where((n) => n.type == NotificationType.general).toList(),
+        NotificationsFilter.reactions => notifications
+            .where((n) => n.type == NotificationType.reaction)
+            .toList(),
+        NotificationsFilter.general => notifications
+            .where((n) => n.type == NotificationType.general)
+            .toList(),
       };
 
-  NotificationsLoaded copyWith({List<AppNotification>? notifications, NotificationsFilter? filter}) {
+  NotificationsLoaded copyWith(
+      {List<AppNotification>? notifications, NotificationsFilter? filter}) {
     return NotificationsLoaded(
       notifications: notifications ?? this.notifications,
       filter: filter ?? this.filter,

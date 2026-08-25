@@ -37,7 +37,8 @@ final class PermissionServiceImpl implements PermissionService {
       };
 
   AppPermissionStatus _mapStatus(PermissionStatus status) => switch (status) {
-        PermissionStatus.granted || PermissionStatus.limited =>
+        PermissionStatus.granted ||
+        PermissionStatus.limited =>
           AppPermissionStatus.granted,
         PermissionStatus.permanentlyDenied =>
           AppPermissionStatus.permanentlyDenied,

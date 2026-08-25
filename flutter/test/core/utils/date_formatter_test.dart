@@ -5,7 +5,8 @@ void main() {
   final referenceNow = DateTime(2026, 8, 24, 12, 0, 0);
 
   group('DateFormatter.relative — matches Figma-confirmed copy exactly', () {
-    test('"منذ ساعتين" for a 2-hour-old complaint (Complaints List example)', () {
+    test('"منذ ساعتين" for a 2-hour-old complaint (Complaints List example)',
+        () {
       final twoHoursAgo = referenceNow.subtract(const Duration(hours: 2));
       expect(
         DateFormatter.relative(twoHoursAgo, now: referenceNow),
@@ -13,7 +14,8 @@ void main() {
       );
     });
 
-    test('"منذ 3 ايام" for a 3-day-old complaint (Complaints List example)', () {
+    test('"منذ 3 ايام" for a 3-day-old complaint (Complaints List example)',
+        () {
       final threeDaysAgo = referenceNow.subtract(const Duration(days: 3));
       expect(
         DateFormatter.relative(threeDaysAgo, now: referenceNow),
@@ -21,7 +23,8 @@ void main() {
       );
     });
 
-    test('"منذ اسبوعين" for a 2-week-old complaint (Complaints List example)', () {
+    test('"منذ اسبوعين" for a 2-week-old complaint (Complaints List example)',
+        () {
       final twoWeeksAgo = referenceNow.subtract(const Duration(days: 14));
       expect(
         DateFormatter.relative(twoWeeksAgo, now: referenceNow),
@@ -38,7 +41,8 @@ void main() {
 
     test('singular minute has no leading number', () {
       final oneMinuteAgo = referenceNow.subtract(const Duration(minutes: 1));
-      expect(DateFormatter.relative(oneMinuteAgo, now: referenceNow), 'منذ دقيقة');
+      expect(
+          DateFormatter.relative(oneMinuteAgo, now: referenceNow), 'منذ دقيقة');
     });
 
     test('plural minutes include the count', () {
@@ -55,7 +59,8 @@ void main() {
     });
 
     test('59 minutes stays in the minutes bucket, not hours', () {
-      final fiftyNineMinutesAgo = referenceNow.subtract(const Duration(minutes: 59));
+      final fiftyNineMinutesAgo =
+          referenceNow.subtract(const Duration(minutes: 59));
       expect(
         DateFormatter.relative(fiftyNineMinutesAgo, now: referenceNow),
         'منذ 59 دقايق',
