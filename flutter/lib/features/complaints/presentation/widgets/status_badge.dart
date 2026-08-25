@@ -3,9 +3,27 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
 
 /// Unified complaint lifecycle (3 stages confirmed from Figma, PLAN.md sections 3.5/3.8); an enum rather than a String to prevent typos/invalid states — mapping to the backend's slug happens in each feature's own data layer (Mapper), not here.
 enum ComplaintStatus { received, inReview, resolved }
+
+/// The one place [ComplaintStatus] maps to localized text — [StatusBadge], [ComplaintStatusStepper],
+/// [ComplaintListCard], the details page, and the map's marker sheet all show the same 3 labels, so
+/// they all call this instead of five separate switch statements drifting apart.
+String complaintStatusLabel(BuildContext context, ComplaintStatus status) => switch (status) {
+      ComplaintStatus.received => context.l10n.statusReceivedLabel,
+      ComplaintStatus.inReview => context.l10n.statusInReviewLabel,
+      ComplaintStatus.resolved => context.l10n.statusResolvedLabel,
+    };
+
+/// [StatusBadge] and the Map tab's markers (features/map) both color-code by status — shared here
+/// instead of each owning its own switch.
+Color complaintStatusColor(ComplaintStatus status) => switch (status) {
+      ComplaintStatus.received => AppColors.statusReceivedChip,
+      ComplaintStatus.inReview => AppColors.statusInProgressChip,
+      ComplaintStatus.resolved => AppColors.statusResolvedChip,
+    };
 
 /// Solid-color chip for complaint status — corrected after the real Figma review (24 Aug 2026): solid background + white text (not the previously assumed soft-tint), with different colors than before ("in progress" is orange #F77F00, "resolved" is navy #002960, previously wrongly assumed green); [Requires Confirmation] no real "received" chip example was found in the reviewed sample (placeholder gray for now), and the final ARB wording for [label] is still open since Figma itself uses two different phrasings for "in review" across screens.
 class StatusBadge extends StatelessWidget {
@@ -13,12 +31,6 @@ class StatusBadge extends StatelessWidget {
 
   final ComplaintStatus status;
   final String label;
-
-  Color get _backgroundColor => switch (status) {
-        ComplaintStatus.received => AppColors.statusReceivedChip,
-        ComplaintStatus.inReview => AppColors.statusInProgressChip,
-        ComplaintStatus.resolved => AppColors.statusResolvedChip,
-      };
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +40,7 @@ class StatusBadge extends StatelessWidget {
         vertical: AppSpacing.xs,
       ),
       decoration: BoxDecoration(
-        color: _backgroundColor,
+        color: complaintStatusColor(status),
         borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
         boxShadow: const [
           BoxShadow(
