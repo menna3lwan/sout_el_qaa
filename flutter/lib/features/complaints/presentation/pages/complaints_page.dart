@@ -11,6 +11,7 @@ import '../../../../core/widgets/empty_view.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/filter_pill_tabs.dart';
 import '../../../../core/widgets/loading_view.dart';
+import '../../../../core/widgets/qaa_avatar.dart';
 import '../cubit/complaints_cubit.dart';
 import '../cubit/complaints_state.dart';
 import '../widgets/complaint_list_card.dart';
@@ -38,7 +39,20 @@ class _ComplaintsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.navComplaints)),
+      appBar: AppBar(
+        title: Text(context.l10n.navComplaints),
+        actions: const [
+          // The header avatar Figma shows here too (node 33:663) — same bundled asset as every
+          // other screen (single demo resident, not a per-user lookup).
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+            child: QaaAvatar(
+              assetPath: 'assets/images/characters/spongebob_avatar.jpg',
+              size: 36,
+            ),
+          ),
+        ],
+      ),
       body: BlocBuilder<ComplaintsCubit, ComplaintsState>(
         builder: (context, state) {
           final selectedFilter = switch (state) {

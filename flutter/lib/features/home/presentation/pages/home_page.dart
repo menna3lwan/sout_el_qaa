@@ -10,6 +10,7 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/message_key_resolver.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/character_avatar_assets.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/loading_view.dart';
 import '../../../../core/widgets/qaa_avatar.dart';
@@ -90,11 +91,30 @@ class _HomeContent extends StatelessWidget {
                         CategoryChip(category: state.categories[index]),
                   ),
                 ),
-                const SizedBox(height: AppSpacing.lg),
-                AppButton(
-                  label: context.l10n.homeSubmitComplaintCta,
-                  icon: Icons.add_circle_outline,
-                  onPressed: () => context.push(RoutePaths.createComplaint),
+                const SizedBox(height: AppSpacing.xl),
+                // The CTA mascot (Figma node 33:21's "image 4") peeks above the button's top-start
+                // corner — a Stack + Positioned overlay so the button itself keeps its normal size
+                // and tap target.
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    AppButton(
+                      label: context.l10n.homeSubmitComplaintCta,
+                      icon: Icons.add_circle_outline,
+                      onPressed: () => context.push(RoutePaths.createComplaint),
+                    ),
+                    Positioned(
+                      top: -28,
+                      left: 8,
+                      child: IgnorePointer(
+                        child: Image.asset(
+                          'assets/images/characters/spongebob_cta_mascot.png',
+                          width: 56,
+                          height: 56,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 _SectionHeader(
@@ -161,7 +181,10 @@ class _Header extends StatelessWidget {
       ),
       child: Row(
         children: [
-          QaaAvatar(displayName: user.displayName),
+          QaaAvatar(
+            assetPath: characterAvatarAsset(user.displayName),
+            displayName: user.displayName,
+          ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(

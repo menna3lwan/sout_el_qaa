@@ -9,12 +9,14 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/message_key_resolver.dart';
+import '../../../../core/widgets/character_avatar_assets.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/loading_view.dart';
 import '../../../../core/widgets/qaa_avatar.dart';
 import '../../domain/entities/comment.dart';
 import '../cubit/complaint_details_cubit.dart';
 import '../cubit/complaint_details_state.dart';
+import '../widgets/complaint_scene_assets.dart';
 import '../widgets/status_badge.dart';
 
 /// New screen (not present as a stub anywhere before this pass) implementing Figma node 33:518 —
@@ -53,7 +55,21 @@ class _ComplaintDetailsViewState extends State<_ComplaintDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.detailsTitle)),
+      appBar: AppBar(
+        title: Text(context.l10n.detailsTitle),
+        actions: const [
+          // The header avatar every other screen shows (Figma node 33:518) — this app has a single
+          // demo resident (SpongeBob), so it's the same bundled asset used everywhere else, not a
+          // per-user lookup.
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+            child: QaaAvatar(
+              assetPath: 'assets/images/characters/spongebob_avatar.jpg',
+              size: 36,
+            ),
+          ),
+        ],
+      ),
       body: BlocBuilder<ComplaintDetailsCubit, ComplaintDetailsState>(
         builder: (context, state) {
           return switch (state) {
@@ -82,27 +98,40 @@ class _DetailsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final complaint = state.complaint;
+    // A real resident-uploaded photo (complaint.mediaUrls) always takes precedence; the bundled
+    // Figma-sourced hero photo only fills in for complaints that have one and no upload yet.
+    final heroAsset = complaintHeroAsset(complaint.id);
     final hasMedia = complaint.mediaUrls.isNotEmpty;
+    final showPhoto = hasMedia || heroAsset != null;
 
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.md),
       children: [
-        if (hasMedia)
+        if (showPhoto)
           ClipRRect(
             borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
             child: AspectRatio(
               aspectRatio: 16 / 9,
-              child: CachedNetworkImage(
-                imageUrl: complaint.mediaUrls.first,
-                fit: BoxFit.cover,
-                errorWidget: (_, __, ___) => const ColoredBox(
-                  color: AppColors.surfaceIconCircle,
-                  child: Icon(Icons.image_not_supported_outlined),
-                ),
-              ),
+              child: hasMedia
+                  ? CachedNetworkImage(
+                      imageUrl: complaint.mediaUrls.first,
+                      fit: BoxFit.cover,
+                      errorWidget: (_, __, ___) => const ColoredBox(
+                        color: AppColors.surfaceIconCircle,
+                        child: Icon(Icons.image_not_supported_outlined),
+                      ),
+                    )
+                  : Image.asset(
+                      heroAsset!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const ColoredBox(
+                        color: AppColors.surfaceIconCircle,
+                        child: Icon(Icons.image_not_supported_outlined),
+                      ),
+                    ),
             ),
           ),
-        if (hasMedia) const SizedBox(height: AppSpacing.md),
+        if (showPhoto) const SizedBox(height: AppSpacing.md),
         Row(
           children: [
             Expanded(
@@ -226,7 +255,11 @@ class _CommentTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          QaaAvatar(displayName: comment.authorName, size: 32),
+          QaaAvatar(
+            assetPath: characterAvatarAsset(comment.authorName),
+            displayName: comment.authorName,
+            size: 32,
+          ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(

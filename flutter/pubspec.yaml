@@ -92,4 +92,10 @@ flutter:
   uses-material-design: true
   generate: true # Required to generate l10n files from ARB (l10n.yaml)
 
-  # assets/fonts are added in later branches once real images/fonts are actually needed — no placeholder assets added here without real use (PLAN.md section 17: no speculative additions without a clear, near-term reason).
+  # Figma Assets Extraction pass (2026-08-25): raster assets actually present in the Figma file
+  # (character avatars, complaint scene photos, the location map illustration), extracted and
+  # organized by content type. Fonts are still added later once real font files are bundled.
+  assets:
+    - assets/images/characters/
+    - assets/images/complaints/
+    - assets/images/map/

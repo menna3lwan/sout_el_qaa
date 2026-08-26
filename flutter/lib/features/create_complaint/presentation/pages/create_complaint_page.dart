@@ -332,6 +332,18 @@ class _LocationStep extends StatelessWidget {
           onChanged: cubit.updateLocationLabel,
         ),
         const SizedBox(height: AppSpacing.md),
+        // Static illustrated map preview (Figma node 33:210's "Image" placeholder, section 3.6) —
+        // decorative context for the button below, not tied to the actually-picked location.
+        ClipRRect(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+          child: Image.asset(
+            'assets/images/map/bikini_bottom_map.png',
+            width: double.infinity,
+            height: 90,
+            fit: BoxFit.cover,
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
         OutlinedButton.icon(
           onPressed: () async {
             final picked = await Navigator.of(context).push<LatLng>(

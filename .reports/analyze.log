@@ -1,0 +1,130 @@
+Analyzing flutter...                                            
+
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/core/di/injection.dart:89:65 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/core/di/injection.dart:93:68 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/core/di/injection.dart:111:68 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/core/di/injection.dart:123:68 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/core/di/injection.dart:127:71 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/core/di/injection.dart:136:63 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/core/errors/failures.dart:50:60 • require_trailing_commas
+   info • The value of the argument is redundant because it matches the default value. Try removing the argument • lib/core/network/dio_client.dart:30:26 • avoid_redundant_argument_values
+   info • The value of the argument is redundant because it matches the default value. Try removing the argument • lib/core/network/dio_client.dart:32:25 • avoid_redundant_argument_values
+   info • The value of the argument is redundant because it matches the default value. Try removing the argument • lib/core/network/dio_client.dart:33:18 • avoid_redundant_argument_values
+   info • The value of the argument is redundant because it matches the default value. Try removing the argument • lib/core/network/dio_client.dart:34:20 • avoid_redundant_argument_values
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/core/network/dio_exception_guard.dart:18:65 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/core/utils/date_formatter.dart:30:61 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/core/utils/validators.dart:8:46 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/data/datasources/auth_remote_data_source.dart:10:55 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/data/datasources/auth_remote_data_source.dart:27:55 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/data/datasources/auth_remote_data_source.dart:60:62 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/data/repositories/auth_repository_impl.dart:15:59 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/data/repositories/auth_repository_impl.dart:42:78 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/data/repositories/auth_repository_impl.dart:56:65 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/cubit/auth_cubit.dart:22:71 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/cubit/auth_cubit.dart:22:72 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/cubit/auth_cubit.dart:31:75 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/cubit/auth_cubit.dart:55:71 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/cubit/auth_cubit.dart:55:72 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/cubit/auth_cubit.dart:68:75 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/login_page.dart:60:75 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/login_page.dart:60:76 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/login_page.dart:75:67 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/login_page.dart:97:65 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/login_page.dart:108:68 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/login_page.dart:124:61 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/register_page.dart:64:75 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/register_page.dart:64:76 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/register_page.dart:82:68 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/register_page.dart:93:65 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/register_page.dart:104:68 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/register_page.dart:115:75 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/auth/presentation/pages/register_page.dart:133:61 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/data/datasources/complaint_remote_data_source.dart:16:49 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/data/datasources/complaint_remote_data_source.dart:22:56 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/data/datasources/complaint_remote_data_source.dart:36:63 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/data/datasources/complaint_remote_data_source.dart:66:49 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/data/datasources/complaint_remote_data_source.dart:138:77 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/data/datasources/complaint_remote_data_source.dart:146:79 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/data/datasources/complaint_remote_data_source.dart:154:66 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/data/datasources/complaint_remote_data_source.dart:157:72 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/data/models/category_model.dart:5:70 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/data/repositories/complaint_repository_impl.dart:87:78 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/domain/repositories/complaint_repository.dart:21:49 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/cubit/complaint_details_cubit.dart:10:66 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/cubit/complaint_details_cubit.dart:33:73 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/pages/complaint_details_page.dart:150:57 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/pages/complaint_details_page.dart:153:79 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/pages/complaint_details_page.dart:155:46 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/pages/complaint_details_page.dart:167:46 • require_trailing_commas
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • lib/features/complaints/presentation/pages/complaint_details_page.dart:188:13 • prefer_const_constructors
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/pages/complaint_details_page.dart:189:57 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/pages/complaint_details_page.dart:192:46 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/pages/complaint_details_page.dart:202:46 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/pages/complaint_details_page.dart:208:77 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/widgets/category_chip.dart:14:78 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/widgets/category_chip.dart:32:63 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/widgets/category_chip.dart:42:60 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/widgets/complaint_list_card.dart:69:57 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/widgets/complaint_list_card.dart:81:46 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/widgets/complaint_list_card.dart:88:57 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/widgets/complaint_list_card.dart:91:46 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/widgets/complaint_list_card.dart:94:57 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/widgets/complaint_list_card.dart:97:46 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/complaints/presentation/widgets/complaint_list_card.dart:148:61 • require_trailing_commas
+   info • The value of the argument is redundant because it matches the default value. Try removing the argument • lib/features/complaints/presentation/widgets/complaint_list_card.dart:152:71 • avoid_redundant_argument_values
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:33:64 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:33:65 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:36:68 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:36:69 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:42:77 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:47:35 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:58:64 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:58:65 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:66:72 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:70:74 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:76:65 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:76:66 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:84:77 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:84:78 • require_trailing_commas
+   info • Use 'const' for final variables initialized to a constant value. Try replacing 'final' with 'const' • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:88:5 • prefer_const_declarations
+   info • Use 'const' for final variables initialized to a constant value. Try replacing 'final' with 'const' • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:102:5 • prefer_const_declarations
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:106:72 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:106:73 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:133:77 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:133:78 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:166:47 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/cubit/create_complaint_cubit.dart:170:79 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/pages/create_complaint_page.dart:50:75 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/pages/create_complaint_page.dart:50:76 • require_trailing_commas
+   info • Use 'const' for final variables initialized to a constant value. Try replacing 'final' with 'const' • lib/features/create_complaint/presentation/pages/create_complaint_page.dart:107:5 • prefer_const_declarations
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/pages/create_complaint_page.dart:233:61 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/pages/create_complaint_page.dart:287:47 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/pages/create_complaint_page.dart:327:47 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/pages/create_complaint_page.dart:351:61 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/pages/create_complaint_page.dart:414:47 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/pages/create_complaint_page.dart:479:62 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/create_complaint/presentation/widgets/location_picker_page.dart:75:59 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/home/presentation/pages/home_page.dart:81:55 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/home/presentation/pages/home_page.dart:138:54 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/home/presentation/pages/home_page.dart:142:52 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/home/presentation/pages/home_page.dart:199:45 • require_trailing_commas
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • lib/features/map/presentation/pages/map_page.dart:56:26 • prefer_const_constructors
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/map/presentation/pages/map_page.dart:99:75 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/map/presentation/pages/map_page.dart:116:78 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/map/presentation/pages/map_page.dart:120:51 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/notifications/data/datasources/notification_remote_data_source.dart:28:9 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/notifications/data/repositories/notification_repository_impl.dart:18:34 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/notifications/domain/repositories/notification_repository.dart:8:30 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/notifications/presentation/cubit/notifications_cubit.dart:61:9 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/notifications/presentation/cubit/notifications_state.dart:23:74 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/notifications/presentation/cubit/notifications_state.dart:46:73 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/notifications/presentation/pages/notifications_page.dart:110:61 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/notifications/presentation/widgets/notification_card.dart:15:66 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • lib/features/profile/presentation/pages/profile_page.dart:97:54 • require_trailing_commas
+   info • Sort directive sections alphabetically. Try sorting the directives • lib/features/splash/presentation/pages/splash_page.dart:4:1 • directives_ordering
+   info • The value of the argument is redundant because it matches the default value. Try removing the argument • test/core/utils/date_formatter_test.dart:5:53 • avoid_redundant_argument_values
+   info • Missing a required trailing comma. Try adding a trailing comma • test/core/utils/date_formatter_test.dart:45:79 • require_trailing_commas
+   info • Missing a required trailing comma. Try adding a trailing comma • test/core/utils/validators_test.dart:59:77 • require_trailing_commas
+
+125 issues found. (ran in 4.0s)
+___TASK_DONE___

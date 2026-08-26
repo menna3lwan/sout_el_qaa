@@ -9,6 +9,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/message_key_resolver.dart';
+import '../../../../core/widgets/character_avatar_assets.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/loading_view.dart';
 import '../../../../core/widgets/qaa_avatar.dart';
@@ -68,8 +69,10 @@ class _ProfileContent extends StatelessWidget {
           child: Column(
             children: [
               QaaAvatar(
-                  displayName: state.user.displayName,
-                  variant: QaaAvatarVariant.profile),
+                assetPath: characterAvatarAsset(state.user.displayName),
+                displayName: state.user.displayName,
+                variant: QaaAvatarVariant.profile,
+              ),
               const SizedBox(height: AppSpacing.md),
               Text(state.user.displayName, style: AppTypography.profileName),
               if (state.user.bio != null && state.user.bio!.isNotEmpty)

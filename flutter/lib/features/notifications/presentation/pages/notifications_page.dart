@@ -11,6 +11,7 @@ import '../../../../core/widgets/empty_view.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/filter_pill_tabs.dart';
 import '../../../../core/widgets/loading_view.dart';
+import '../../../../core/widgets/qaa_avatar.dart';
 import '../cubit/notifications_cubit.dart';
 import '../cubit/notifications_state.dart';
 import '../widgets/notification_card.dart';
@@ -41,6 +42,16 @@ class _NotificationsView extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.l10n.notificationsTitle),
         actions: [
+          // The header avatar every other screen shows (Figma node 33:936) — this app has a single
+          // demo resident (SpongeBob), so it's the same bundled asset used everywhere else, not a
+          // per-user lookup.
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+            child: QaaAvatar(
+              assetPath: 'assets/images/characters/spongebob_avatar.jpg',
+              size: 36,
+            ),
+          ),
           BlocBuilder<NotificationsCubit, NotificationsState>(
             builder: (context, state) {
               if (state is! NotificationsLoaded) return const SizedBox.shrink();

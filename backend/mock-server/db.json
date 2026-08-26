@@ -105,7 +105,7 @@
       "lat": 30.05,
       "lng": 31.24,
       "views": 88,
-      "likes": 40,
+      "likes": 41,
       "mediaUrls": [],
       "authorId": "u1",
       "createdAt": "2026-08-21T10:00:00.000Z"
@@ -221,6 +221,22 @@
       "mediaUrls": [],
       "authorId": "u6",
       "createdAt": "2026-08-20T10:00:00.000Z"
+    },
+    {
+      "title": "شكوي ساندي",
+      "description": "القاع",
+      "categoryId": "water",
+      "severity": "medium",
+      "status": "received",
+      "location": "",
+      "lat": 30.0444,
+      "lng": 31.2357,
+      "views": 0,
+      "likes": 0,
+      "mediaUrls": [],
+      "authorId": "u1",
+      "createdAt": "2026-08-26T00:36:35.143500",
+      "id": "BoVc93Z"
     }
   ],
   "comments": [
