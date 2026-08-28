@@ -41,8 +41,9 @@ class NotificationCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.glassOverlayNotificationCard,
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+          // Figma node 33:936's cards use a 2px border, not the 1.5px this held before this pass.
           border:
-              Border.all(color: AppColors.notificationCardAccent, width: 1.5),
+              Border.all(color: AppColors.notificationCardAccent, width: 2),
         ),
         child: Row(
           children: [
@@ -66,7 +67,11 @@ class NotificationCard extends StatelessWidget {
                 children: [
                   Text(
                     notification.title,
-                    style: AppTypography.fieldLabel.copyWith(
+                    // Figma node 33:936's card titles are Cairo Bold 18px, color
+                    // notificationCardAccent — this previously reused [AppTypography.fieldLabel]
+                    // (14px, textPrimaryDark), a real size/color mismatch. The read/unread weight
+                    // toggle itself is unchanged business behavior.
+                    style: AppTypography.notificationCardTitle.copyWith(
                       fontWeight: notification.isRead
                           ? FontWeight.w400
                           : FontWeight.w700,

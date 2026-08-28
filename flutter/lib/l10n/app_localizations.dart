@@ -338,11 +338,23 @@ abstract class AppLocalizations {
   /// **'قدم شكوى جديدة'**
   String get homeSubmitComplaintCta;
 
+  /// [New, Full Audit & Sync pass 27 Aug 2026] نص الـsearch bar الجديد اللي ظهر في الفيجما المحدّثة — مش موجود في التصميم القديم
+  ///
+  /// In ar, this message translates to:
+  /// **'إبحث عن شكوى...'**
+  String get homeSearchHint;
+
   /// No description provided for @homeTrendingHeading.
   ///
   /// In ar, this message translates to:
   /// **'أكثر الشكاوى تفاعلاً'**
   String get homeTrendingHeading;
+
+  /// [New] عنوان فرعي جديد تحت "أكثر الشكاوى تفاعلاً" — مؤكد من الفيجما المحدّثة
+  ///
+  /// In ar, this message translates to:
+  /// **'شوف إيه اللي شاغل سكان القاع'**
+  String get homeTrendingSubheading;
 
   /// No description provided for @homeViewAll.
   ///
@@ -350,10 +362,22 @@ abstract class AppLocalizations {
   /// **'عرض الكل'**
   String get homeViewAll;
 
-  /// No description provided for @homeRecentActivityHeading.
+  /// [New] زرار جديد على كارت الشكوى الرائجة في الرئيسية — بيودّي لتفاصيل الشكوى بدل ما يعدّل الحالة من الكارت نفسه
   ///
   /// In ar, this message translates to:
-  /// **'نشاطاتك الأخيرة'**
+  /// **'عندي نفس المشكله'**
+  String get homeSameProblemCta;
+
+  /// [New] عدّاد "كام واحد بلّغ عن نفس المشكلة" — بيستخدم نفس قيمة likes الموجودة لحد ما يتوفر حقل مخصص من الباك إند
+  ///
+  /// In ar, this message translates to:
+  /// **'+{count}'**
+  String homeSameProblemCount(int count);
+
+  /// [Updated] الفيجما المحدّثة غيّرت العنوان من "نشاطاتك الأخيرة" لـ"شكاوى محتاجة صوتك" — النص اتحدّث هنا، لكن مصدر البيانات (recentActivity) فضل زي ما هو لحد ما يتأكد إن المعنى اتغيّر فعلاً مش بس النص (انظر التقرير)
+  ///
+  /// In ar, this message translates to:
+  /// **'شكاوى محتاجة صوتك'**
   String get homeRecentActivityHeading;
 
   /// No description provided for @homeUrgentBadge.
@@ -464,6 +488,12 @@ abstract class AppLocalizations {
   /// **'تقديم شكوى'**
   String get createComplaintTitle;
 
+  /// [New] عنوان الـAppBar في خطوتي المراجعة والنجاح — الفيجما بتستخدم عنوان أقصر من عنوان خطوة النموذج الأولى
+  ///
+  /// In ar, this message translates to:
+  /// **'تقديم شكوي'**
+  String get createComplaintTitleShort;
+
   /// No description provided for @stepFillTitle.
   ///
   /// In ar, this message translates to:
@@ -566,22 +596,52 @@ abstract class AppLocalizations {
   /// **'إرسال الشكوة'**
   String get submitComplaintButton;
 
-  /// No description provided for @successTitle.
+  /// [New] عنوان خطوة المراجعة الجديدة (خطوة 2 من 3) — الفيجما المحدّثة بقت 3 خطوات مش 4: (1) نموذج موحّد، (2) مراجعة، (3) نجاح — بدل الـ4 خطوات المنفصلة القديمة (بيانات/نوع/موقع/خطورة)
   ///
   /// In ar, this message translates to:
-  /// **'تم إرسال شكواك!'**
+  /// **'راجع شكوتك قبل الإرسال'**
+  String get createComplaintReviewTitle;
+
+  /// No description provided for @createComplaintReviewSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتأكد إن كل حاجة تمام قبل ما توصل لسكان القاع'**
+  String get createComplaintReviewSubtitle;
+
+  /// No description provided for @createComplaintCancelButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الشكوى'**
+  String get createComplaintCancelButton;
+
+  /// No description provided for @createComplaintEditButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل الشكوى'**
+  String get createComplaintEditButton;
+
+  /// [Updated] نص مؤكد من الفيجما المحدّثة، بدل النص القديم
+  ///
+  /// In ar, this message translates to:
+  /// **'شكوتك وصلت للقاع! 🎉'**
   String get successTitle;
 
-  /// No description provided for @successMessage.
+  /// [Updated] نص مؤكد من الفيجما المحدّثة
   ///
   /// In ar, this message translates to:
-  /// **'هنراجعها ونحدثك أول بأول يا ساكن القاع 🐠'**
+  /// **'تم إرسال شكوتك بنجاح، وشفيق استلمها 😂'**
   String get successMessage;
+
+  /// [New] زرار جديد على شاشة النجاح — بيودّي لتفاصيل الشكوى اللي اتقدمت
+  ///
+  /// In ar, this message translates to:
+  /// **'مشاهدة الشكوى'**
+  String get successViewComplaintButton;
 
   /// No description provided for @successBackToHomeButton.
   ///
   /// In ar, this message translates to:
-  /// **'الرجوع للرئيسية'**
+  /// **'العودة للرئيسية'**
   String get successBackToHomeButton;
 
   /// [Proposed P3] الشاشة دي مالهاش تصميم في الفيجما (الفريم فاضي)، التصميم من عندنا بنفس روح باقي الشاشات

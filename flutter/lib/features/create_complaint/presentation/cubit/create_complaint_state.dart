@@ -3,9 +3,16 @@ import 'package:equatable/equatable.dart';
 import '../../../complaints/domain/entities/category.dart';
 import '../../../complaints/domain/entities/complaint.dart';
 
-/// Steps confirmed by the flow in the brief: Fill -> Category -> Location -> Severity -> Submit ->
-/// Success (Figma node 33:210 only shows step 1 in detail — the rest are [Assumption A5], see report).
-enum CreateComplaintStep { fill, category, location, severity }
+/// [Updated, Full Audit & Sync pass, 27 Aug 2026] The redesigned Figma (nodes 33:210, 59:1207,
+/// 59:1389) replaced the old 4 field-group steps (Fill/Category/Location/Severity, each its own
+/// screen) with a 3-numbered-step flow whose UI is actually 2 pre-submission screens: (1) `form` —
+/// every field together on one screen — then (2) `review` — a read-only summary card with
+/// Edit/Cancel/Submit actions. The 3rd numbered step is Success, already modeled separately via
+/// [CreateComplaintStatus.success] below (unchanged) rather than as a third [CreateComplaintStep].
+/// Was 4 field-group values; the fields themselves (title/description/category/location/severity) and
+/// their validation rules are unchanged — only how they're grouped into screens changed (see
+/// [CreateComplaintCubit] in create_complaint_cubit.dart).
+enum CreateComplaintStep { form, review }
 
 /// [Initial]=[Editing] here (a fresh form and an in-progress one are the same shape, just empty) —
 /// the brief's "Initial/Editing/ValidationError/Submitting/Success/Failure" list maps onto one status
@@ -20,7 +27,7 @@ enum CreateComplaintStatus {
 
 final class CreateComplaintState extends Equatable {
   const CreateComplaintState({
-    this.step = CreateComplaintStep.fill,
+    this.step = CreateComplaintStep.form,
     this.status = CreateComplaintStatus.editing,
     this.title = '',
     this.description = '',
@@ -54,6 +61,17 @@ final class CreateComplaintState extends Equatable {
   final Complaint? createdComplaint;
 
   bool get hasLocation => lat != null && lng != null;
+
+  /// The selected [Category] entity, when [categories] has loaded and [categoryId] points at one of
+  /// them — used by the review step's preview card, which shows the category's display name/icon
+  /// rather than its raw id.
+  Category? get selectedCategory {
+    if (categoryId == null) return null;
+    for (final category in categories) {
+      if (category.id == categoryId) return category;
+    }
+    return null;
+  }
 
   CreateComplaintState copyWith({
     CreateComplaintStep? step,

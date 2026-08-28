@@ -137,13 +137,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeSubmitComplaintCta => 'قدم شكوى جديدة';
 
   @override
+  String get homeSearchHint => 'إبحث عن شكوى...';
+
+  @override
   String get homeTrendingHeading => 'أكثر الشكاوى تفاعلاً';
+
+  @override
+  String get homeTrendingSubheading => 'شوف إيه اللي شاغل سكان القاع';
 
   @override
   String get homeViewAll => 'عرض الكل';
 
   @override
-  String get homeRecentActivityHeading => 'نشاطاتك الأخيرة';
+  String get homeSameProblemCta => 'عندي نفس المشكله';
+
+  @override
+  String homeSameProblemCount(int count) {
+    return '+$count';
+  }
+
+  @override
+  String get homeRecentActivityHeading => 'شكاوى محتاجة صوتك';
 
   @override
   String get homeUrgentBadge => 'عاجل';
@@ -204,6 +218,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get createComplaintTitle => 'تقديم شكوى';
 
   @override
+  String get createComplaintTitleShort => 'تقديم شكوي';
+
+  @override
   String get stepFillTitle => 'بيانات الشكوى';
 
   @override
@@ -257,13 +274,29 @@ class AppLocalizationsAr extends AppLocalizations {
   String get submitComplaintButton => 'إرسال الشكوة';
 
   @override
-  String get successTitle => 'تم إرسال شكواك!';
+  String get createComplaintReviewTitle => 'راجع شكوتك قبل الإرسال';
 
   @override
-  String get successMessage => 'هنراجعها ونحدثك أول بأول يا ساكن القاع 🐠';
+  String get createComplaintReviewSubtitle =>
+      'اتأكد إن كل حاجة تمام قبل ما توصل لسكان القاع';
 
   @override
-  String get successBackToHomeButton => 'الرجوع للرئيسية';
+  String get createComplaintCancelButton => 'إلغاء الشكوى';
+
+  @override
+  String get createComplaintEditButton => 'تعديل الشكوى';
+
+  @override
+  String get successTitle => 'شكوتك وصلت للقاع! 🎉';
+
+  @override
+  String get successMessage => 'تم إرسال شكوتك بنجاح، وشفيق استلمها 😂';
+
+  @override
+  String get successViewComplaintButton => 'مشاهدة الشكوى';
+
+  @override
+  String get successBackToHomeButton => 'العودة للرئيسية';
 
   @override
   String get mapTitle => 'الخريطة';

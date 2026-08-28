@@ -7,7 +7,7 @@ import '../../domain/entities/category.dart';
 import '../../domain/entities/comment.dart';
 import '../../domain/entities/complaint.dart';
 import '../../domain/repositories/complaint_repository.dart';
-import '../../presentation/widgets/status_badge.dart' show ComplaintStatus;
+import '../../domain/entities/complaint_status.dart';
 import '../datasources/complaint_remote_data_source.dart';
 
 final class ComplaintRepositoryImpl implements ComplaintRepository {

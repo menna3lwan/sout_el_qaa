@@ -57,6 +57,11 @@
   ],
   "categories": [
     {
+      "id": "other",
+      "name": "أخر",
+      "iconKey": "other"
+    },
+    {
       "id": "water",
       "name": "مياه",
       "iconKey": "water_drop"

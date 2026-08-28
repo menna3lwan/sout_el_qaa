@@ -16,6 +16,7 @@ import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/loading_view.dart';
 import '../../../complaints/domain/entities/complaint.dart';
+import '../../../complaints/domain/entities/complaint_status.dart';
 import '../../../complaints/domain/repositories/complaint_repository.dart';
 import '../../../complaints/presentation/widgets/category_visuals.dart';
 import '../../../complaints/presentation/widgets/status_badge.dart';

@@ -4,9 +4,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
-
-/// Unified complaint lifecycle (3 stages confirmed from Figma, PLAN.md sections 3.5/3.8); an enum rather than a String to prevent typos/invalid states — mapping to the backend's slug happens in each feature's own data layer (Mapper), not here.
-enum ComplaintStatus { received, inReview, resolved }
+import '../../domain/entities/complaint_status.dart';
 
 /// The one place [ComplaintStatus] maps to localized text — [StatusBadge], [ComplaintStatusStepper],
 /// [ComplaintListCard], the details page, and the map's marker sheet all show the same 3 labels, so
@@ -90,8 +88,12 @@ class ComplaintStatusStepper extends StatelessWidget {
             final isReached = index < _reachedStepCount;
             return Expanded(
               child: Container(
-                margin: EdgeInsets.only(left: index == 0 ? 0 : AppSpacing.xs),
-                height: AppSpacing.xs,
+                margin: EdgeInsetsDirectional.only(
+                    start: index == 0 ? 0 : AppSpacing.xs),
+                // Figma node 33:623 (the stepper's connecting line, fresh fetch of Complaint Details,
+                // node 33:518) measures 8px tall, not the 4px [AppSpacing.xs] this held before this
+                // pass — that's [AppSpacing.sm].
+                height: AppSpacing.sm,
                 decoration: BoxDecoration(
                   color: isReached
                       ? AppColors.statusStepReached

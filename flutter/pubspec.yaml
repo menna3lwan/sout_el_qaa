@@ -42,10 +42,16 @@ dependencies:
   fpdart: ^1.1.0
 
   # Local Storage
+  # [Removed, Full Application Review pass, 28 Aug 2026] shared_preferences had zero usage anywhere
+  # in lib/ (confirmed via a full-tree search) and no doc comment anywhere marking it as prepared for
+  # near-term use, unlike freezed_annotation/json_annotation below — SecureStorageService (tokens,
+  # user id) uses flutter_secure_storage exclusively, and LocalCacheService (PLAN.md section 1.8: "simple
+  # flags belong in shared_preferences, not [secure storage]") never actually got a caller needing that.
+  # Removed rather than left in "for later" (Important Rule #5: no unnecessary packages); trivial to
+  # re-add the one line once a feature actually needs a simple non-sensitive flag.
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_secure_storage: ^9.2.2
-  shared_preferences: ^2.3.2
 
   # Map & Location
   flutter_map: ^7.0.2
@@ -54,8 +60,13 @@ dependencies:
   permission_handler: ^11.3.1
 
   # Media
+  # [Removed, Full Application Review pass, 28 Aug 2026] flutter_image_compress had zero usage
+  # anywhere in lib/ (confirmed via a full-tree search) — attachPhoto() in CreateComplaintCubit
+  # uploads image_picker's raw file path as-is, with no compression step ever wired in. Removed
+  # rather than left "for later": an unused dependency in pubspec.yaml is exactly what Important
+  # Rule #5 ("no unnecessary packages") flags, and re-adding it costs one line whenever a real
+  # compression step is actually implemented.
   image_picker: ^1.1.2
-  flutter_image_compress: ^2.3.0
   cached_network_image: ^3.4.1
 
   # Localization

@@ -14,6 +14,7 @@ import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/loading_view.dart';
 import '../../../../core/widgets/qaa_avatar.dart';
 import '../../domain/entities/comment.dart';
+import '../../domain/entities/complaint.dart';
 import '../cubit/complaint_details_cubit.dart';
 import '../cubit/complaint_details_state.dart';
 import '../widgets/complaint_scene_assets.dart';
@@ -70,7 +71,23 @@ class _ComplaintDetailsViewState extends State<_ComplaintDetailsView> {
           ),
         ],
       ),
-      body: BlocBuilder<ComplaintDetailsCubit, ComplaintDetailsState>(
+      // [Fixed, Full Application Review pass, 28 Aug 2026] Was BlocBuilder — a failed comment post
+      // had no way to notify the user (see ComplaintDetailsLoaded.commentErrorMessageKey's doc
+      // comment). BlocConsumer adds exactly one side effect (the SnackBar below) without touching the
+      // existing builder logic.
+      body: BlocConsumer<ComplaintDetailsCubit, ComplaintDetailsState>(
+        listener: (context, state) {
+          if (state is ComplaintDetailsLoaded &&
+              state.commentErrorMessageKey != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  resolveMessageKey(context, state.commentErrorMessageKey!),
+                ),
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           return switch (state) {
             ComplaintDetailsLoading() => const LoadingView(),
@@ -132,17 +149,17 @@ class _DetailsBody extends StatelessWidget {
             ),
           ),
         if (showPhoto) const SizedBox(height: AppSpacing.md),
-        Row(
-          children: [
-            Expanded(
-              child: Text(complaint.title, style: AppTypography.complaintTitle),
-            ),
-            StatusBadge(
-              status: complaint.status,
-              label: complaintStatusLabel(context, complaint.status),
-            ),
-          ],
-        ),
+        // [Updated, Full Audit & Sync pass, 27 Aug 2026] Re-verified against a fresh fetch of Figma
+        // node 33:518: this page shows an "عاجل" badge above the title (node 33:597, high-severity
+        // complaints only — same signal as [ComplaintListCard.showUrgentBadge]) instead of a
+        // [StatusBadge] chip inline with it — status here is communicated by the stepper below
+        // instead, so the chip that duplicated it next to the title is dropped rather than kept
+        // unconditionally just because it existed before this pass.
+        if (complaint.severity == ComplaintSeverity.high) ...[
+          _DetailsUrgentBadge(label: context.l10n.homeUrgentBadge),
+          const SizedBox(height: AppSpacing.xs),
+        ],
+        Text(complaint.title, style: AppTypography.complaintTitle),
         const SizedBox(height: AppSpacing.xs),
         Row(
           children: [
@@ -163,15 +180,22 @@ class _DetailsBody extends StatelessWidget {
           resolvedLabel: context.l10n.statusResolvedLabel,
         ),
         const SizedBox(height: AppSpacing.lg),
+        // [Updated, Full Audit & Sync pass, 27 Aug 2026] [AppTypography.cardTitle]'s own doc comment
+        // already names "Details section heading" as one of its two real uses — this call site was
+        // using [AppTypography.sectionLabel] (a different family, Baloo Bhaijaan 2) instead, which a
+        // fresh fetch of node 33:646 confirms is wrong: Cairo Regular 16px, not Baloo 14px SemiBold.
         Text(context.l10n.detailsSectionHeading,
-            style: AppTypography.sectionLabel),
+            style: AppTypography.cardTitle),
         const SizedBox(height: AppSpacing.sm),
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
-            color: AppColors.surfaceOffWhite,
+            // Figma node 33:644 is a white card with a 2px borderNeutral border, not the borderless
+            // surfaceOffWhite tint this held before this pass.
+            color: AppColors.surfaceWhite,
             borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+            border: Border.all(color: AppColors.borderNeutral, width: 2),
           ),
           child: Text(complaint.description, style: AppTypography.bodyDefault),
         ),
@@ -207,6 +231,37 @@ class _DetailsBody extends StatelessWidget {
         _CommentInput(
             controller: commentController, isPosting: state.isPostingComment),
       ],
+    );
+  }
+}
+
+/// [New, Full Audit & Sync pass, 27 Aug 2026] Figma node 33:597's "عاجل" pill above the Complaint
+/// Details title — deliberately a small local widget rather than reusing [ComplaintListCard]'s private
+/// `_UrgentBadge`, since that one isn't a shared/exported component (each screen's small pill has so
+/// far been local to its own file) and the two use genuinely different colors and text styles: this one
+/// is [AppColors.urgentBadgeAltDetailPage] (already documented as this page's distinct red, see that
+/// token) with [AppTypography.fieldLabel]'s 14px/tracking-0.5 shape in white, not the list card's
+/// 10px [AppTypography.statusChipLabel].
+class _DetailsUrgentBadge extends StatelessWidget {
+  const _DetailsUrgentBadge({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.space12,
+        vertical: AppSpacing.xs,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.urgentBadgeAltDetailPage,
+        borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+      ),
+      child: Text(
+        label,
+        style: AppTypography.fieldLabel.copyWith(color: AppColors.textOnBrand),
+      ),
     );
   }
 }

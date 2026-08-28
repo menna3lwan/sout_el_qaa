@@ -2,8 +2,12 @@
 ///
 /// Moved here from core/constants/ (was AppStrings) and renamed ComplaintConstants because it knows complaint-domain details (categories, statuses, severities), not app-wide generic identifiers — same rule as StatusBadge (see presentation/widgets/status_badge.dart); still used by other features (Home, Create Complaint) since they work with the same entity, which doesn't mean it belongs back in core.
 abstract final class ComplaintConstants {
-  /// The 4 confirmed complaint categories from the Home screen text — [A4] open to expansion later (not a closed enum, or backend-driven).
+  /// The 5 confirmed complaint categories from the Home/Create-Complaint screens — [A4] open to
+  /// expansion later (not a closed enum, or backend-driven). 'other' added in the Full Audit & Sync
+  /// pass (27 Aug 2026): the redesigned Figma shows it as a 5th chip, first in display order, on both
+  /// Home's category grid and the Create Complaint form.
   static const List<String> confirmedCategorySlugs = [
+    'other',
     'water',
     'roads',
     'cleanliness',

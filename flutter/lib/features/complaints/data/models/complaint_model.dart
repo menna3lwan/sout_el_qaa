@@ -1,5 +1,5 @@
 import '../../domain/entities/complaint.dart';
-import '../../presentation/widgets/status_badge.dart' show ComplaintStatus;
+import '../../domain/entities/complaint_status.dart';
 
 /// JSON (de)serialization for [Complaint]; the mock server's slugs (see ComplaintConstants / server.js) map 1:1 to [ComplaintSeverity]/[ComplaintStatus] enum names, so `.name`/a switch is enough — no separate string-constant duplication.
 final class ComplaintModel extends Complaint {

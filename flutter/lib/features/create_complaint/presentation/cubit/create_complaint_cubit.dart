@@ -75,59 +75,56 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
   void removePhoto(String url) => emit(state.copyWith(
       mediaUrls: state.mediaUrls.where((u) => u != url).toList()));
 
-  /// Validates only the fields owned by the current step, then advances — so an error on step 3
-  /// (Location) doesn't block a user who hasn't reached it yet from filling in step 1.
+  /// [Updated, Full Audit & Sync pass, 27 Aug 2026] The redesigned Figma merged all 4 field groups
+  /// onto one `form` screen, so "advance past the form" now validates every field at once instead of
+  /// one group at a time — same validators, same required fields as before, just checked together
+  /// (the old per-step partial validation no longer maps onto a single-screen form). From `review`
+  /// there's nothing further to validate here; that step's own action is [submit], not [nextStep].
   void nextStep() {
-    final errors = _validateStep(state.step);
+    if (state.step != CreateComplaintStep.form) return;
+
+    final errors = _validateAll();
     if (errors.isNotEmpty) {
       emit(state.copyWith(
           status: CreateComplaintStatus.validationError, fieldErrors: errors));
       return;
     }
 
-    final steps = CreateComplaintStep.values;
-    final nextIndex = steps.indexOf(state.step) + 1;
-    if (nextIndex < steps.length) {
-      emit(
-        state.copyWith(
-          step: steps[nextIndex],
-          status: CreateComplaintStatus.editing,
-          fieldErrors: const {},
-        ),
-      );
-    }
+    emit(
+      state.copyWith(
+        step: CreateComplaintStep.review,
+        status: CreateComplaintStatus.editing,
+        fieldErrors: const {},
+      ),
+    );
   }
 
+  /// Used by the review step's "تعديل الشكوى" (Edit) action to go back to the form — same intent as
+  /// the old per-step Back button, just between 2 steps instead of 4 now.
   void previousStep() {
-    final steps = CreateComplaintStep.values;
-    final prevIndex = steps.indexOf(state.step) - 1;
-    if (prevIndex >= 0) {
+    if (state.step == CreateComplaintStep.review) {
       emit(state.copyWith(
-          step: steps[prevIndex], status: CreateComplaintStatus.editing));
+          step: CreateComplaintStep.form, status: CreateComplaintStatus.editing));
     }
   }
 
-  Map<String, String> _validateStep(CreateComplaintStep step) {
+  Map<String, String> _validateAll() {
     final errors = <String, String>{};
-    switch (step) {
-      case CreateComplaintStep.fill:
-        final titleError = Validators.required(state.title);
-        final descriptionError =
-            Validators.complaintDescription(state.description);
-        if (titleError != null) errors['title'] = titleError;
-        if (descriptionError != null) errors['description'] = descriptionError;
-      case CreateComplaintStep.category:
-        if (state.categoryId == null) errors['category'] = 'validationRequired';
-      case CreateComplaintStep.location:
-        if (!state.hasLocation) errors['location'] = 'validationRequired';
-      case CreateComplaintStep.severity:
-        if (state.severity == null) errors['severity'] = 'validationRequired';
-    }
+
+    final titleError = Validators.required(state.title);
+    final descriptionError = Validators.complaintDescription(state.description);
+    if (titleError != null) errors['title'] = titleError;
+    if (descriptionError != null) errors['description'] = descriptionError;
+
+    if (state.categoryId == null) errors['category'] = 'validationRequired';
+    if (!state.hasLocation) errors['location'] = 'validationRequired';
+    if (state.severity == null) errors['severity'] = 'validationRequired';
+
     return errors;
   }
 
   Future<void> submit() async {
-    final errors = _validateStep(CreateComplaintStep.severity);
+    final errors = _validateAll();
     if (errors.isNotEmpty) {
       emit(state.copyWith(
           status: CreateComplaintStatus.validationError, fieldErrors: errors));

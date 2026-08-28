@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../../../../core/constants/api_endpoints.dart';
 import '../../../../core/network/dio_exception_guard.dart';
-import '../../presentation/widgets/status_badge.dart' show ComplaintStatus;
+import '../../domain/entities/complaint_status.dart';
 import '../models/category_model.dart';
 import '../models/comment_model.dart';
 import '../models/complaint_map_pin_model.dart';

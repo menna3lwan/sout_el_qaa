@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/storage/secure_storage_service.dart';
+import '../../domain/entities/complaint_status.dart';
 import '../../domain/repositories/complaint_repository.dart';
-import '../widgets/status_badge.dart' show ComplaintStatus;
+import '../widgets/status_badge.dart';
 import 'complaints_state.dart';
 
 /// Drives the Complaints List screen (all 3 filter tabs); re-fetches from the server on every filter

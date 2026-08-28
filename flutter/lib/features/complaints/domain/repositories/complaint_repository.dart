@@ -1,10 +1,10 @@
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/errors/failures.dart';
-import '../../presentation/widgets/status_badge.dart' show ComplaintStatus;
 import '../entities/category.dart';
 import '../entities/comment.dart';
 import '../entities/complaint.dart';
+import '../entities/complaint_status.dart';
 
 /// Owns the whole "complaint" domain (PLAN.md section 18) — every feature that shows complaints
 /// (Home, Complaints List, Complaint Details, Map, Profile/My Complaints) depends on this one

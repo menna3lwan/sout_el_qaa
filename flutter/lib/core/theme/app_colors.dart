@@ -31,7 +31,11 @@ abstract final class AppColors {
   /// Border of all notification cards (Notifications).
   static const Color notificationCardAccent = Color(0xFF083B4C);
 
-  /// "View All" link text above the "Most Engaged Complaints" card (Home only).
+  /// [Superseded, Full Audit & Sync pass, 27 Aug 2026] Was "View All" link text above the trending
+  /// card (Home only) — re-verified against the redesigned Figma (node 33:92) as Cairo Bold + textFigmaPrimary
+  /// (#12324a), not this navy; [AppTypography.linkButtonBold] uses the corrected color and no longer
+  /// references this token. Kept (not deleted) since removing a token isn't required by the task and a
+  /// past/duplicate design value is still worth a documented record rather than silent deletion.
   static const Color homeLinkText = Color(0xFF396476);
 
   // ---------------------------------------------------------------------
@@ -160,4 +164,67 @@ abstract final class AppColors {
 
   static const Color error = Color(0xFFDC2626);
   static const Color divider = Color(0xFFE5E7EB);
+
+  // ---------------------------------------------------------------------
+  // Figma design tokens (Full Audit & Sync pass, 27 Aug 2026) — a new semantic
+  // layer that appeared in the redesigned Figma file, additive to the palette
+  // above. Header/nav/CTA colors above were re-verified against the fresh
+  // Figma export and are unchanged, so they're kept as-is; these are the
+  // genuinely NEW named tokens Figma now reports (`get_variable_defs` /
+  // `get_design_context` "styles contained in the design"), used by the new
+  // search bar, category grid, complaint-review card, profile stats, and the
+  // Create Complaint wizard. Kept as their own token names (not merged into
+  // the sections above) so a future Figma variable-name lookup stays a direct
+  // 1:1 match instead of an inferred rename.
+  // ---------------------------------------------------------------------
+
+  static const Color textFigmaPrimary = Color(0xFF12324A);
+  static const Color textFigmaSecondary = Color(0xFF547080);
+  static const Color textFigmaTertiary = Color(0xFF78909C);
+  static const Color textFigmaDisabled = Color(0xFF9AAEB8);
+
+  static const Color brandPrimary = Color(0xFF063B78);
+  static const Color brandPrimaryDark = Color(0xFF032B5B);
+  static const Color brandSecondary = Color(0xFFFFC83D);
+  static const Color brandSecondaryDark = Color(0xFFF2B800);
+  static const Color brandAccent = Color(0xFF8FE3EA);
+
+  static const Color infoFigma = Color(0xFF4A9FE8);
+  static const Color warningFigma = Color(0xFFF5B82E);
+
+  /// [Requires Confirmation] Figma's own variable is literally named "Erorr"
+  /// (typo in the source file) — kept here under the correctly-spelled Dart
+  /// name; distinct from [error] above (that one has no confirmed Figma
+  /// source, this one is a real value from the Create Complaint review step).
+  static const Color errorFigma = Color(0xFFE85B70);
+
+  /// [Requires Confirmation, New] Home's "شكاوى محتاجة صوتك" (recent-activity) heading, node 52:810 —
+  /// a 7th near-duplicate navy (#002652), distinct from every value in the "Navy family" section above
+  /// by a few hex digits; same "intentional micro-variation or design drift, confirm with the
+  /// designer" caveat as that section (see its note) rather than silently snapped to the closest
+  /// existing navy token.
+  static const Color recentActivityHeading = Color(0xFF002652);
+
+  static const Color borderFigmaDefault = Color(0xFFB8D6DB);
+  static const Color borderFigmaStrong = Color(0xFF6D9DA8);
+  static const Color borderFigmaFocus = Color(0xFF063B78);
+
+  /// [Requires Confirmation] Figma reports this as "Background/Primary" on
+  /// the Profile frame — extremely close to but not byte-identical to
+  /// [screenBackground] (0xFFE0FBFC vs this 0xFFDDF7F8); every screenshot
+  /// reviewed still visually reads as the existing background, so
+  /// [screenBackground] is kept as the active value and this is recorded for
+  /// designer confirmation rather than silently swapped in everywhere.
+  static const Color backgroundFigmaPrimaryCandidate = Color(0xFFDDF7F8);
+
+  // ---------------------------------------------------------------------
+  // Profile settings-menu icon circles (Full Audit & Sync pass, 27 Aug 2026,
+  // Figma node 33:794's Navigation List) — every row shows its trailing icon
+  // inside a 40px filled circle, which [SettingsMenuItem] didn't render at
+  // all before this pass (a bare icon, no circle).
+  // ---------------------------------------------------------------------
+
+  static const Color settingsIconCircleBackground = Color(0xFFD7E3FF);
+  static const Color settingsIconCircleDestructiveBackground =
+      Color(0xFFFFDAD6);
 }

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../presentation/widgets/status_badge.dart' show ComplaintStatus;
+import 'complaint_status.dart';
 
 /// Severity confirmed from the Create Complaint form (PLAN.md section 3.6) — a distinct axis from [ComplaintStatus] (severity is set once by the reporter, status changes over the complaint's lifecycle).
 enum ComplaintSeverity { high, medium, low }

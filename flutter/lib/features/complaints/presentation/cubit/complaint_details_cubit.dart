@@ -78,7 +78,12 @@ final class ComplaintDetailsCubit extends Cubit<ComplaintDetailsState> {
     );
 
     result.fold(
-      (failure) => emit(current.copyWith(isPostingComment: false)),
+      (failure) => emit(
+        current.copyWith(
+          isPostingComment: false,
+          commentErrorMessageKey: failure.message,
+        ),
+      ),
       (comment) => emit(
         current.copyWith(
           isPostingComment: false,

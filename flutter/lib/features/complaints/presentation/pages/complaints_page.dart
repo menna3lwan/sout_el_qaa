@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/route_paths.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/message_key_resolver.dart';
@@ -34,7 +35,17 @@ class ComplaintsPage extends StatelessWidget {
 class _ComplaintsView extends StatelessWidget {
   const _ComplaintsView();
 
-  static const _filters = ComplaintsFilter.values;
+  /// [Updated, Full Audit & Sync pass, 27 Aug 2026] Display order only — re-verified against a fresh
+  /// fetch of Figma node 33:663: the filter bar's DOM/visual order is "تم حلها" (resolved), "شكوائي"
+  /// (mine), "كل الشكاوى" (all, selected by default), not the [ComplaintsFilter] enum's own declaration
+  /// order (all, mine, resolved). Spelled out explicitly here rather than `ComplaintsFilter.values` so
+  /// this page's display order can differ from the enum's business-meaning order without touching the
+  /// enum itself (Important Rule #4: don't change business behavior unnecessarily).
+  static const _filters = [
+    ComplaintsFilter.resolved,
+    ComplaintsFilter.mine,
+    ComplaintsFilter.all,
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +77,23 @@ class _ComplaintsView extends StatelessWidget {
                 padding: const EdgeInsets.all(AppSpacing.md),
                 child: FilterPillTabs(
                   options: [
-                    context.l10n.complaintsFilterAll,
-                    context.l10n.complaintsFilterMine,
                     context.l10n.complaintsFilterResolved,
+                    context.l10n.complaintsFilterMine,
+                    context.l10n.complaintsFilterAll,
                   ],
                   selectedIndex: _filters.indexOf(selectedFilter),
                   onSelected: (index) => context
                       .read<ComplaintsCubit>()
                       .load(filter: _filters[index]),
+                  // Figma node 33:663's selected pill (the "كل الشكاوى" example) is solid warningFigma
+                  // gold with textFigmaPrimary text and no border — distinct from this shared widget's
+                  // default navy scheme; see [FilterPillTabs.selectedBackgroundColor]'s doc comment.
+                  selectedBackgroundColor: AppColors.warningFigma,
+                  // Figma shows no border on the selected pill; passing the same color as the
+                  // background keeps [FilterPillTabs]'s `Border.all(..., width: 2)` visually borderless
+                  // instead of adding a transparent-border special case to the shared widget.
+                  selectedBorderColor: AppColors.warningFigma,
+                  selectedTextColor: AppColors.textFigmaPrimary,
                 ),
               ),
               Expanded(child: _buildBody(context, state)),

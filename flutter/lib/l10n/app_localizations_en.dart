@@ -137,13 +137,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeSubmitComplaintCta => 'Submit New Complaint';
 
   @override
+  String get homeSearchHint => 'Search for a complaint...';
+
+  @override
   String get homeTrendingHeading => 'Most Engaged Complaints';
+
+  @override
+  String get homeTrendingSubheading => 'See what\'s on Qaa El Hamour\'s mind';
 
   @override
   String get homeViewAll => 'View All';
 
   @override
-  String get homeRecentActivityHeading => 'Your Recent Activity';
+  String get homeSameProblemCta => 'I have the same problem';
+
+  @override
+  String homeSameProblemCount(int count) {
+    return '+$count';
+  }
+
+  @override
+  String get homeRecentActivityHeading => 'Complaints That Need Your Voice';
 
   @override
   String get homeUrgentBadge => 'Urgent';
@@ -204,6 +218,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createComplaintTitle => 'Submit a Complaint';
 
   @override
+  String get createComplaintTitleShort => 'Submit Complaint';
+
+  @override
   String get stepFillTitle => 'Complaint Details';
 
   @override
@@ -257,11 +274,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get submitComplaintButton => 'Submit Complaint';
 
   @override
-  String get successTitle => 'Your complaint is in!';
+  String get createComplaintReviewTitle =>
+      'Review your complaint before sending';
+
+  @override
+  String get createComplaintReviewSubtitle =>
+      'Make sure everything\'s right before it reaches the residents';
+
+  @override
+  String get createComplaintCancelButton => 'Cancel Complaint';
+
+  @override
+  String get createComplaintEditButton => 'Edit Complaint';
+
+  @override
+  String get successTitle => 'Your complaint made it to the seafloor! 🎉';
 
   @override
   String get successMessage =>
-      'We\'ll review it and keep you posted, citizen 🐠';
+      'Sent successfully, and Squidward received it 😂';
+
+  @override
+  String get successViewComplaintButton => 'View Complaint';
 
   @override
   String get successBackToHomeButton => 'Back to Home';
