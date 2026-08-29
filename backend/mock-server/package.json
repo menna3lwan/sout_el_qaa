@@ -1,0 +1,12 @@
+{
+  "name": "sout-el-qaa-mock-server",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Mock server محلي لتطوير صوت القاع ضد الـProposed API Contract (القسم 16 من PLAN.md) — dev tooling فقط، مش جزء من التطبيق نفسه (القسم 4/17).",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "devDependencies": {
+    "json-server": "^0.17.4"
+  }
+}

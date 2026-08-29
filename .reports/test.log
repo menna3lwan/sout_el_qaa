@@ -1,0 +1,37 @@
+00:00 +0: loading /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/date_formatter_test.dart
+00:00 +0: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/date_formatter_test.dart: DateFormatter.relative — matches Figma-confirmed copy exactly "منذ ساعتين" for a 2-hour-old complaint (Complaints List example)
+00:00 +1: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/date_formatter_test.dart: DateFormatter.relative — matches Figma-confirmed copy exactly "منذ 3 ايام" for a 3-day-old complaint (Complaints List example)
+00:00 +2: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/date_formatter_test.dart: DateFormatter.relative — matches Figma-confirmed copy exactly "منذ اسبوعين" for a 2-week-old complaint (Complaints List example)
+00:00 +3: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/date_formatter_test.dart: DateFormatter.relative — boundary and unit-scale behavior under a minute returns "الآن"
+00:00 +4: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/date_formatter_test.dart: DateFormatter.relative — boundary and unit-scale behavior singular minute has no leading number
+00:00 +5: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/date_formatter_test.dart: DateFormatter.relative — boundary and unit-scale behavior plural minutes include the count
+00:00 +6: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/date_formatter_test.dart: DateFormatter.relative — boundary and unit-scale behavior singular hour has no leading number
+00:00 +7: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/date_formatter_test.dart: DateFormatter.relative — boundary and unit-scale behavior 59 minutes stays in the minutes bucket, not hours
+00:00 +8: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/date_formatter_test.dart: DateFormatter.relative — boundary and unit-scale behavior 6 days stays in the days bucket, not weeks
+00:00 +9: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/date_formatter_test.dart: DateFormatter.relative — boundary and unit-scale behavior singular month has no leading number
+00:00 +10: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.required returns error key when value is null
+00:00 +11: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.required returns error key when value is empty or whitespace only
+00:00 +12: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.required returns null when value has content
+00:00 +13: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.email rejects null or empty
+00:00 +14: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.email rejects malformed email
+00:00 +15: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.email accepts well-formed email
+00:00 +16: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.password rejects empty password
+00:00 +17: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.password rejects password shorter than 8 characters
+00:00 +18: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.password rejects password without both letters and digits
+00:00 +19: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.password accepts a password with letters, digits, and 8+ chars
+00:00 +20: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.confirmPassword rejects empty confirmation
+00:00 +21: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.confirmPassword rejects mismatch
+00:00 +22: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.confirmPassword accepts exact match
+00:00 +23: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.complaintDescription rejects empty description
+00:00 +24: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.complaintDescription accepts description at exactly the 300-char limit
+00:00 +25: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.complaintDescription rejects description over the 300-char limit (confirmed by Figma)
+00:00 +26: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/utils/validators_test.dart: Validators.complaintDescription accepts a normal description
+00:01 +27: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/errors/error_mapper_test.dart: ErrorMapper.map maps NoInternetException to NetworkFailure
+00:01 +28: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/errors/error_mapper_test.dart: ErrorMapper.map maps ServerException with 401 to UnauthorizedFailure
+00:01 +29: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/errors/error_mapper_test.dart: ErrorMapper.map maps ServerException with non-401 status to ServerFailure
+00:01 +30: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/errors/error_mapper_test.dart: ErrorMapper.map maps CacheException to CacheFailure
+00:01 +31: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/errors/error_mapper_test.dart: ErrorMapper.map maps DioException connection error to NetworkFailure
+00:01 +32: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/errors/error_mapper_test.dart: ErrorMapper.map maps DioException with 401 response to UnauthorizedFailure
+00:01 +33: /Users/menna3lwan/Projects/sout_el_qaa/flutter/test/core/errors/error_mapper_test.dart: ErrorMapper.map maps an unrecognized error type to UnknownFailure
+00:01 +34: All tests passed!
+___TASK_DONE___

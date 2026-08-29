@@ -1,0 +1,20 @@
+{
+  // مفيش أي إعداد machine-specific هنا (زي مسارات SDK محلية) عمدًا — كل حاجة
+  // هنا لازم تشتغل صح على أي جهاز يفتح الـmonorepo ده من غير تعديل.
+  //
+  // Dart/Flutter extension بتكتشف flutter/pubspec.yaml تلقائيًا وتقصر
+  // التحليل عليه؛ backend/ معندهاش pubspec.yaml فمفيش Flutter analysis
+  // بتحصل عليه أصلًا — مفيش إعداد إضافي مطلوب لضمان الفصل ده.
+  "files.exclude": {
+    "**/.dart_tool": true,
+    "**/.git": true,
+    "**/build": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/.dart_tool": true,
+    "**/build": true,
+    "**/node_modules": true,
+    "flutter/ios/Pods": true
+  }
+}

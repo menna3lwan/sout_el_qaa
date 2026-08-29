@@ -1,0 +1,386 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/di/injection.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/theme/app_typography.dart';
+import '../../../../core/utils/date_formatter.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/utils/message_key_resolver.dart';
+import '../../../../core/widgets/character_avatar_assets.dart';
+import '../../../../core/widgets/error_view.dart';
+import '../../../../core/widgets/loading_view.dart';
+import '../../../../core/widgets/qaa_avatar.dart';
+import '../../domain/entities/comment.dart';
+import '../../domain/entities/complaint.dart';
+import '../cubit/complaint_details_cubit.dart';
+import '../cubit/complaint_details_state.dart';
+import '../widgets/complaint_scene_assets.dart';
+import '../widgets/status_badge.dart';
+
+/// New screen (not present as a stub anywhere before this pass) implementing Figma node 33:518 —
+/// PLAN.md section 18's original split (List owns the list, Details lands later in gary-interactions)
+/// no longer applies once the combined Demo App pass builds both in one session.
+class ComplaintDetailsPage extends StatelessWidget {
+  const ComplaintDetailsPage({required this.complaintId, super.key});
+
+  final String complaintId;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => getIt<ComplaintDetailsCubit>()..load(complaintId),
+      child: const _ComplaintDetailsView(),
+    );
+  }
+}
+
+class _ComplaintDetailsView extends StatefulWidget {
+  const _ComplaintDetailsView();
+
+  @override
+  State<_ComplaintDetailsView> createState() => _ComplaintDetailsViewState();
+}
+
+class _ComplaintDetailsViewState extends State<_ComplaintDetailsView> {
+  final _commentController = TextEditingController();
+
+  @override
+  void dispose() {
+    _commentController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(context.l10n.detailsTitle),
+        actions: const [
+          // The header avatar every other screen shows (Figma node 33:518) — this app has a single
+          // demo resident (SpongeBob), so it's the same bundled asset used everywhere else, not a
+          // per-user lookup.
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+            child: QaaAvatar(
+              assetPath: 'assets/images/characters/spongebob_avatar.jpg',
+              size: 36,
+            ),
+          ),
+        ],
+      ),
+      // [Fixed, Full Application Review pass, 28 Aug 2026] Was BlocBuilder — a failed comment post
+      // had no way to notify the user (see ComplaintDetailsLoaded.commentErrorMessageKey's doc
+      // comment). BlocConsumer adds exactly one side effect (the SnackBar below) without touching the
+      // existing builder logic.
+      body: BlocConsumer<ComplaintDetailsCubit, ComplaintDetailsState>(
+        listener: (context, state) {
+          if (state is ComplaintDetailsLoaded &&
+              state.commentErrorMessageKey != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  resolveMessageKey(context, state.commentErrorMessageKey!),
+                ),
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          return switch (state) {
+            ComplaintDetailsLoading() => const LoadingView(),
+            ComplaintDetailsError(:final messageKey) => ErrorView(
+                message: resolveMessageKey(context, messageKey),
+                onRetry: () => context.read<ComplaintDetailsCubit>().retry(),
+              ),
+            ComplaintDetailsLoaded() => _DetailsBody(
+                state: state,
+                commentController: _commentController,
+              ),
+          };
+        },
+      ),
+    );
+  }
+}
+
+class _DetailsBody extends StatelessWidget {
+  const _DetailsBody({required this.state, required this.commentController});
+
+  final ComplaintDetailsLoaded state;
+  final TextEditingController commentController;
+
+  @override
+  Widget build(BuildContext context) {
+    final complaint = state.complaint;
+    // A real resident-uploaded photo (complaint.mediaUrls) always takes precedence; the bundled
+    // Figma-sourced hero photo only fills in for complaints that have one and no upload yet.
+    final heroAsset = complaintHeroAsset(complaint.id);
+    final hasMedia = complaint.mediaUrls.isNotEmpty;
+    final showPhoto = hasMedia || heroAsset != null;
+
+    return ListView(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      children: [
+        if (showPhoto)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: hasMedia
+                  ? CachedNetworkImage(
+                      imageUrl: complaint.mediaUrls.first,
+                      fit: BoxFit.cover,
+                      errorWidget: (_, __, ___) => const ColoredBox(
+                        color: AppColors.surfaceIconCircle,
+                        child: Icon(Icons.image_not_supported_outlined),
+                      ),
+                    )
+                  : Image.asset(
+                      heroAsset!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const ColoredBox(
+                        color: AppColors.surfaceIconCircle,
+                        child: Icon(Icons.image_not_supported_outlined),
+                      ),
+                    ),
+            ),
+          ),
+        if (showPhoto) const SizedBox(height: AppSpacing.md),
+        // [Updated, Full Audit & Sync pass, 27 Aug 2026] Re-verified against a fresh fetch of Figma
+        // node 33:518: this page shows an "عاجل" badge above the title (node 33:597, high-severity
+        // complaints only — same signal as [ComplaintListCard.showUrgentBadge]) instead of a
+        // [StatusBadge] chip inline with it — status here is communicated by the stepper below
+        // instead, so the chip that duplicated it next to the title is dropped rather than kept
+        // unconditionally just because it existed before this pass.
+        if (complaint.severity == ComplaintSeverity.high) ...[
+          _DetailsUrgentBadge(label: context.l10n.homeUrgentBadge),
+          const SizedBox(height: AppSpacing.xs),
+        ],
+        Text(complaint.title, style: AppTypography.complaintTitle),
+        const SizedBox(height: AppSpacing.xs),
+        Row(
+          children: [
+            const Icon(Icons.location_on_outlined,
+                size: 16, color: AppColors.textMutedGrey),
+            const SizedBox(width: AppSpacing.xs),
+            Expanded(
+                child: Text(complaint.location, style: AppTypography.metaText)),
+            Text(DateFormatter.relative(complaint.createdAt),
+                style: AppTypography.metaText),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        ComplaintStatusStepper(
+          currentStatus: complaint.status,
+          receivedLabel: context.l10n.statusReceivedLabel,
+          inReviewLabel: context.l10n.statusInReviewLabel,
+          resolvedLabel: context.l10n.statusResolvedLabel,
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        // [Updated, Full Audit & Sync pass, 27 Aug 2026] [AppTypography.cardTitle]'s own doc comment
+        // already names "Details section heading" as one of its two real uses — this call site was
+        // using [AppTypography.sectionLabel] (a different family, Baloo Bhaijaan 2) instead, which a
+        // fresh fetch of node 33:646 confirms is wrong: Cairo Regular 16px, not Baloo 14px SemiBold.
+        Text(context.l10n.detailsSectionHeading,
+            style: AppTypography.cardTitle),
+        const SizedBox(height: AppSpacing.sm),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(AppSpacing.md),
+          decoration: BoxDecoration(
+            // Figma node 33:644 is a white card with a 2px borderNeutral border, not the borderless
+            // surfaceOffWhite tint this held before this pass.
+            color: AppColors.surfaceWhite,
+            borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+            border: Border.all(color: AppColors.borderNeutral, width: 2),
+          ),
+          child: Text(complaint.description, style: AppTypography.bodyDefault),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        Row(
+          children: [
+            _ReactionButton(
+              icon: state.isLiked ? Icons.favorite : Icons.favorite_outline,
+              label: context.l10n.homeLikesCount(complaint.likes),
+              isActive: state.isLiked,
+              onTap: () => context.read<ComplaintDetailsCubit>().toggleLike(),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Icon(Icons.remove_red_eye_outlined,
+                size: 16, color: AppColors.textMutedGrey),
+            const SizedBox(width: AppSpacing.xs),
+            Text(context.l10n.homeViewsCount(complaint.views),
+                style: AppTypography.metaText),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        Text(context.l10n.commentsHeading, style: AppTypography.sectionLabel),
+        const SizedBox(height: AppSpacing.sm),
+        if (state.comments.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+            child: Text(context.l10n.commentsEmptyMessage,
+                style: AppTypography.metaText),
+          )
+        else
+          ...state.comments.map((comment) => _CommentTile(comment: comment)),
+        const SizedBox(height: AppSpacing.md),
+        _CommentInput(
+            controller: commentController, isPosting: state.isPostingComment),
+      ],
+    );
+  }
+}
+
+/// [New, Full Audit & Sync pass, 27 Aug 2026] Figma node 33:597's "عاجل" pill above the Complaint
+/// Details title — deliberately a small local widget rather than reusing [ComplaintListCard]'s private
+/// `_UrgentBadge`, since that one isn't a shared/exported component (each screen's small pill has so
+/// far been local to its own file) and the two use genuinely different colors and text styles: this one
+/// is [AppColors.urgentBadgeAltDetailPage] (already documented as this page's distinct red, see that
+/// token) with [AppTypography.fieldLabel]'s 14px/tracking-0.5 shape in white, not the list card's
+/// 10px [AppTypography.statusChipLabel].
+class _DetailsUrgentBadge extends StatelessWidget {
+  const _DetailsUrgentBadge({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.space12,
+        vertical: AppSpacing.xs,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.urgentBadgeAltDetailPage,
+        borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+      ),
+      child: Text(
+        label,
+        style: AppTypography.fieldLabel.copyWith(color: AppColors.textOnBrand),
+      ),
+    );
+  }
+}
+
+class _ReactionButton extends StatelessWidget {
+  const _ReactionButton({
+    required this.icon,
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final bool isActive;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final color =
+        isActive ? AppColors.urgentDestructive : AppColors.textMutedGrey;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 20, color: color),
+          const SizedBox(width: AppSpacing.xs),
+          Text(label, style: AppTypography.metaText.copyWith(color: color)),
+        ],
+      ),
+    );
+  }
+}
+
+class _CommentTile extends StatelessWidget {
+  const _CommentTile({required this.comment});
+
+  final Comment comment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          QaaAvatar(
+            assetPath: characterAvatarAsset(comment.authorName),
+            displayName: comment.authorName,
+            size: 32,
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      comment.authorName,
+                      style: AppTypography.fieldLabel
+                          .copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    Text(
+                      DateFormatter.relative(comment.createdAt),
+                      style: AppTypography.metaText,
+                    ),
+                  ],
+                ),
+                Text(comment.text, style: AppTypography.bodyDefault),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CommentInput extends StatelessWidget {
+  const _CommentInput({required this.controller, required this.isPosting});
+
+  final TextEditingController controller;
+  final bool isPosting;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            controller: controller,
+            decoration:
+                InputDecoration(hintText: context.l10n.commentInputHint),
+            enabled: !isPosting,
+          ),
+        ),
+        const SizedBox(width: AppSpacing.sm),
+        IconButton(
+          icon: isPosting
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.send),
+          onPressed: isPosting
+              ? null
+              : () {
+                  final text = controller.text;
+                  if (text.trim().isEmpty) return;
+                  context.read<ComplaintDetailsCubit>().postComment(text);
+                  controller.clear();
+                },
+        ),
+      ],
+    );
+  }
+}

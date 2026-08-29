@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+
+import '../utils/extensions/context_extensions.dart';
+
+/// Unified loading state used for every Loading Cubit state, instead of each screen building its own spinner (PLAN.md section 6: unified state model).
+class LoadingView extends StatelessWidget {
+  const LoadingView({super.key, this.message});
+
+  final String? message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const CircularProgressIndicator(),
+          const SizedBox(height: 16),
+          Text(
+            message ?? context.l10n.genericLoading,
+            style: context.textTheme.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}

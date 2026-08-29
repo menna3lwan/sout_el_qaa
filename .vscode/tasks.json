@@ -1,0 +1,105 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Install Mock Server Deps",
+      "type": "shell",
+      "command": "npm install",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/mock-server"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Start Mock Server",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/mock-server"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "____IMPOSSIBLE_REGEX____"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^$",
+          "endsPattern": "شغّال على"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run Pub Get",
+      "type": "shell",
+      "command": "flutter pub get > ../.reports/pubget.log 2>&1; echo '___TASK_DONE___' >> ../.reports/pubget.log; cat ../.reports/pubget.log",
+      "options": {
+        "cwd": "${workspaceFolder}/flutter"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Dart Format",
+      "type": "shell",
+      "command": "dart format . > ../.reports/format.log 2>&1; echo '___TASK_DONE___' >> ../.reports/format.log; cat ../.reports/format.log",
+      "options": {
+        "cwd": "${workspaceFolder}/flutter"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Flutter Analyze",
+      "type": "shell",
+      "command": "flutter analyze > ../.reports/analyze.log 2>&1; echo '___TASK_DONE___' >> ../.reports/analyze.log; cat ../.reports/analyze.log",
+      "options": {
+        "cwd": "${workspaceFolder}/flutter"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Flutter Test",
+      "type": "shell",
+      "command": "flutter test > ../.reports/test.log 2>&1; echo '___TASK_DONE___' >> ../.reports/test.log; cat ../.reports/test.log",
+      "options": {
+        "cwd": "${workspaceFolder}/flutter"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Gen L10n",
+      "type": "shell",
+      "command": "flutter gen-l10n > ../.reports/genl10n.log 2>&1; echo '___TASK_DONE___' >> ../.reports/genl10n.log; cat ../.reports/genl10n.log",
+      "options": {
+        "cwd": "${workspaceFolder}/flutter"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

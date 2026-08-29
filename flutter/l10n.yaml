@@ -1,0 +1,13 @@
+arb-dir: lib/l10n
+template-arb-file: app_ar.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+output-dir: lib/l10n
+nullable-getter: false
+# [Remaining Issue، جلسة تشغيل فعلي 2026-08-25] `synthetic-package: false`
+# كان هنا عمدًا (تفصيل: الإصدار القديم من الملف ده)، لكن Flutter SDK
+# بتاعك بيرجّع تحذير إن الخيار ده "no longer has any effect and should be
+# removed" — يعني إصدار الـFlutter عندك بقى دايمًا non-synthetic بشكل
+# افتراضي (الـbehavior اللي كنا محتاجينه أصلًا)، فمفيش داعي للخيار ده. شيلته
+# عشان الـwarning يختفي؛ output-dir لسه هنا عشان يفضل الاستيراد النسبي
+# ('../../../l10n/app_localizations.dart') متوقع ومباشر.

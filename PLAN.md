@@ -27,8 +27,8 @@
 | الحالة | الشاشات |
 |---|---|
 | ✅ مصمَّمة بالكامل مع محتوى نصي حقيقي | لوحة المعلومات الرئيسية (Home)، نموذج تقديم شكوى جديدة (Create Complaint)، تفاصيل الشكوى (Complaint Details)، الشكوي (Complaints List) |
-| ⚠️ مصمَّمة هيكليًا لكن بنصوص placeholder ("Text") غير معبأة | الملف الشخصي (Profile)، الاشعارات (Notifications) |
-| ❌ **Frame فارغ تمامًا — لا يوجد أي تصميم** | ترحيب (Welcome/Splash) — `node 33:2`، الحريطة (Map) — `node 33:351` |
+| ⚠️ ~~مصمَّمة هيكليًا لكن بنصوص placeholder~~ — **تحديث من جلسة Figma Design Foundation (24 أغسطس 2026):** المراجعة الحية الكاملة لقت نص عربي حقيقي ومعبأ في الاتنين (أسماء، أرقام، لابلز حقيقية) مش "Text" فاضي. لسه مش واضح لو ده نص منتج نهائي أو تجريبي — راجعي **Q13** في القسم 14 | الملف الشخصي (Profile)، الاشعارات (Notifications) |
+| ❌ **Frame فارغ تمامًا — لا يوجد أي تصميم** (اتأكد تاني في نفس الجلسة) | ترحيب (Welcome/Splash) — `node 33:2`، الحريطة (Map) — `node 33:351` |
 
 **لا توجد** شاشات منفصلة لـ Login / Register / Settings / Search / Filters كـ top-level frames. هذا لا يعني أنها غير مطلوبة من الـproduct — يعني أن الـFigma لم يصمم لها شاشات مستقلة بعد.
 
@@ -140,42 +140,51 @@ NetworkFailure / ServerFailure / CacheFailure / ValidationFailure
 
 ## 2. Project Structure (Folder Structure)
 
-> ✅ **[C6]** جزء من الـarchitecture المعتمدة.
+> ✅ **[C6]** جزء من الـarchitecture المعتمدة. المحتوى الداخلي (core/features
+> composition) زي ما هو تمامًا — **التغيير الوحيد** هو الـprefix `flutter/`
+> وإضافة `common/` بدل `features/shared_widgets/`، نتيجة مباشرة لتاسك
+> الـmonorepo restructure (**[C7]**، انظر القسم 14) — مش إعادة فتح لـC6 نفسه.
 
 ```text
-lib/
-├── main.dart                        # entrypoint واحد، يستدعي bootstrap()
-├── bootstrap.dart                   # DI init + error zone + runApp
-│
-├── core/
-│   ├── constants/                   # app_strings (نصوص عالم قاع الهامور الثابتة)، api_endpoints، asset_paths
-│   ├── di/                          # injectable config (injection.dart + injection.config.dart المولّد)
-│   ├── errors/                      # Failure, Exception classes, error_mapper
-│   ├── network/                     # DioClient, interceptors, NetworkInfo (connectivity)
-│   ├── router/                      # app_router.dart (go_router), route_guards.dart
-│   ├── theme/                       # app_theme.dart, app_colors.dart, app_typography.dart, app_spacing.dart
-│   ├── localization/                # ARB files (ar الآن، هيكل جاهز لـen — [C5])، RTL helpers
-│   ├── storage/                     # SecureStorage, LocalCacheService, HiveAdapters
-│   ├── permissions/                 # PermissionService (camera/gallery/location/notifications) موحّد
-│   ├── utils/                       # extensions, validators, formatters (تاريخ نسبي "منذ ساعتين" مثلاً)
-│   └── widgets/                     # AppButton, AppTextField, LoadingView, ErrorView, EmptyView,
-│                                     # StatusBadge, QaaAvatar, BottomNavShell
-│
-├── features/
-│   ├── splash/                      # يشمل onboarding/auth-check redirect
-│   ├── auth/                        # login, register, session
-│   │   ├── presentation/  domain/  data/
-│   ├── home/                        # لوحة المعلومات الرئيسية
-│   ├── complaints/                  # feed + my complaints + status tabs + search + filters (انظر القسم 18)
-│   ├── create_complaint/            # نموذج تقديم شكوى جديدة (wizard)
-│   ├── complaint_details/           # تفاصيل الشكوى + تعليقات + تفاعلات (انظر القسم 18)
-│   ├── map/                         # الخريطة + location picker (مشترك مع create_complaint)
-│   ├── notifications/
-│   ├── profile/                     # profile + settings + logout + edit profile
-│   └── shared_widgets/              # widgets تخص أكتر من feature بس مش core عام
-│                                     # (مثال: ComplaintCard يُستخدم في Home وComplaints وProfile)
-│
-└── l10n/                            # generated localization
+flutter/
+└── lib/
+    ├── main.dart                        # entrypoint واحد، يستدعي bootstrap()
+    ├── bootstrap.dart                   # DI init + error zone + runApp
+    │
+    ├── core/                            # feature-agnostic بحق — لو الكود عارف حاجة عن
+    │   │                                 # business domain معين (زي complaint status/category)
+    │   │                                 # فمكانه جوه الـfeature بتاعته، مش هنا (انظر [P15])
+    │   ├── constants/                   # api_endpoints، app_config — identifiers عامة للتطبيق كله بس
+    │   ├── di/                          # injection.dart (get_it manual — [A9])
+    │   ├── errors/                      # Failure, Exception classes, error_mapper
+    │   ├── network/                     # DioClient, interceptors, NetworkInfo (connectivity)
+    │   ├── router/                      # app_router.dart (go_router), route_paths.dart
+    │   ├── theme/                       # app_theme.dart, app_colors.dart, app_typography.dart, app_spacing.dart
+    │   ├── localization/                # ARB files (ar الآن، هيكل جاهز لـen — [C5])، RTL helpers
+    │   ├── storage/                     # SecureStorage, LocalCacheService, HiveAdapters
+    │   ├── permissions/                 # PermissionService (camera/gallery/location/notifications) موحّد
+    │   ├── utils/                       # extensions, validators, formatters (تاريخ نسبي "منذ ساعتين" مثلاً)
+    │   └── widgets/                     # AppButton, AppTextField, LoadingView, ErrorView, EmptyView,
+    │                                     # QaaAvatar, BottomNavShell — generic بحق، من غير أي معرفة بـdomain
+    │
+    ├── common/                          # widgets مشتركة بين features، مش infrastructure، ومش مرتبطة
+    │   └── widgets/                      # بـbusiness logic معين — لو مرتبطة، تتحط جوه الـfeature بتاعتها
+    │                                      # مثال: PlaceholderScreen (انظر [P16])
+    │
+    ├── features/
+    │   ├── splash/                      # يشمل onboarding/auth-check redirect
+    │   ├── auth/                        # login, register, session
+    │   │   ├── presentation/  domain/  data/
+    │   ├── home/                        # لوحة المعلومات الرئيسية
+    │   ├── complaints/                  # feed + my complaints + status tabs + search + filters (انظر القسم 18)
+    │   │                                 # domain/constants/complaint_constants.dart، presentation/widgets/status_badge.dart
+    │   ├── create_complaint/            # نموذج تقديم شكوى جديدة (wizard)
+    │   ├── complaint_details/           # تفاصيل الشكوى + تعليقات + تفاعلات (انظر القسم 18)
+    │   ├── map/                         # الخريطة + location picker (مشترك مع create_complaint)
+    │   ├── notifications/
+    │   └── profile/                     # profile + settings + logout + edit profile
+    │
+    └── l10n/                            # generated localization
 ```
 
 ### 2.1 هيكل داخلي لكل feature (مثال: `complaints/`)
@@ -442,7 +451,9 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | 9 | `feature/sandy-profile` | Profile + Settings (نصوصنا المقترحة [P5])، logout، edit profile | 2 | Profile/Settings flow مكتمل | Widget + Integration (logout) |
 | 10 | `feature/spongebob-polish` | تكامل شامل، RTL/responsive verification، performance pass، إزالة أي hardcoded/mock متبقي، الاستبدال من mock server لـbackend الحقيقي **لو جهز بحلول هذه المرحلة** (مش افتراض إنه هيجهز)، regression testing كامل، **مراجعة الـProduct/Creative DoD (القسم 19)** | كل ما سبق | نسخة متكاملة جاهزة للمراجعة النهائية | Full regression suite + manual QA checklist |
 
-> **ملحوظة Backend:** REST backend مخصص **[C1]**، غير موجود بعد. الـProposed API Contract (القسم 16) هو المرجع، والـFlutter تشتغل ضد mock server محلي من branch #1. مفيش branch منفصل لبناء الـbackend لأنه خارج نطاق هذا الـrepo — لو ده غير مقصود، محتاجين نتكلم عنه.
+> **ملحوظة Backend:** REST backend مخصص **[C1]**، غير موجود بعد. الـProposed API Contract (القسم 16) هو المرجع، والـFlutter تشتغل ضد mock server محلي من branch #1. الـrepo بقى **[C7]** Monorepo واحد فيه `flutter/` و`backend/` — يعني الـbackend (لما يتبنى) هيكون **جوه نفس الـrepo ده** مش repository منفصل، لكن مفيش branch منفصل في الترتيب فوق مخصص لبنائه لسه (لسه Open Question جزئيًا — انظر **[Q5]**).
+
+> **ملحوظة "Demo App" (25 أغسطس 2026، [C9]):** الـbranches #2 لحد #9 اتنفذوا كلهم في جلسة واحدة ("One combined demo pass") بدل واحد بواحد مع موافقة بينهم — القرار اتاخد صراحة من سؤال مباشر. تفاصيل التنفيذ الفعلي (الملفات المتغيرة، القرارات الجديدة، نتائج الاختبارات) في تقرير الجلسة المُرسل، مش هنا. جدول الـbranches فوق فضل كمرجع للـ**scope** الأصلي لكل جزء حتى لو اتنفذوا مع بعض؛ #5 و#7 (Complaints List وComplaint Details) اتنفذوا مع بعض من غير الـstub المرحلي المذكور في وصف #5 — **[P24]**.
 
 ---
 
@@ -487,6 +498,9 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | **C4** | مكتبة الخريطة: `flutter_map` (مش `google_maps_flutter`) | 24 أغسطس 2026 — سؤال مباشر |
 | **C5** | بنية ثنائية اللغة (AR/EN) من اليوم الأول، حتى لو الواجهة عربي بالكامل الآن | 24 أغسطس 2026 — سؤال مباشر |
 | **C6** | الـarchitecture العامة (Clean Architecture + layering)، تقسيم الـfeatures، استراتيجية الـbranching (10 branches)، طريقة الـtesting، وتغطية الـedge cases في هذا المستند | 24 أغسطس 2026 — موافقة نصية صريحة في مراجعتك |
+| **C7** | الـrepo بقى Monorepo واحد: `flutter/` + `backend/` + root-level `.vscode/`, `PLAN.md`, `README.md`, `.gitignore`. اتنفذ جوه `feature/spongebob-foundation` نفسه (مش branch منفصل) | 24 أغسطس 2026 — اختيار مباشر من سؤال (AskUserQuestion) |
+| **C8** | `backend/` بيبدأ بـ`dev/mock-server` بعد ما اتنقل لـ`backend/mock-server/`، متسمّى بوضوح إنه dev-only mock مش الـbackend الحقيقي (لسه مش موجود — C1 زي ما هو) | 24 أغسطس 2026 — اختيار مباشر من سؤال (AskUserQuestion) |
+| **C9** | "Demo App" — تنفيذ الـbranches #2-#9 كلهم (patrick-auth لحد sandy-profile) في جلسة واحدة كـ"One combined demo pass": commits حقيقية ومقسّمة منطقيًا محليًا (مش push)، وتقرير موحّد واحد في الآخر بدل موافقة بعد كل branch على حدة — القرار ده بيعلّق بند "التوقف بعد كل branch" من الـexecution protocol مؤقتًا لنطاق التاسك ده فقط | 25 أغسطس 2026 — اختيار مباشر من سؤال (AskUserQuestion) |
 
 ### 💡 Proposed (اقتراحي، مستني موافقتك)
 
@@ -503,6 +517,8 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | **P9** | حذف الحساب (Account deletion) خارج نطاق الـMVP | القسم 3.10، 17 |
 | **P10** | الإعجاب على مستوى الشكوى ومستوى التعليق كـentities منفصلة منطقيًا | القسم 3.8 |
 | **P11** | تغيير حالة الشكوى read-only من جهة المواطن في الـMVP لحد ما [Q2] تتحل | القسم 3.8 |
+| **P12** | نطاق الـrouting في `feature/spongebob-foundation`: بس `/splash`، `/login`، والـ4 تابات الأساسية (Home/Map/Complaints/Profile) جوه الـStatefulShellRoute، بالإضافة لـ`/create-complaint` كـpush route. مسارات `/notifications` و`/complaints/:id` **متسجلتش خالص في الـfoundation** — كل واحد فيهم بيتسجل مع الـbranch المالك ليه (مش stub حتى) | القسم 10، 18، `core/router/app_router.dart` |
+| **P14** | `BottomNavShell`: التابات الأربعة (Home/Map/Complaints/Profile) هي الـpersistent `StatefulShellBranch`es الوحيدة. "إضافة" زرار push-action (بينادي `context.push(RoutePaths.createComplaint)`) مش تاب خامس دائم في الـIndexedStack — مبني على شكلها المرتفع في التصميم (مرتبط بـ[A1])، لكن آلية التنفيذ (push مش persistent branch) قرار تقني مني | القسم 3، `core/widgets/bottom_nav_shell.dart` |
 
 ### 🔸 Assumption (افتراض مؤقت، مش قرار product)
 
@@ -515,6 +531,27 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | **A5** | Create Complaint wizard من 3 خطوات (استنتاج من مؤشر "1/3") |
 | **A6** | إحصائيات Profile الثلاثة: شكاوى مقدمة / محلولة / نقاط |
 | **A7** | Views counter يتزود مرة واحدة لكل مستخدم (dedup منطقي، مش موثق في الـFigma) |
+| **A8** | ~~ألوان/typography الـtheme الحالية عبارة عن palette مؤقتة... مش مستخرجة من قيم Figma الحقيقية~~ — **تم حلها في جلسة "Figma Design Foundation" (24 أغسطس 2026)**: الألوان/الخطوط/المسافات كلها استُخرجت فعليًا من الـ6 شاشات المصممة في الـFigma الحقيقي (`core/theme/app_colors.dart`, `app_typography.dart`, `app_spacing.dart`). لكن الاستخراج نفسه كشف نقط جديدة محتاجة تأكيدك — راجعي **A10-A11** و**Q6-Q14** تحت | `core/theme/app_colors.dart`, `app_typography.dart`, `app_spacing.dart` |
+| **A9** | الـDI حاليًا manual registration عبر `get_it` مباشرة (مش عبر `injectable` code generation رغم إن المكتبة مضافة في الـpubspec) لأن `build_runner` مقدرش يشتغل في sandbox التنفيذ ده. التحويل لـcodegen كامل تغيير في ملف واحد (`core/di/injection.dart`) بعد ما تشغّلي `dart run build_runner build` محليًا | `core/di/injection.dart` |
+| **A10** | لون chip حالة "تم الاستلام" (`AppColors.statusReceivedChip`) لسه placeholder رمادي — مفيش مثال Chip حقيقي لحالة "تم الاستلام" ظهر في عينة Complaints List اللي اتراجعت (3 كروت بس: قيد المعالجة × 1، تم الحل × 2). القيمتين التانيين (`statusInProgressChip` #F77F00، `statusResolvedChip` #002960) مستخرجين فعليًا وموثوقين | `core/theme/app_colors.dart` |
+| **A11** | خط "Be Vietnam Pro" (ظهر بس على أرقام: خطوات الـwizard، عداد الحروف، عداد الردود) معامل كخط ثالث متعمّد (`AppTypography.numericCounter`) بدل ما يتطوى جوه Cairo — افتراض مبني على تكرار الاستخدام في أكتر من مكان لنفس نوع المحتوى (أرقام)، مش تأكيد صريح | `core/theme/app_typography.dart` |
+| **A12** | "هل أنا معجب بالشكوى دي" بيتتبّع client-side بس (في الذاكرة، لجلسة الاستخدام الحالية) لأن الـmock server بيحسب عدد لايكات إجمالي بس مش per-user reactions — backend حقيقي هيحتاج يرجّع ده في الـresponse | `features/complaints/presentation/cubit/complaint_details_state.dart` |
+| **A13** | تصنيف تابات فلترة Notifications: "الشكاوى" بيغطي نوعين من الإشعارات (statusUpdate + newComment) مع بعض، "التفاعلات" لـreaction، "عام" لـgeneral — افتراض منطقي مبني على نصوص الفلاتر الأربعة الظاهرة في الـFigma، مش تصنيف مؤكد من backend حقيقي | `features/notifications/presentation/cubit/notifications_state.dart` |
+| **A14** | أيقونة/لون كل نوع إشعار (statusUpdate/newComment/reaction/general) مش موجودة كمثال حقيقي في الـFigma (كان نص placeholder بس) — استخدمنا ألوان "notification badge" الموجودة أصلًا في `app_colors.dart` بتوزيع منطقي | `features/notifications/presentation/widgets/notification_card.dart` |
+| **A15** | تفسير "منقذ بحري" (راجعي Q13 القديم) كـ"نقاط مشاركة" (points) بدل لقب/badge غامض — تفسير معقول مش تأكيد نهائي للنص | `lib/l10n/app_ar.arb` (`profileStatPoints`) |
+| **A16** | "قيد المراجعة" (مش "قيد المعالجة") اتاخدت كصياغة موحّدة لحالة `inReview` في كل الشاشات (كانت مسألة مفتوحة من Q9 القديم) — قرار تنفيذي عشان نمشي قدام، مش تأكيد منك | `lib/l10n/app_ar.arb` (`statusInReviewLabel`) |
+| **P15** | `core/widgets/status_badge.dart` (الـwidget + `ComplaintStatus` enum) و`core/constants/app_strings.dart` (category/status/severity slugs) اتنقلوا برا `core/` لأنهم عارفين تفاصيل عن domain الشكاوى تحديدًا (نفس مبدأ "Category مش core" من تاسك الـmonorepo restructure) — بقوا جوه `features/complaints/` (`presentation/widgets/status_badge.dart`، `domain/constants/complaint_constants.dart`، والكلاس اتسمى `ComplaintConstants` مش `AppStrings`) | تاسك الـmonorepo restructure، قسم 6 |
+| **P16** | `features/shared_widgets/` (كان اسمه كده في القسم 2 الأصلي) اتحول لـ`common/widgets/` — نفس المحتوى والغرض (`PlaceholderScreen`)، الاسم والموقع بس اللي اتغيروا، عشان يطابق تعريف "common" في تاسك الـmonorepo restructure (قسم 7) | تاسك الـmonorepo restructure، قسم 7 |
+| **P17** | إضافة `google_fonts` كـdependency جديدة عشان نجيب الخطوط الحقيقية المستخرجة من الـFigma (Baloo Bhaijaan 2 / Cairo / Be Vietnam Pro) بدل خط النظام الافتراضي | `pubspec.yaml`, `core/theme/app_typography.dart` |
+| **P18** | `FilterPillTabs` widget واحد مشترك (جديد، `core/widgets/`) بيغطي شكلين متشابهين ظهروا منفصلين في الـFigma: تابات Complaints List وفلاتر Notifications — الفروق الصغيرة (سمك حدود إلخ) اتوحدت على القيمة الأكتر تكرارًا بدل ما نعمل نسختين منفصلتين | `core/widgets/filter_pill_tabs.dart` |
+| **P19** | Widgets جديدة اتضافت للـfoundation بناءً على مراجعة الـFigma: `ComplaintStatusStepper` (شكل الحالة كـstepper أفقي في صفحة التفاصيل، منفصل عن `StatusBadge` الـchip لأن الـFigma استخدم شكلين مختلفين فعليًا)، `StatCard` و`SettingsMenuItem` (Profile)، ومتغير `QaaAvatarVariant.profile` جديد لـ`QaaAvatar` الموجود (بدل widget أفاتار تاني منفصل) | `core/widgets/`, `features/complaints/presentation/widgets/status_badge.dart` |
+| **P20** | تصحيح `AppSpacing.bottomNavHeight` من 72 لـ80 (القيمة الظاهرة فعليًا في الـscreenshot)، وإضافة `space12`/`radiusXl`/`radiusPill` كقيم حقيقية متكررة في الـFigma مش موجودة في المقياس القديم | `core/theme/app_spacing.dart` |
+| **P21** | إصلاح `backend/mock-server/server.js`: `GET /auth/me`، `PATCH /users/me`، `GET /users/me/stats`، و`GET /users/me/recent-activity` كانوا بيرجعوا دايمًا أول مستخدم/كل الشكاوى بغض النظر عن التوكن — بقوا بيقروا الـuserId من الـBearer token نفسه (`mock-token-<userId>-<ts>`) ويفلتروا صح. إصلاح mock-server مش تغيير معماري، لكن ضروري عشان Profile/My Complaints يشتغلوا صح مع أكتر من مستخدم | `backend/mock-server/server.js` |
+| **P22** | `AuthRepositoryImpl.login` بيتجاوز قاعدة `ErrorMapper` العامة ("401 = الجلسة خلصت") لحالة الـlogin تحديدًا فقط: 401 هنا معناها "بيانات دخول غلط" مش "جلسة منتهية" (مفيش جلسة أصلًا وقتها)، فبيوريله رسالة السيرفر الحقيقية بدل رسالة "سجل دخول تاني" المضلّلة. أي 401 تاني في التطبيق (طلب authenticated اترفض في نص الجلسة) لسه بيمشي على `ErrorMapper` زي ما هو | `features/auth/data/repositories/auth_repository_impl.dart` |
+| **P23** | عناصر "البيانات الشخصية"/"المفضلة"/"الإعدادات" في Profile settings menu مالهاش شاشة أو spec خلف الـ5 flows المطلوبة في الـbrief — بدل ما نخترع محتوى/سلوك منتج مش موجود، الضغط عليهم بيوري رسالة "لسه بنجهزها" (نفس نص الـplaceholder الموجود) بدل ما يكونوا dead buttons | `features/profile/presentation/pages/profile_page.dart` |
+| **P24** | حدود المسؤولية في القسم 18 (Complaints List بس، Complaint Details لاحقًا في gary-interactions) بقت غير منطبقة بعد قرار C9 — الـDemo App بنى الاتنين مع بعض في نفس الجلسة | القسم 18 |
+| **P25** | Location step في Create Complaint: مفيش reverse geocoding API متاح (مش في الـpubspec ولا الـProposed Contract)، فالمستخدم بيدخل نص الموقع يدويًا + يختار نقطة GPS من map picker منفصل (center-pin، مش drag marker) بدل اعتماد ترجمة تلقائية من الإحداثيات لنص | `features/create_complaint/presentation/widgets/location_picker_page.dart` |
+| **P26** | `SecureStorageService` اتوسّع بـ`saveUserId`/`readUserId` (جنب الـtokens) عشان شاشات زي "شكاواي" وCreate Complaint تعرف "مين اللي عامل login" من غير ما تعمل GET /auth/me في كل مرة | `core/storage/secure_storage_service.dart` |
 
 ### ❓ Open Question (محتاجة قرارك)
 
@@ -524,6 +561,16 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 | **Q2** | نطاق الدور الإداري: تغيير حالة الشكوى backend-only بالكامل، ولا فيه دور داخل نفس الـapp يقدر يغيّرها؟ |
 | **Q3** | زرار "عرض الكل" في Notifications: صفحة كاملة، ولا "تحديد الكل كمقروء"؟ |
 | **Q4** | التفاصيل الدقيقة لسيمانتيك الإعجاب/التفاعل عند وجود backend حقيقي (P10 اقتراحنا المبدئي، لسه محتاج تأكيد منتج) |
+| **Q5** | الـstack/framework الفعلي للـbackend الحقيقي (Node/NestJS، إلخ) لسه مش متقرر — `backend/` بقى موجود كـboundary واضح **[C7]**، لكن مفيش قرار بعد عن التقنية أو عن branch مخصص لبنائه |
+| **Q6** | عائلة الأزرق الكحلي في الـFigma فيها 7 قيم قريبة من بعضها جدًا (`headerBackground`, `headerBorder`, `profileAccent`, `fabBackground`, `ctaTextAlt`, `notificationCardAccent`, `homeLinkText`) — الفروق دي متعمّدة (micro-variation)، ولا مجرد نتيجة عدم وجود design variables موحّدة في الملف (موثق من الأول إن `get_variable_defs` رجع فارغ)؟ لو التانية، محتاجين تبسيط لعدد أقل من التوكنز |
+| **Q7** | نفس سؤال Q6 لكن لعائلة الأصفر/الذهبي (5 قيم قريبة: `ctaBackground`, `avatarBorder`, `navyBarAccentBorder`, `notificationFilterSelectedBackground`, `mapButtonText`) |
+| **Q8** | badge "عاجل" جه بلونين مختلفين في شاشتين مختلفتين لنفس النص بالظبط: #BA1A1A في Home، #EF476F في Complaint Details — أنهي واحد هو الصح؟ |
+| **Q9** | نص حالة "قيد المراجعة/قيد المعالجة" جه بصياغتين مختلفتين في مكانين (Home activity feed مقابل Complaints List chip) لنفس الحالة بالظبط — أنهي صياغة هي المعتمدة للـARB؟ |
+| **Q10** | لون chip حالة "تم الاستلام" (راجعي A10) — تقدري تدينا مثال Figma فيه شكوى بحالة "تم الاستلام"، أو تأكدي اللون المناسب مباشرة؟ |
+| **Q11** | راجعي A11 — لو خط Be Vietnam Pro مش قرار متعمّد، أبسط حل نطوي `AppTypography.numericCounter` جوه Cairo العادي بدل خط تالت |
+| **Q12** | كل شاشة من الشاشات الست فيها طبقة "BottomNavBar" مكررة بارتفاع 72px برا حدود الشاشة (`bottom: -165px`) — بقايا تصميم (نتجاهلها، القرار الحالي)، ولا لها استخدام فعلي مش واضح لينا؟ |
+| **Q13** | محتوى Profile ("سبونج بوب"، "12 منقذ بحري"، "8 شكاوى مؤيدة"، "245 شكاوى") ومحتوى Notifications (4 كروت + فلاتر) في الـFigma الحالي — القسم 0 من هذا المستند كان موثق إنهم لسه placeholder، لكن المراجعة الحية النهاردة لقتهم نص حقيقي. نص منتج نهائي، ولا لسه محتوى تجريبي (خصوصًا "منقذ بحري" اللي شكله badge/لقب غير واضح معناه)؟ |
+| **Q14** | مفيش وصول شبكي من أي بيئة تنفيذ متاحة ليا (sandbox أو device bridge) لـ`figma.com` asset CDN — يعني قدرت أستخرج كل الألوان/الخطوط/النصوص/التخطيط لكن مش الـbytes الفعلية للصور/الأيقونات. تحبي: (أ) تصدّري الأصول (~15-20 صورة/أيقونة، القائمة الكاملة في تقرير الجلسة) بنفسك من Figma مباشرة (دقايق قليلة)، أو (ب) امنحيني صلاحية computer-use على المتصفح الحقيقي عندك وأنزّلهم بنفسي (أبطأ، صلاحية جديدة مطلوبة)؟ |
 
 ---
 
@@ -673,6 +720,52 @@ Convention: `feature/<spongebob-character>-<scope>`، كل branch = vertical sli
 8. **Screenshots أو تسجيل** لما يكون مناسبًا (خصوصًا الشاشات اللي إحنا صممناها بأنفسنا زي Auth/Splash/Map).
 
 **قاعدة صارمة:** مفيش انتقال لـbranch تانية إلا بعد ما توافقي صراحة على الـbranch الحالية. لو ظهر أي قرار أو افتراض جديد أثناء التنفيذ مش موجود في القسم 14، هيتضاف كـID جديد بنفس التصنيف (Confirmed/Proposed/Assumption/Open Question) في التقرير، مش هيتفترض إنه "متفق عليه" بالسكوت.
+
+---
+
+## 21. Design Foundation (Figma extraction) — 24 أغسطس 2026
+
+نُفّذ جوه `feature/spongebob-foundation` نفسه (commit جديد فوق اللي قبله). التاسك دي **مفيهاش أي تنفيذ screens** — فقط design tokens + shared building blocks، بالظبط زي ما طُلب.
+
+### الملفات اللي اتعملت/اتعدلت
+
+| الملف | الحالة |
+|---|---|
+| `core/theme/app_colors.dart` | إعادة كتابة كاملة — كل قيمة مستخرجة من الـFigma الحقيقي، مفيش قيمة مخترعة (ما عدا `statusReceivedChip` و`error` الموثقين كـA10/Assumption) |
+| `core/theme/app_typography.dart` | إعادة كتابة كاملة — 3 عائلات خطوط حقيقية (Baloo Bhaijaan 2 / Cairo / Be Vietnam Pro) عبر `google_fonts` |
+| `core/theme/app_spacing.dart` | تحديث — `bottomNavHeight` اتصحح لـ80، أضيف `space12`/`radiusXl`/`radiusPill` |
+| `core/theme/app_theme.dart` | تحديث — يعكس التوكنز الجديدة، أضيف `outlinedButtonTheme`/`chipTheme` |
+| `features/complaints/presentation/widgets/status_badge.dart` | تحديث `StatusBadge` (ألوان حقيقية بدل الأخضر/الرمادي القديم) + إضافة `ComplaintStatusStepper` جديد |
+| `core/widgets/qaa_avatar.dart` | تحديث — أضيف `QaaAvatarVariant.profile` (شكل الأفاتار الكبير في Profile) |
+| `core/widgets/filter_pill_tabs.dart` | جديد |
+| `core/widgets/stat_card.dart` | جديد |
+| `core/widgets/settings_menu_item.dart` | جديد |
+| `pubspec.yaml` | إضافة `google_fonts: ^6.2.1` (**P17**) |
+
+### Assets — حالة خاصة
+
+**تعذّر تحميل الـbytes الفعلية للصور/الأيقونات** — راجعي **Q14**. الـFigma metadata/text/layout كلهم اتراجعوا بالكامل وبرمجيًا، بس الـasset CDN (`figma.com/api/mcp/asset/*`) برا الـallowlist الشبكي المتاح لأي بيئة تنفيذ وصلتلها (اتأكد بـcurl مباشر، `403 blocked-by-allowlist`). قائمة الأصول الحقيقية الكاملة (صور/أيقونات، مين فين، مين متكرر) موثقة في تقرير الجلسة اللي هيتبعت في الشات. **مفيش أي asset وهمي أو placeholder اتضاف لـ`flutter/assets/`** — الفولدر لسه مش موجود لحد ما نحل Q14.
+
+### شرح مختصر لأهم تصحيح: ألوان الحالة
+
+كانت الحالة القديمة (`statusReceived/InReview/Resolved` — رمادي/برتقالي/**أخضر**) مخترعة بالكامل (موثق في A8 القديمة كـ"palette مؤقتة"). الحقيقي في الـFigma: شكلين مختلفين مش لون واحد — راجعي `status_badge.dart` والملحوظات في `app_colors.dart`.
+
+### Figma → Flutter Mapping (مرجع دائم)
+
+| Figma | Flutter |
+|---|---|
+| كل قيمة hex ظهرت في أي component | `AppColors.*` (اسم دلالي بمكان الاستخدام، مش hex حرفي) |
+| كل `font-*`/`text-*` class في الـFigma | `AppTypography.*` (style جاهز، مش fontSize/fontWeight متفرقين) |
+| كل قيمة gap/padding/radius متكررة | `AppSpacing.*` |
+| Component "BottomNavBar" (النسخة الظاهرة فعليًا، 80px) | `core/widgets/bottom_nav_shell.dart` (موجود من قبل) |
+| Component "Status stepper" (Complaint Details) | `ComplaintStatusStepper` (جديد) |
+| Component "Status chip" (Complaints List) | `StatusBadge` (محدّث) |
+| Component "Filter tabs/pills" (Complaints List + Notifications) | `FilterPillTabs` (جديد، widget واحد للاتنين) |
+| Component "Stats card" (Profile) | `StatCard` (جديد) |
+| Component "Settings menu item" (Profile) | `SettingsMenuItem` (جديد) |
+| Component "Avatar" (شكلين: header 44px، profile 128px) | `QaaAvatar` + `QaaAvatarVariant` (موجود، اتوسّع) |
+| Component "Notification card" | **لسه مش scaffolded** — composite ومربوط بمنطق notification-types فعلي، هيتبنى وقت تنفيذ `notifications` feature نفسها مش دلوقتي (خارج نطاق "building blocks") |
+| Component "Complaint list card" (Home trending / Complaints List / محتمل Map) | **لسه مش scaffolded** — نفس السبب، كل نسخة منه ليها حقول مختلفة شوية (مش نفس الكارت بالظبط)، قرار التوحيد/التنويع يحتاج قرار تنفيذي وقت بناء كل شاشة |
 
 ---
 

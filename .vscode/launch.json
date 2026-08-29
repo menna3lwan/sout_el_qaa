@@ -1,0 +1,36 @@
+{
+  // launch.json بتاع الـFlutter app بس (flutter/) — مفيش أي configuration
+  // للـbackend هنا عمدًا (الـbackend/mock-server بيتشغل يدويًا عبر npm،
+  // مش عن طريق VS Code Run and Debug — راجعي backend/README.md).
+  //
+  // "cwd" بيحدد إن مشروع الفلاتر المستهدف هو flutter/ (فيه pubspec.yaml)،
+  // و"program" بعد كده relative لـcwd ده (مش لجذر الـworkspace) — ده الشكل
+  // الموثّق من إضافة Dart-Code لما مشروع الفلاتر مش في جذر الـworkspace.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Sout El-Qaa (flutter/, Debug)",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "flutter",
+      "program": "lib/main.dart",
+      "flutterMode": "debug"
+    },
+    {
+      "name": "Sout El-Qaa (flutter/, Profile)",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "flutter",
+      "program": "lib/main.dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "Sout El-Qaa (flutter/, Release)",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "flutter",
+      "program": "lib/main.dart",
+      "flutterMode": "release"
+    }
+  ]
+}
