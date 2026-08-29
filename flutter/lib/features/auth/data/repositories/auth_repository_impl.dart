@@ -12,7 +12,10 @@ import '../models/user_model.dart';
 
 final class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl(
-      this._remote, this._networkInfo, this._secureStorage);
+    this._remote,
+    this._networkInfo,
+    this._secureStorage,
+  );
 
   final AuthRemoteDataSource _remote;
   final NetworkInfo _networkInfo;
@@ -39,7 +42,8 @@ final class AuthRepositoryImpl implements AuthRepository {
       // "sign in again, your session ended" copy. Every other 401 in the app (an authenticated
       // request rejected mid-session) still goes through ErrorMapper as session-expired, unchanged.
       return Left(
-          ServerFailure(message: error.message, statusCode: error.statusCode));
+        ServerFailure(message: error.message, statusCode: error.statusCode),
+      );
     } catch (error) {
       return Left(ErrorMapper.map(error));
     }
@@ -53,7 +57,10 @@ final class AuthRepositoryImpl implements AuthRepository {
   }) =>
       _runAuth(
         () => _remote.register(
-            username: username, email: email, password: password),
+          username: username,
+          email: email,
+          password: password,
+        ),
       );
 
   @override

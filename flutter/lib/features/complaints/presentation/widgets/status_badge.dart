@@ -89,7 +89,8 @@ class ComplaintStatusStepper extends StatelessWidget {
             return Expanded(
               child: Container(
                 margin: EdgeInsetsDirectional.only(
-                    start: index == 0 ? 0 : AppSpacing.xs),
+                  start: index == 0 ? 0 : AppSpacing.xs,
+                ),
                 // Figma node 33:623 (the stepper's connecting line, fresh fetch of Complaint Details,
                 // node 33:518) measures 8px tall, not the 4px [AppSpacing.xs] this held before this
                 // pass — that's [AppSpacing.sm].

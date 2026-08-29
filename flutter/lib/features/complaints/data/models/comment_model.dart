@@ -8,6 +8,7 @@ final class CommentModel extends Comment {
     required super.authorName,
     required super.text,
     required super.createdAt,
+    super.likes,
   });
 
   factory CommentModel.fromJson(Map<String, dynamic> json) => CommentModel(
@@ -17,5 +18,6 @@ final class CommentModel extends Comment {
         authorName: json['authorName'] as String,
         text: json['text'] as String,
         createdAt: DateTime.parse(json['createdAt'] as String),
+        likes: json['likes'] as int? ?? 0,
       );
 }

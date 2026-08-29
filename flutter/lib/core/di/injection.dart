@@ -86,11 +86,15 @@ void configureDependencies() {
   );
   getIt.registerLazySingleton<ComplaintRepository>(
     () => ComplaintRepositoryImpl(
-        getIt<ComplaintRemoteDataSource>(), getIt<NetworkInfo>()),
+      getIt<ComplaintRemoteDataSource>(),
+      getIt<NetworkInfo>(),
+    ),
   );
   getIt.registerFactory<ComplaintsCubit>(
     () => ComplaintsCubit(
-        getIt<ComplaintRepository>(), getIt<SecureStorageService>()),
+      getIt<ComplaintRepository>(),
+      getIt<SecureStorageService>(),
+    ),
   );
   getIt.registerFactory<ComplaintDetailsCubit>(
     () => ComplaintDetailsCubit(
@@ -108,7 +112,9 @@ void configureDependencies() {
   // --- Create Complaint feature ---
   getIt.registerFactory<CreateComplaintCubit>(
     () => CreateComplaintCubit(
-        getIt<ComplaintRepository>(), getIt<SecureStorageService>()),
+      getIt<ComplaintRepository>(),
+      getIt<SecureStorageService>(),
+    ),
   );
 
   // --- Map feature ---
@@ -120,11 +126,15 @@ void configureDependencies() {
   );
   getIt.registerLazySingleton<NotificationRepository>(
     () => NotificationRepositoryImpl(
-        getIt<NotificationRemoteDataSource>(), getIt<NetworkInfo>()),
+      getIt<NotificationRemoteDataSource>(),
+      getIt<NetworkInfo>(),
+    ),
   );
   getIt.registerFactory<NotificationsCubit>(
     () => NotificationsCubit(
-        getIt<NotificationRepository>(), getIt<SecureStorageService>()),
+      getIt<NotificationRepository>(),
+      getIt<SecureStorageService>(),
+    ),
   );
 
   // --- Profile feature ---
@@ -133,7 +143,9 @@ void configureDependencies() {
   );
   getIt.registerLazySingleton<ProfileRepository>(
     () => ProfileRepositoryImpl(
-        getIt<ProfileRemoteDataSource>(), getIt<NetworkInfo>()),
+      getIt<ProfileRemoteDataSource>(),
+      getIt<NetworkInfo>(),
+    ),
   );
   getIt.registerFactory<ProfileCubit>(
     () => ProfileCubit(getIt<AuthRepository>(), getIt<ProfileRepository>()),

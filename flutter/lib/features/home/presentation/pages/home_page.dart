@@ -157,12 +157,16 @@ class _HomeContent extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                Text(context.l10n.homeRecentActivityHeading,
-                    style: AppTypography.recentActivityHeading),
+                Text(
+                  context.l10n.homeRecentActivityHeading,
+                  style: AppTypography.recentActivityHeading,
+                ),
                 const SizedBox(height: AppSpacing.sm),
                 if (state.recentActivity.isEmpty)
-                  Text(context.l10n.genericEmptyMessage,
-                      style: AppTypography.metaText)
+                  Text(
+                    context.l10n.genericEmptyMessage,
+                    style: AppTypography.metaText,
+                  )
                 else
                   ...state.recentActivity.map(
                     (complaint) => Padding(
@@ -218,8 +222,10 @@ class _Header extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.notifications_outlined,
-                color: AppColors.textOnBrand),
+            icon: const Icon(
+              Icons.notifications_outlined,
+              color: AppColors.textOnBrand,
+            ),
             onPressed: () => context.push(RoutePaths.notifications),
           ),
         ],
@@ -256,10 +262,12 @@ class _SectionHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(title,
-                  textAlign: TextAlign.end,
-                  style: AppTypography.sectionHeadingLarge
-                      .copyWith(color: AppColors.profileAccent)),
+              Text(
+                title,
+                textAlign: TextAlign.end,
+                style: AppTypography.sectionHeadingLarge
+                    .copyWith(color: AppColors.profileAccent),
+              ),
               if (subtitle != null) ...[
                 const SizedBox(height: AppSpacing.xs),
                 Text(
@@ -300,7 +308,11 @@ class _SearchBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.search, size: 20, color: AppColors.textFigmaTertiary),
+          const Icon(
+            Icons.search,
+            size: 20,
+            color: AppColors.textFigmaTertiary,
+          ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: TextField(
@@ -364,8 +376,11 @@ class _RecentActivityItem extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: AppColors.surfaceIconCircle,
               ),
-              child: Icon(categoryIcon(complaint.categoryId),
-                  size: 20, color: AppColors.profileAccent),
+              child: Icon(
+                categoryIcon(complaint.categoryId),
+                size: 20,
+                color: AppColors.profileAccent,
+              ),
             ),
             const SizedBox(width: AppSpacing.space12),
             Expanded(

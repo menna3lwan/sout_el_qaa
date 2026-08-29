@@ -56,7 +56,9 @@ void main() {
   group('Validators.confirmPassword', () {
     test('rejects empty confirmation', () {
       expect(
-          Validators.confirmPassword('', 'qaaHamour1'), 'validationRequired');
+        Validators.confirmPassword('', 'qaaHamour1'),
+        'validationRequired',
+      );
     });
 
     test('rejects mismatch', () {

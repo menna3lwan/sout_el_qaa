@@ -113,7 +113,8 @@ class _Pill extends StatelessWidget {
           vertical: AppSpacing.sm,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? selectedBackgroundColor : unselectedBackgroundColor,
+          color:
+              isSelected ? selectedBackgroundColor : unselectedBackgroundColor,
           borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
           border: Border.all(
             color: isSelected ? selectedBorderColor : unselectedBorderColor,

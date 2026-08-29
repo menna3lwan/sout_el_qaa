@@ -17,8 +17,12 @@ import 'category_visuals.dart';
 /// The container size (48x48) is deliberately not the icon's own size (20x20) — the two are set
 /// independently in [build] below rather than one implying the other.
 class CategoryChip extends StatelessWidget {
-  const CategoryChip(
-      {required this.category, super.key, this.isSelected = false, this.onTap});
+  const CategoryChip({
+    required this.category,
+    super.key,
+    this.isSelected = false,
+    this.onTap,
+  });
 
   final Category category;
   final bool isSelected;
@@ -51,8 +55,11 @@ class CategoryChip extends StatelessWidget {
                 // don't assume the old implementation is wrong without evidence either way).
                 border: Border.all(color: border, width: isSelected ? 3 : 2),
               ),
-              child: Icon(categoryIcon(category.id),
-                  color: AppColors.headerBackground, size: 20),
+              child: Icon(
+                categoryIcon(category.id),
+                color: AppColors.headerBackground,
+                size: 20,
+              ),
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(

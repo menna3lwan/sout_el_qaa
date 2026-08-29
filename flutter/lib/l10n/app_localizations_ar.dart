@@ -185,6 +185,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get complaintsEmptyMessage => 'مفيش شكاوى في القسم ده لسه';
 
   @override
+  String get complaintDetailsAppBarTitle => 'تفاصيل الشكوى';
+
+  @override
   String get detailsTitle => 'حالة الشكوى';
 
   @override
@@ -213,6 +216,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get locationLabel => 'الموقع';
+
+  @override
+  String get severityFlavorHigh => 'كارثة قومية';
+
+  @override
+  String get severityFlavorMedium => 'مصيبة مش بسيطة';
+
+  @override
+  String get severityFlavorLow => 'شكوى عادية';
+
+  @override
+  String complaintReportsCount(int count) {
+    return '$count بلاغ';
+  }
+
+  @override
+  String complaintDislikesCount(int count) {
+    return '$count عدم إعجاب';
+  }
 
   @override
   String get createComplaintTitle => 'تقديم شكوى';
@@ -341,13 +363,44 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileLogoutMenu => 'تسجيل الخروج';
 
   @override
-  String get profileStatSubmitted => 'شكاوى مقدَّمة';
+  String get profileStatSubmitted => 'شكوى';
 
   @override
-  String get profileStatResolved => 'شكاوى محلولة';
+  String get profileStatResolved => 'مغلقة';
 
   @override
-  String get profileStatPoints => 'نقاط المشاركة';
+  String get profileStatPoints => 'فقاعة';
+
+  @override
+  String get profileCurrentLevelLabel => 'المستوى الحالي';
+
+  @override
+  String profileProgressToNextLabel(int percent) {
+    return '$percent% للترقية';
+  }
+
+  @override
+  String profileNextRankCaption(int points, String rank) {
+    return 'اجمع $points فقاعة إضافية للوصول لرتبة \"$rank\"';
+  }
+
+  @override
+  String get profileMaxRankCaption => 'وصلت لأعلى رتبة في قاع الهامور! 🏆';
+
+  @override
+  String get profileRankQaaResident => 'ساكن القاع';
+
+  @override
+  String get profileRankStreetWatcher => 'مراقب الشوارع';
+
+  @override
+  String get profileRankSeaRescuer => 'منقذ بحري';
+
+  @override
+  String get profileRankQaaHero => 'بطل القاع';
+
+  @override
+  String get profileRankQaaLegend => 'أسطورة قاع الهامور';
 
   @override
   String get myComplaintsTitle => 'شكاواي';

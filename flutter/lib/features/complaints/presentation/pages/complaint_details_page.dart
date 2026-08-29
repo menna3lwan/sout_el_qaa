@@ -13,11 +13,14 @@ import '../../../../core/widgets/character_avatar_assets.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/loading_view.dart';
 import '../../../../core/widgets/qaa_avatar.dart';
+import '../../domain/entities/category.dart';
 import '../../domain/entities/comment.dart';
 import '../../domain/entities/complaint.dart';
 import '../cubit/complaint_details_cubit.dart';
 import '../cubit/complaint_details_state.dart';
+import '../widgets/category_visuals.dart';
 import '../widgets/complaint_scene_assets.dart';
+import '../widgets/severity_visuals.dart';
 import '../widgets/status_badge.dart';
 
 /// New screen (not present as a stub anywhere before this pass) implementing Figma node 33:518 —
@@ -57,7 +60,7 @@ class _ComplaintDetailsViewState extends State<_ComplaintDetailsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.detailsTitle),
+        title: Text(context.l10n.complaintDetailsAppBarTitle),
         actions: const [
           // The header avatar every other screen shows (Figma node 33:518) — this app has a single
           // demo resident (SpongeBob), so it's the same bundled asset used everywhere else, not a
@@ -124,7 +127,24 @@ class _DetailsBody extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.md),
       children: [
-        if (showPhoto)
+        // [Updated, Full Audit & Sync pass, 27 Aug 2026] Re-verified against a fresh fetch of Figma
+        // node 33:518: this page shows an "عاجل" badge above the title (node 33:597, high-severity
+        // complaints only — same signal as [ComplaintListCard.showUrgentBadge]) instead of a
+        // [StatusBadge] chip inline with it — status here is communicated by the stepper below
+        // instead, so the chip that duplicated it next to the title is dropped rather than kept
+        // unconditionally just because it existed before this pass.
+        if (complaint.severity == ComplaintSeverity.high) ...[
+          _DetailsUrgentBadge(label: context.l10n.homeUrgentBadge),
+          const SizedBox(height: AppSpacing.xs),
+        ],
+        Text(complaint.title, style: AppTypography.complaintTitle),
+        const SizedBox(height: AppSpacing.sm),
+        // [New, Figma Sync pass, 29 Aug 2026] Severity-flavor / category / location 3-pill row (Figma
+        // node 33:518) — re-ordered above the hero image, replacing the old plain location+time row,
+        // per a fresh fetch's real paint order (title -> pills -> image -> reaction counters).
+        _InfoPillRow(complaint: complaint, category: state.category),
+        const SizedBox(height: AppSpacing.md),
+        if (showPhoto) ...[
           ClipRRect(
             borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
             child: AspectRatio(
@@ -148,31 +168,23 @@ class _DetailsBody extends StatelessWidget {
                     ),
             ),
           ),
-        if (showPhoto) const SizedBox(height: AppSpacing.md),
-        // [Updated, Full Audit & Sync pass, 27 Aug 2026] Re-verified against a fresh fetch of Figma
-        // node 33:518: this page shows an "عاجل" badge above the title (node 33:597, high-severity
-        // complaints only — same signal as [ComplaintListCard.showUrgentBadge]) instead of a
-        // [StatusBadge] chip inline with it — status here is communicated by the stepper below
-        // instead, so the chip that duplicated it next to the title is dropped rather than kept
-        // unconditionally just because it existed before this pass.
-        if (complaint.severity == ComplaintSeverity.high) ...[
-          _DetailsUrgentBadge(label: context.l10n.homeUrgentBadge),
-          const SizedBox(height: AppSpacing.xs),
+          const SizedBox(height: AppSpacing.md),
         ],
-        Text(complaint.title, style: AppTypography.complaintTitle),
-        const SizedBox(height: AppSpacing.xs),
-        Row(
-          children: [
-            const Icon(Icons.location_on_outlined,
-                size: 16, color: AppColors.textMutedGrey),
-            const SizedBox(width: AppSpacing.xs),
-            Expanded(
-                child: Text(complaint.location, style: AppTypography.metaText)),
-            Text(DateFormatter.relative(complaint.createdAt),
-                style: AppTypography.metaText),
-          ],
+        // [Updated, Figma Sync pass, 29 Aug 2026] Was a single like button + a bare views count —
+        // Figma node 33:518 shows 3 counter pills (reports/dislikes/likes) instead; views moved out
+        // (not shown on this screen in the fresh fetch — it's still shown on list cards, unchanged).
+        _EngagementCountersRow(
+          complaint: complaint,
+          isLiked: state.isLiked,
+          isDisliked: state.isDisliked,
+          isReported: state.isReported,
         ),
         const SizedBox(height: AppSpacing.lg),
+        // [New, Figma Sync pass, 29 Aug 2026] A real section heading above the stepper — Figma node
+        // 33:518 shows "حالة الشكوى" here as body content, not as the AppBar title
+        // ([complaintDetailsAppBarTitle] now covers that instead, see this page's AppBar).
+        Text(context.l10n.detailsTitle, style: AppTypography.cardTitle),
+        const SizedBox(height: AppSpacing.sm),
         ComplaintStatusStepper(
           currentStatus: complaint.status,
           receivedLabel: context.l10n.statusReceivedLabel,
@@ -184,8 +196,10 @@ class _DetailsBody extends StatelessWidget {
         // already names "Details section heading" as one of its two real uses — this call site was
         // using [AppTypography.sectionLabel] (a different family, Baloo Bhaijaan 2) instead, which a
         // fresh fetch of node 33:646 confirms is wrong: Cairo Regular 16px, not Baloo 14px SemiBold.
-        Text(context.l10n.detailsSectionHeading,
-            style: AppTypography.cardTitle),
+        Text(
+          context.l10n.detailsSectionHeading,
+          style: AppTypography.cardTitle,
+        ),
         const SizedBox(height: AppSpacing.sm),
         Container(
           width: double.infinity,
@@ -202,18 +216,21 @@ class _DetailsBody extends StatelessWidget {
         const SizedBox(height: AppSpacing.md),
         Row(
           children: [
-            _ReactionButton(
-              icon: state.isLiked ? Icons.favorite : Icons.favorite_outline,
-              label: context.l10n.homeLikesCount(complaint.likes),
-              isActive: state.isLiked,
-              onTap: () => context.read<ComplaintDetailsCubit>().toggleLike(),
+            const Icon(
+              Icons.remove_red_eye_outlined,
+              size: 16,
+              color: AppColors.textMutedGrey,
             ),
-            const SizedBox(width: AppSpacing.md),
-            Icon(Icons.remove_red_eye_outlined,
-                size: 16, color: AppColors.textMutedGrey),
             const SizedBox(width: AppSpacing.xs),
-            Text(context.l10n.homeViewsCount(complaint.views),
-                style: AppTypography.metaText),
+            Text(
+              context.l10n.homeViewsCount(complaint.views),
+              style: AppTypography.metaText,
+            ),
+            const Spacer(),
+            Text(
+              DateFormatter.relative(complaint.createdAt),
+              style: AppTypography.metaText,
+            ),
           ],
         ),
         const SizedBox(height: AppSpacing.lg),
@@ -222,14 +239,18 @@ class _DetailsBody extends StatelessWidget {
         if (state.comments.isEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-            child: Text(context.l10n.commentsEmptyMessage,
-                style: AppTypography.metaText),
+            child: Text(
+              context.l10n.commentsEmptyMessage,
+              style: AppTypography.metaText,
+            ),
           )
         else
           ...state.comments.map((comment) => _CommentTile(comment: comment)),
         const SizedBox(height: AppSpacing.md),
         _CommentInput(
-            controller: commentController, isPosting: state.isPostingComment),
+          controller: commentController,
+          isPosting: state.isPostingComment,
+        ),
       ],
     );
   }
@@ -266,33 +287,218 @@ class _DetailsUrgentBadge extends StatelessWidget {
   }
 }
 
-class _ReactionButton extends StatelessWidget {
-  const _ReactionButton({
-    required this.icon,
-    required this.label,
-    required this.isActive,
-    required this.onTap,
-  });
+/// [New, Figma Sync pass, 29 Aug 2026] Severity-flavor / category / location 3-pill row (Figma node
+/// 33:518) — deliberately local to this page (not promoted to a shared widget) since this exact
+/// 3-pill combination has only one confirmed real use so far, same "don't over-abstract ahead of a
+/// second real use" rule already applied elsewhere on this branch (e.g. Home's `_RecentActivityItem`).
+class _InfoPillRow extends StatelessWidget {
+  const _InfoPillRow({required this.complaint, required this.category});
 
-  final IconData icon;
-  final String label;
-  final bool isActive;
-  final VoidCallback onTap;
+  final Complaint complaint;
+  final Category? category;
 
   @override
   Widget build(BuildContext context) {
-    final color =
-        isActive ? AppColors.urgentDestructive : AppColors.textMutedGrey;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+    final severityColors = severityFlavorPillColors(complaint.severity);
+    return Wrap(
+      alignment: WrapAlignment.end,
+      spacing: AppSpacing.xs,
+      runSpacing: AppSpacing.xs,
+      children: [
+        _InfoPill(
+          label: severityFlavorLabel(context, complaint.severity),
+          icon: severityFlavorIcon(complaint.severity),
+          backgroundColor: severityColors.background,
+          borderColor: severityColors.border,
+          textColor: severityColors.text,
+        ),
+        _InfoPill(
+          label: category?.name ?? complaint.categoryId,
+          icon: categoryIcon(complaint.categoryId),
+          backgroundColor: AppColors.categoryPillBackground,
+          borderColor: AppColors.categoryPillBorder,
+          textColor: AppColors.categoryPillText,
+        ),
+        _InfoPill(
+          label: complaint.location,
+          icon: Icons.location_on_outlined,
+          backgroundColor: AppColors.locationPillBackground,
+          borderColor: AppColors.locationPillBorder,
+          textColor: AppColors.locationPillText,
+        ),
+      ],
+    );
+  }
+}
+
+/// Figma's real pill sizing (node `67:2339`-`67:2349`): 8px Cairo Bold, 0.5px tracking, ~11-13px
+/// icons — noticeably smaller than [AppTypography.statusChipLabel] (10px)'s other use, so this
+/// builds its own [TextStyle] rather than reusing it.
+class _InfoPill extends StatelessWidget {
+  const _InfoPill({
+    required this.label,
+    required this.icon,
+    required this.backgroundColor,
+    required this.borderColor,
+    required this.textColor,
+  });
+
+  final String label;
+  final IconData icon;
+  final Color backgroundColor;
+  final Color borderColor;
+  final Color textColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.sm,
+        vertical: AppSpacing.xs,
+      ),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+        border: Border.all(color: borderColor),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 20, color: color),
+          Text(
+            label,
+            style: AppTypography.statusChipLabel.copyWith(
+              color: textColor,
+              fontSize: 8,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
           const SizedBox(width: AppSpacing.xs),
-          Text(label, style: AppTypography.metaText.copyWith(color: color)),
+          Icon(icon, size: 12, color: textColor),
         ],
+      ),
+    );
+  }
+}
+
+/// [New, Figma Sync pass, 29 Aug 2026] The details page's 3-counter reaction row (Figma node 33:518,
+/// containers `33:608`/`33:613`/`67:2352`, in that real DOM/RTL-visual order: report, dislike, like)
+/// — replaces the old single like button + bare views count. Local to this page for the same reason
+/// as [_InfoPillRow]. Unlike the pre-existing like button, Figma's 3 pills all share the same navy
+/// text/icon color regardless of state — only the icon glyph switches outline/filled to show "did I
+/// react", matching this row's one real Figma example (which has no separate "active" pill style).
+class _EngagementCountersRow extends StatelessWidget {
+  const _EngagementCountersRow({
+    required this.complaint,
+    required this.isLiked,
+    required this.isDisliked,
+    required this.isReported,
+  });
+
+  final Complaint complaint;
+  final bool isLiked;
+  final bool isDisliked;
+  final bool isReported;
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<ComplaintDetailsCubit>();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _CounterPill(
+          count: complaint.reports,
+          icon: Icons.flag_outlined,
+          activeIcon: Icons.flag,
+          isActive: isReported,
+          textColor: AppColors.textFigmaPrimary,
+          fontWeight: FontWeight.w600,
+          semanticLabel: context.l10n.complaintReportsCount(complaint.reports),
+          onTap: cubit.toggleReport,
+        ),
+        _CounterPill(
+          count: complaint.dislikes,
+          icon: Icons.thumb_down_outlined,
+          activeIcon: Icons.thumb_down,
+          isActive: isDisliked,
+          textColor: AppColors.headerBackground,
+          fontWeight: FontWeight.w500,
+          semanticLabel:
+              context.l10n.complaintDislikesCount(complaint.dislikes),
+          onTap: cubit.toggleDislike,
+        ),
+        _CounterPill(
+          count: complaint.likes,
+          icon: Icons.thumb_up_outlined,
+          activeIcon: Icons.thumb_up,
+          isActive: isLiked,
+          textColor: AppColors.headerBackground,
+          fontWeight: FontWeight.w500,
+          semanticLabel: context.l10n.homeLikesCount(complaint.likes),
+          onTap: cubit.toggleLike,
+        ),
+      ],
+    );
+  }
+}
+
+class _CounterPill extends StatelessWidget {
+  const _CounterPill({
+    required this.count,
+    required this.icon,
+    required this.activeIcon,
+    required this.isActive,
+    required this.textColor,
+    required this.fontWeight,
+    required this.semanticLabel,
+    required this.onTap,
+  });
+
+  final int count;
+  final IconData icon;
+  final IconData activeIcon;
+  final bool isActive;
+  final Color textColor;
+  final FontWeight fontWeight;
+  final String semanticLabel;
+  final VoidCallback onTap;
+
+  /// Figma's example caps large counts at "99+" rather than showing the raw number.
+  String get _displayCount => count > 99 ? '99+' : '$count';
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: semanticLabel,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.space18,
+            vertical: AppSpacing.sm,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.surfaceOffWhite,
+            borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+            border: Border.all(color: AppColors.borderNeutral, width: 2),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                _displayCount,
+                style: AppTypography.chipLabel.copyWith(
+                  color: textColor,
+                  fontSize: 14,
+                  fontWeight: fontWeight,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              Icon(isActive ? activeIcon : icon, size: 18, color: textColor),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -335,6 +541,26 @@ class _CommentTile extends StatelessWidget {
                   ],
                 ),
                 Text(comment.text, style: AppTypography.bodyDefault),
+                const SizedBox(height: AppSpacing.xs),
+                // [New, Figma Sync pass, 29 Aug 2026] Comment like count (Figma node 33:657,
+                // e.g. "12" + thumb icon under شفيق's comment) — the [Comment] entity gained a
+                // [Comment.likes] field this pass; display-only for now (no confirmed Figma
+                // affordance to actually tap-like a comment, unlike the complaint-level reactions).
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '${comment.likes}',
+                      style: AppTypography.metaText,
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    const Icon(
+                      Icons.thumb_up_outlined,
+                      size: 14,
+                      color: AppColors.textMutedGrey,
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

@@ -85,8 +85,11 @@ class ComplaintListCard extends StatelessWidget {
         const SizedBox(height: AppSpacing.sm),
         Row(
           children: [
-            const Icon(Icons.location_on_outlined,
-                size: 14, color: AppColors.textMutedGrey),
+            const Icon(
+              Icons.location_on_outlined,
+              size: 14,
+              color: AppColors.textMutedGrey,
+            ),
             const SizedBox(width: AppSpacing.xs),
             Expanded(
               child: Text(
@@ -97,26 +100,38 @@ class ComplaintListCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: AppSpacing.sm),
-            Text(DateFormatter.relative(complaint.createdAt),
-                style: AppTypography.stepLabel
-                    .copyWith(color: AppColors.textMutedGrey)),
+            Text(
+              DateFormatter.relative(complaint.createdAt),
+              style: AppTypography.stepLabel
+                  .copyWith(color: AppColors.textMutedGrey),
+            ),
           ],
         ),
         if (showEngagementStats) ...[
           const SizedBox(height: AppSpacing.xs),
           Row(
             children: [
-              const Icon(Icons.remove_red_eye_outlined,
-                  size: 14, color: AppColors.textMutedGrey),
+              const Icon(
+                Icons.remove_red_eye_outlined,
+                size: 14,
+                color: AppColors.textMutedGrey,
+              ),
               const SizedBox(width: AppSpacing.xs),
-              Text(context.l10n.homeViewsCount(complaint.views),
-                  style: AppTypography.metaText),
+              Text(
+                context.l10n.homeViewsCount(complaint.views),
+                style: AppTypography.metaText,
+              ),
               const SizedBox(width: AppSpacing.md),
-              const Icon(Icons.favorite_outline,
-                  size: 14, color: AppColors.textMutedGrey),
+              const Icon(
+                Icons.favorite_outline,
+                size: 14,
+                color: AppColors.textMutedGrey,
+              ),
               const SizedBox(width: AppSpacing.xs),
-              Text(context.l10n.homeLikesCount(complaint.likes),
-                  style: AppTypography.metaText),
+              Text(
+                context.l10n.homeLikesCount(complaint.likes),
+                style: AppTypography.metaText,
+              ),
             ],
           ),
         ],
@@ -155,10 +170,8 @@ class ComplaintListCard extends StatelessWidget {
                       // Figma node 33:760/33:776/33:792 (the thumbnail frame) uses an 8px corner
                       // radius, not the 12px [AppSpacing.radiusMd] this previously (wrongly) used —
                       // that's [AppSpacing.radiusSm], shared with the image-upload/location boxes.
-                      borderRadius:
-                          BorderRadius.circular(AppSpacing.radiusSm),
-                      border: Border.all(
-                          color: AppColors.borderNeutral, width: 1),
+                      borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+                      border: Border.all(color: AppColors.borderNeutral),
                     ),
                     clipBehavior: Clip.antiAlias,
                     child: Image.asset(
@@ -185,11 +198,13 @@ class _UrgentBadge extends StatelessWidget {
     return Container(
       margin: const EdgeInsetsDirectional.only(start: AppSpacing.xs),
       padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+        horizontal: AppSpacing.sm,
+        vertical: AppSpacing.xs,
+      ),
       decoration: BoxDecoration(
         color: AppColors.urgentDestructive,
         borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
-        border: Border.all(color: AppColors.urgentBadgeBorder, width: 1),
+        border: Border.all(color: AppColors.urgentBadgeBorder),
       ),
       child: Text(label, style: AppTypography.statusChipLabel),
     );
@@ -213,9 +228,9 @@ class _SameProblemRow extends StatelessWidget {
       children: [
         Row(
           children: [
-            _ReactionIconCircle(icon: Icons.thumb_up_outlined),
+            const _ReactionIconCircle(icon: Icons.thumb_up_outlined),
             const SizedBox(width: AppSpacing.xs),
-            _ReactionIconCircle(icon: Icons.thumb_down_outlined),
+            const _ReactionIconCircle(icon: Icons.thumb_down_outlined),
             const Spacer(),
             Text(
               context.l10n.homeSameProblemCount(complaint.likes),

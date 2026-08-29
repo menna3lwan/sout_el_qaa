@@ -11,8 +11,11 @@ import '../../domain/entities/app_notification.dart';
 /// application of the existing "notification badge" color tokens (app_colors.dart), not a re-derived
 /// Figma value; revisit if a real design turns up.
 class NotificationCard extends StatelessWidget {
-  const NotificationCard(
-      {required this.notification, required this.onTap, super.key});
+  const NotificationCard({
+    required this.notification,
+    required this.onTap,
+    super.key,
+  });
 
   final AppNotification notification;
   final VoidCallback onTap;
@@ -42,8 +45,7 @@ class NotificationCard extends StatelessWidget {
           color: AppColors.glassOverlayNotificationCard,
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
           // Figma node 33:936's cards use a 2px border, not the 1.5px this held before this pass.
-          border:
-              Border.all(color: AppColors.notificationCardAccent, width: 2),
+          border: Border.all(color: AppColors.notificationCardAccent, width: 2),
         ),
         child: Row(
           children: [

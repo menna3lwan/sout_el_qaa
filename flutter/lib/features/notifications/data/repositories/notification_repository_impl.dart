@@ -14,8 +14,9 @@ final class NotificationRepositoryImpl implements NotificationRepository {
   final NetworkInfo _networkInfo;
 
   @override
-  Future<Either<Failure, List<AppNotification>>> getNotifications(
-          {required String userId}) =>
+  Future<Either<Failure, List<AppNotification>>> getNotifications({
+    required String userId,
+  }) =>
       _run(() => _remote.getNotifications(userId));
 
   @override

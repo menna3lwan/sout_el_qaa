@@ -15,6 +15,8 @@ Future<Response<T>> guardDioCall<T>(Future<Response<T>> Function() call) async {
         ? data['message'] as String
         : (error.message ?? 'genericErrorMessage');
     throw ServerException(
-        message: message, statusCode: error.response?.statusCode);
+      message: message,
+      statusCode: error.response?.statusCode,
+    );
   }
 }

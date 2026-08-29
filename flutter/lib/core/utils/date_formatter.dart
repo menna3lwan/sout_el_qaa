@@ -27,7 +27,11 @@ abstract final class DateFormatter {
 
   /// Arabic singular/dual forms omit the digit ("منذ ساعتين" not "منذ 2 ساعتين"); plural (3+) includes it explicitly — confirmed directly from the real Figma text.
   static String _phrase(
-      int count, String singular, String dual, String plural) {
+    int count,
+    String singular,
+    String dual,
+    String plural,
+  ) {
     if (count == 1) return 'منذ $singular';
     if (count == 2) return 'منذ $dual';
     return 'منذ $count $plural';

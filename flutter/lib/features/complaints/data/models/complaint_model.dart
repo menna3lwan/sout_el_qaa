@@ -18,6 +18,8 @@ final class ComplaintModel extends Complaint {
     required super.mediaUrls,
     required super.authorId,
     required super.createdAt,
+    super.dislikes,
+    super.reports,
   });
 
   factory ComplaintModel.fromJson(Map<String, dynamic> json) => ComplaintModel(
@@ -32,6 +34,8 @@ final class ComplaintModel extends Complaint {
         lng: (json['lng'] as num).toDouble(),
         views: json['views'] as int? ?? 0,
         likes: json['likes'] as int? ?? 0,
+        dislikes: json['dislikes'] as int? ?? 0,
+        reports: json['reports'] as int? ?? 0,
         mediaUrls: (json['mediaUrls'] as List<dynamic>? ?? const [])
             .map((e) => e as String)
             .toList(),
@@ -51,6 +55,8 @@ final class ComplaintModel extends Complaint {
         'lng': lng,
         'views': views,
         'likes': likes,
+        'dislikes': dislikes,
+        'reports': reports,
         'mediaUrls': mediaUrls,
         'authorId': authorId,
         'createdAt': createdAt.toIso8601String(),

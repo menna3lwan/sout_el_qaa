@@ -17,8 +17,10 @@ abstract interface class ComplaintRepository {
   Future<Either<Failure, List<Complaint>>> getRecentActivity({int limit = 5});
 
   /// [authorId]/[status] filter server-side (json-server query params); both null returns every complaint.
-  Future<Either<Failure, List<Complaint>>> getComplaints(
-      {String? authorId, ComplaintStatus? status});
+  Future<Either<Failure, List<Complaint>>> getComplaints({
+    String? authorId,
+    ComplaintStatus? status,
+  });
 
   Future<Either<Failure, Complaint>> getComplaintById(String id);
 
@@ -49,6 +51,19 @@ abstract interface class ComplaintRepository {
   Future<Either<Failure, int>> like(String complaintId);
 
   Future<Either<Failure, int>> unlike(String complaintId);
+
+  /// [New, Figma Sync pass, 29 Aug 2026] The details page's 3-counter reaction row (node 33:518) —
+  /// mirrors [like]/[unlike] exactly, just a second independent counter, not a per-user "vote"
+  /// (same [Assumption A#] as [like]: no per-user reaction state exists server-side).
+  Future<Either<Failure, int>> dislike(String complaintId);
+
+  Future<Either<Failure, int>> undislike(String complaintId);
+
+  /// A tally of residents flagging the complaint as serious (not a moderation queue — see
+  /// [Complaint.reports]'s doc comment). Returns the new report count.
+  Future<Either<Failure, int>> report(String complaintId);
+
+  Future<Either<Failure, int>> unreport(String complaintId);
 
   Future<Either<Failure, List<ComplaintMapPin>>> getMapPins();
 }

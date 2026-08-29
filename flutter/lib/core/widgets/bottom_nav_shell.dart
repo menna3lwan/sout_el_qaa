@@ -165,7 +165,8 @@ class _AddNavItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.fabBackground,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.surfaceIconCircle, width: 2),
+                border:
+                    Border.all(color: AppColors.surfaceIconCircle, width: 2),
                 boxShadow: const [
                   BoxShadow(
                     color: Color(0x1A000000), // rgba(0,0,0,0.1), matches Figma

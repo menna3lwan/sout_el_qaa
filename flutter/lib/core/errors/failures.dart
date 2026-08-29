@@ -46,8 +46,10 @@ final class ValidationFailure extends Failure {
 
 /// Camera/location/notifications permission denied.
 final class PermissionFailure extends Failure {
-  const PermissionFailure(
-      {required super.message, required this.permissionType});
+  const PermissionFailure({
+    required super.message,
+    required this.permissionType,
+  });
 
   final PermissionFailureType permissionType;
 
