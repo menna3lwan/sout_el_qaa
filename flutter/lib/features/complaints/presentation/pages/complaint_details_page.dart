@@ -300,17 +300,21 @@ class _InfoPillRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final severityColors = severityFlavorPillColors(complaint.severity);
+    // [Fixed, Figma Sync pass, 29 Aug 2026] A real fetch of node 33:518 shows this row's visual order
+    // (right-to-left, RTL reading order) as location → category → severity — the opposite of a prior
+    // pass's guess. Under RTL, a Wrap's *first* child renders at the *right* (start) edge same as Row,
+    // so the location pill (Figma's rightmost/first-read one) must be listed first here, not last.
     return Wrap(
       alignment: WrapAlignment.end,
       spacing: AppSpacing.xs,
       runSpacing: AppSpacing.xs,
       children: [
         _InfoPill(
-          label: severityFlavorLabel(context, complaint.severity),
-          icon: severityFlavorIcon(complaint.severity),
-          backgroundColor: severityColors.background,
-          borderColor: severityColors.border,
-          textColor: severityColors.text,
+          label: complaint.location,
+          icon: Icons.location_on_outlined,
+          backgroundColor: AppColors.locationPillBackground,
+          borderColor: AppColors.locationPillBorder,
+          textColor: AppColors.locationPillText,
         ),
         _InfoPill(
           label: category?.name ?? complaint.categoryId,
@@ -320,11 +324,11 @@ class _InfoPillRow extends StatelessWidget {
           textColor: AppColors.categoryPillText,
         ),
         _InfoPill(
-          label: complaint.location,
-          icon: Icons.location_on_outlined,
-          backgroundColor: AppColors.locationPillBackground,
-          borderColor: AppColors.locationPillBorder,
-          textColor: AppColors.locationPillText,
+          label: severityFlavorLabel(context, complaint.severity),
+          icon: severityFlavorIcon(complaint.severity),
+          backgroundColor: severityColors.background,
+          borderColor: severityColors.border,
+          textColor: severityColors.text,
         ),
       ],
     );
@@ -402,18 +406,22 @@ class _EngagementCountersRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ComplaintDetailsCubit>();
+    // [Fixed, Figma Sync pass, 29 Aug 2026] A real fetch of node 33:518 shows this row's visual order
+    // (right-to-left, RTL reading order) as like → dislike → report — the opposite of a prior pass's
+    // guess. Under this app's RTL Directionality, a Row's *first* child renders at the *right* (start)
+    // edge, so the like pill (Figma's rightmost/first-read one) must be listed first here, not last.
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _CounterPill(
-          count: complaint.reports,
-          icon: Icons.flag_outlined,
-          activeIcon: Icons.flag,
-          isActive: isReported,
-          textColor: AppColors.textFigmaPrimary,
-          fontWeight: FontWeight.w600,
-          semanticLabel: context.l10n.complaintReportsCount(complaint.reports),
-          onTap: cubit.toggleReport,
+          count: complaint.likes,
+          icon: Icons.thumb_up_outlined,
+          activeIcon: Icons.thumb_up,
+          isActive: isLiked,
+          textColor: AppColors.headerBackground,
+          fontWeight: FontWeight.w500,
+          semanticLabel: context.l10n.homeLikesCount(complaint.likes),
+          onTap: cubit.toggleLike,
         ),
         _CounterPill(
           count: complaint.dislikes,
@@ -427,14 +435,14 @@ class _EngagementCountersRow extends StatelessWidget {
           onTap: cubit.toggleDislike,
         ),
         _CounterPill(
-          count: complaint.likes,
-          icon: Icons.thumb_up_outlined,
-          activeIcon: Icons.thumb_up,
-          isActive: isLiked,
-          textColor: AppColors.headerBackground,
-          fontWeight: FontWeight.w500,
-          semanticLabel: context.l10n.homeLikesCount(complaint.likes),
-          onTap: cubit.toggleLike,
+          count: complaint.reports,
+          icon: Icons.flag_outlined,
+          activeIcon: Icons.flag,
+          isActive: isReported,
+          textColor: AppColors.textFigmaPrimary,
+          fontWeight: FontWeight.w600,
+          semanticLabel: context.l10n.complaintReportsCount(complaint.reports),
+          onTap: cubit.toggleReport,
         ),
       ],
     );
