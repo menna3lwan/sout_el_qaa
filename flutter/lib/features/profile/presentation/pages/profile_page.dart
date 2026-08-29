@@ -39,19 +39,36 @@ class _ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: BlocBuilder<ProfileCubit, ProfileState>(
-          builder: (context, state) {
-            return switch (state) {
-              ProfileLoading() => const LoadingView(),
-              ProfileError(:final messageKey) => ErrorView(
-                  message: resolveMessageKey(context, messageKey),
-                  onRetry: () => context.read<ProfileCubit>().load(),
-                ),
-              ProfileLoaded() => _ProfileContent(state: state),
-            };
-          },
+      // [New, Figma Sync pass, 29 Aug 2026] A real fetch of node 33:794 shows the same navy header
+      // bar every other screen has (bell action + avatar) — this page had none at all before this
+      // pass, the only one of the 6 real screens missing it.
+      appBar: AppBar(
+        title: Text(context.l10n.profilePageTitle),
+        leading: IconButton(
+          icon: const Icon(Icons.notifications_outlined),
+          onPressed: () => context.push(RoutePaths.notifications),
         ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+            child: QaaAvatar(
+              assetPath: 'assets/images/characters/spongebob_avatar.jpg',
+              size: 36,
+            ),
+          ),
+        ],
+      ),
+      body: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          return switch (state) {
+            ProfileLoading() => const LoadingView(),
+            ProfileError(:final messageKey) => ErrorView(
+                message: resolveMessageKey(context, messageKey),
+                onRetry: () => context.read<ProfileCubit>().load(),
+              ),
+            ProfileLoaded() => _ProfileContent(state: state),
+          };
+        },
       ),
     );
   }
@@ -70,11 +87,10 @@ class _ProfileContent extends StatelessWidget {
         Center(
           child: Column(
             children: [
-              // [New, Figma Sync pass, 29 Aug 2026] Rank badge overlapping the avatar's bottom edge
-              // (Figma node 33:794) — a Stack + slight negative margin instead of Positioned, since
-              // (unlike the Home CTA mascot) both children stay in normal flow otherwise.
+              // [Fixed, Figma Sync pass, 29 Aug 2026] A real fetch of node `61:1700` places this
+              // badge at the avatar's bottom-*end* corner (`bottom-[-8px] right-[-8px]`), not
+              // bottom-center — [PositionedDirectional.end] mirrors correctly for RTL/LTR alike.
               Stack(
-                alignment: Alignment.bottomCenter,
                 clipBehavior: Clip.none,
                 children: [
                   QaaAvatar(
@@ -83,23 +99,61 @@ class _ProfileContent extends StatelessWidget {
                     variant: QaaAvatarVariant.profile,
                   ),
                   PositionedDirectional(
-                    bottom: -12,
+                    bottom: -8,
+                    end: -8,
                     child: RankBadge(
                       rank: ProfileRankLadder.rankFor(state.stats.points),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: AppSpacing.lg),
+              const SizedBox(height: AppSpacing.md),
               Text(state.user.displayName, style: AppTypography.profileName),
               if (state.user.bio != null && state.user.bio!.isNotEmpty)
                 Text(state.user.bio!, style: AppTypography.metaText),
+              const SizedBox(height: AppSpacing.xs),
+              // [New, Figma Sync pass, 29 Aug 2026] The "bubble-currency" line under the name (Figma
+              // node `61:1706`: "فقاعة 245 🫧") — was missing entirely; only shown inside the stats
+              // grid's points cell before this pass.
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    context.l10n.profileStatPoints,
+                    style: AppTypography.chipLabel.copyWith(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.textFigmaSecondary,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  Text(
+                    '${state.stats.points}',
+                    style: AppTypography.chipLabel.copyWith(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.statCardHighlightText,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  Text(
+                    '🫧',
+                    style: AppTypography.chipLabel.copyWith(
+                      fontSize: 16,
+                      color: AppColors.statCardHighlightText,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
         const SizedBox(height: AppSpacing.lg),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // [Verified, Figma Sync pass, 29 Aug 2026] Order re-confirmed against the real screenshot
+        // (not just DOM order, which reads misleadingly under this RTL app — see [RankProgressCard]'s
+        // own note on the same pitfall): physically left-to-right is points/resolved/submitted, which
+        // under Flutter's RTL Row (first child = right edge) means submitted must be listed first.
+        ProfileStatsGridCard(
           children: [
             StatCard(
               value: '${state.stats.submittedCount}',
