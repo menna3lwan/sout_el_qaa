@@ -7,9 +7,10 @@ import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../domain/entities/profile_rank.dart';
 import 'profile_rank_visuals.dart';
 
-/// [New, Figma Sync pass, 29 Aug 2026] Small navy pill badge under the Profile avatar showing the
-/// resident's current rank (Figma node 33:794: "منقذ بحري" with a small medal icon, overlapping the
-/// avatar's bottom edge).
+/// [Updated, Figma Sync pass, 29 Aug 2026] Small navy pill badge overlapping the Profile avatar's
+/// bottom-*end* corner (Figma node `61:1700`, "Rank Badge": `bottom-[-8px] right-[-8px]` — a real
+/// fetch of this node corrects a prior pass's guess that it centered under the avatar) showing the
+/// resident's current rank, e.g. "منقذ بحري" with a small life-preserver icon.
 class RankBadge extends StatelessWidget {
   const RankBadge({required this.rank, super.key});
 
@@ -25,21 +26,32 @@ class RankBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.rankBadgeBackground,
         borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
-        border: Border.all(color: AppColors.avatarBorder, width: 1.5),
+        border: Border.all(color: AppColors.surfaceCardBackground),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0D000000),
+            offset: Offset(0, 1),
+            blurRadius: 1,
+          ),
+        ],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             profileRankLabel(context, rank),
-            style: AppTypography.chipLabel
-                .copyWith(fontSize: 13, color: AppColors.textOnBrand),
+            style: AppTypography.chipLabel.copyWith(
+              fontSize: 8,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 0.5,
+              color: AppColors.rankBadgeText,
+            ),
           ),
           const SizedBox(width: AppSpacing.xs),
-          const Icon(
-            Icons.military_tech,
-            size: 16,
-            color: AppColors.avatarBorder,
+          Icon(
+            profileRankIcon(rank),
+            size: 12,
+            color: AppColors.rankBadgeText,
           ),
         ],
       ),
@@ -48,8 +60,9 @@ class RankBadge extends StatelessWidget {
 }
 
 /// [New, Figma Sync pass, 29 Aug 2026] Profile page's "المستوى الحالي" progress card (Figma node
-/// 33:794): current rank + percent-to-next on one row, a progress bar, then a caption naming the
-/// next rank and how many bubbles remain — or a max-rank message once there's no next rank.
+/// 33:794, "Progress Section" `66:2315`): rank + percent-to-next on one row, a progress bar, then a
+/// caption naming the next rank and how many bubbles remain — or a max-rank message once there's no
+/// next rank.
 class RankProgressCard extends StatelessWidget {
   const RankProgressCard({required this.points, super.key});
 
@@ -64,46 +77,68 @@ class RankProgressCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.space18),
       decoration: BoxDecoration(
-        color: AppColors.surfaceWhite,
-        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-        border: Border.all(color: AppColors.borderFigmaDefault),
+        color: AppColors.surfaceCardBackground,
+        borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+        border: Border.all(color: AppColors.locationPillBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                context.l10n
-                    .profileProgressToNextLabel((progress * 100).round()),
-                style: AppTypography.metaText,
-              ),
-              const Spacer(),
+              // [Fixed, Figma Sync pass, 29 Aug 2026] A real fetch of node `66:2317` shows
+              // "المستوى الحالي" + the rank name at the row's *far* end and the percent caption at
+              // the *near* end — the opposite order from a prior pass's guess; under this app's RTL
+              // Directionality, the far-end item must be the FIRST child (Flutter lays out Row
+              // children start-to-end, and "start" is the right edge in RTL).
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
                     context.l10n.profileCurrentLevelLabel,
-                    style: AppTypography.metaText,
+                    style: AppTypography.metaText
+                        .copyWith(color: AppColors.textFigmaSecondary),
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Row(
                     children: [
-                      const Icon(
-                        Icons.military_tech,
+                      Icon(
+                        profileRankIcon(rank),
                         size: 18,
                         color: AppColors.brandSecondaryDark,
                       ),
                       const SizedBox(width: AppSpacing.xs),
                       Text(
                         profileRankLabel(context, rank),
-                        style: AppTypography.chipLabel
-                            .copyWith(color: AppColors.profileAccent),
+                        style: AppTypography.chipLabel.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.profileAccent,
+                        ),
                       ),
                     ],
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '${(progress * 100).round()}%',
+                    style: AppTypography.chipLabel.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.profileAccent,
+                    ),
+                  ),
+                  Text(
+                    context.l10n.profileProgressToNextLabel,
+                    style: AppTypography.metaText
+                        .copyWith(color: AppColors.textFigmaSecondary),
                   ),
                 ],
               ),
@@ -114,21 +149,34 @@ class RankProgressCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
             child: LinearProgressIndicator(
               value: progress,
-              minHeight: 8,
+              minHeight: 16,
               backgroundColor: AppColors.rankProgressTrack,
-              color: AppColors.brandSecondaryDark,
+              color: AppColors.rankProgressFill,
             ),
           ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            nextRank == null
-                ? context.l10n.profileMaxRankCaption
-                : context.l10n.profileNextRankCaption(
-                    pointsToNext,
-                    profileRankLabel(context, nextRank),
-                  ),
-            style: AppTypography.metaText
-                .copyWith(color: AppColors.textFigmaSecondary),
+          const SizedBox(height: AppSpacing.space12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+            decoration: BoxDecoration(
+              color: AppColors.rankCaptionBackground,
+              borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+            ),
+            child: Center(
+              child: Text(
+                nextRank == null
+                    ? context.l10n.profileMaxRankCaption
+                    : context.l10n.profileNextRankCaption(
+                        pointsToNext,
+                        profileRankLabel(context, nextRank),
+                      ),
+                style: AppTypography.metaText.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textFigmaTertiary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
         ],
       ),

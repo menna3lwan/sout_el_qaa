@@ -374,12 +374,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileStatPoints => 'Bubbles';
 
   @override
+  String get profilePageTitle => 'Profile';
+
+  @override
   String get profileCurrentLevelLabel => 'Current Level';
 
   @override
-  String profileProgressToNextLabel(int percent) {
-    return '$percent% to promotion';
-  }
+  String get profileProgressToNextLabel => 'to next rank';
 
   @override
   String profileNextRankCaption(int points, String rank) {

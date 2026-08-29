@@ -782,17 +782,23 @@ abstract class AppLocalizations {
   /// **'فقاعة'**
   String get profileStatPoints;
 
+  /// [New, Figma Sync pass 29 Aug 2026] عنوان الـAppBar لشاشة الملف الشخصي (node 33:794) — كانت الشاشة من غير AppBar نهائي قبل الـpass ده، بعكس كل الشاشات التانية
+  ///
+  /// In ar, this message translates to:
+  /// **'الملف الشخصي'**
+  String get profilePageTitle;
+
   /// [New, Figma Sync pass 29 Aug 2026] عنوان كارت الترقية/التقدّم في الملف الشخصي (node 33:794)
   ///
   /// In ar, this message translates to:
   /// **'المستوى الحالي'**
   String get profileCurrentLevelLabel;
 
-  /// [New] نص التقدّم نحو الرتبة التالية
+  /// [Updated, Figma Sync pass 29 Aug 2026] الكابشن المنفصل تحت نسبة التقدّم — الفيجما (node 66:2317) بتعرض النسبة والكابشن في سطرين بستايلات مختلفة، مش نص واحد مدموج زي ما كان مفروض قبل الـpass ده
   ///
   /// In ar, this message translates to:
-  /// **'{percent}% للترقية'**
-  String profileProgressToNextLabel(int percent);
+  /// **'للترقية'**
+  String get profileProgressToNextLabel;
 
   /// [New] تعليمة إضافية النقاط للترقية للرتبة التالية — مؤكدة نصيًا من الفيجما لمثال "منقذ بحري -> بطل القاع"، ونفس الصياغة معمّمة على باقي الرتب
   ///

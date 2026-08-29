@@ -372,12 +372,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileStatPoints => 'فقاعة';
 
   @override
+  String get profilePageTitle => 'الملف الشخصي';
+
+  @override
   String get profileCurrentLevelLabel => 'المستوى الحالي';
 
   @override
-  String profileProgressToNextLabel(int percent) {
-    return '$percent% للترقية';
-  }
+  String get profileProgressToNextLabel => 'للترقية';
 
   @override
   String profileNextRankCaption(int points, String rank) {
