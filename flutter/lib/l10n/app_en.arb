@@ -45,6 +45,7 @@
   "authLoginLink": "Sign in",
 
   "homeGreeting": "Good morning, citizen {name}!",
+  "homeLocationLine": "Qaa El Hamour, {street}",
   "homeCategoriesHeading": "Complaint Categories",
   "homeSubmitComplaintCta": "Submit New Complaint",
   "homeSearchHint": "Search for a complaint...",

@@ -35,18 +35,18 @@ class NotificationsPage extends StatelessWidget {
 class _NotificationsView extends StatelessWidget {
   const _NotificationsView();
 
-  /// [Updated, Full Audit & Sync pass, 27 Aug 2026] Display order only — a fresh fetch of Figma node
-  /// 33:936 shows the filter bar's DOM/visual order is "عام" (general), "تفاعلات" (reactions), "شكاوى"
-  /// (complaints), "الكل" (all, selected by default) — the exact reverse of [NotificationsFilter]'s own
-  /// declaration order. Spelled out explicitly rather than `NotificationsFilter.values` so this page's
-  /// display order can differ from the enum's business-meaning order without touching the enum itself
-  /// (Important Rule #4: don't change business behavior unnecessarily) — same pattern already applied
-  /// to Complaints List's own filter bar.
+  /// [Fixed, Figma Sync pass, 29 Aug 2026] A real fetch of node 33:936 shows the filter bar's true
+  /// visual order (right-to-left reading order, since a `Wrap`'s first child renders at the RTL
+  /// *start*/right edge) is "الكل" (all, selected/gold, read first) → "شكاوى" (complaints) →
+  /// "تفاعلات" (reactions) → "عام" (general, read last/leftmost) — the previous pass's claimed order
+  /// was the exact reverse of what the design actually shows. Spelled out explicitly rather than
+  /// `NotificationsFilter.values` so this page's display order can differ from the enum's
+  /// business-meaning order without touching the enum itself (Important Rule #4).
   static const _filters = [
-    NotificationsFilter.general,
-    NotificationsFilter.reactions,
-    NotificationsFilter.complaints,
     NotificationsFilter.all,
+    NotificationsFilter.complaints,
+    NotificationsFilter.reactions,
+    NotificationsFilter.general,
   ];
 
   @override

@@ -16,6 +16,16 @@ import '../utils/extensions/context_extensions.dart';
 /// فوق الشاشة الحالية، مش branch خامس — لأن flow تقديم شكوى مفروض يبدأ من
 /// جديد كل مرة (زي أي "+" flow)، مش يحافظ على "آخر حالة" كتاب متصفح عادي.
 /// ده قرار Proposed جديد محتاج تأكيدك، موثّق في تقرير الـbranch.
+///
+/// [Icon audit, Figma Sync pass, 29 Aug 2026] The 5 real icon SVGs actually exported off this bar's
+/// two Figma layers (the visible one at `bottom:0` and a leftover off-screen duplicate at
+/// `bottom:-165px`) are standard Material Design glyphs (home/map/add-circle/assignment/person) —
+/// not custom art — confirming [Icons.home]/[Icons.map]/[Icons.add]/[Icons.report]/[Icons.person]
+/// below are the *intentional* equivalents already, not a placeholder needing a real asset export.
+/// The two layers' per-tab icon/label pairings actively disagree with each other on 2 of 5 tabs
+/// (e.g. one layer's "الخريطة" exports as a settings-chevron shape, not a map) — a real authoring
+/// inconsistency in the source file between a stale duplicate and the live layer, not something a
+/// pixel-exact re-export could resolve, so this documents the finding rather than importing either.
 class BottomNavShell extends StatelessWidget {
   const BottomNavShell({
     required this.navigationShell,
@@ -68,8 +78,12 @@ class BottomNavShell extends StatelessWidget {
                 onTap: () => context.push(RoutePaths.createComplaint),
               ),
               _NavItem(
-                icon: Icons.report_outlined,
-                selectedIcon: Icons.report,
+                // [Fixed, Figma Sync pass, 29 Aug 2026] The real exported SVG for this tab (the
+                // clean, non-corrupted layer — see this file's class-level doc comment) is a
+                // clipboard/checklist glyph, not [Icons.report]'s warning-shield — [Icons.assignment]
+                // is the much closer Material equivalent for a "شكاوي"/complaints-list tab anyway.
+                icon: Icons.assignment_outlined,
+                selectedIcon: Icons.assignment,
                 label: context.l10n.navComplaints,
                 isSelected: navigationShell.currentIndex == 2,
                 onTap: () => _goToBranch(2),

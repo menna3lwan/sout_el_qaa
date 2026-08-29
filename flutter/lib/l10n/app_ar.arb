@@ -75,6 +75,12 @@
     "description": "تحية الهيدر — النص مؤكد من الـFigma \"صباح الفل يا ساكن المحيط!\"، اتعدّل هنا عشان يشيل اسم المستخدم الحقيقي بدل النص الثابت",
     "placeholders": { "name": { "type": "String" } }
   },
+
+  "homeLocationLine": "قاع الهامور، {street}",
+  "@homeLocationLine": {
+    "description": "[New, Figma Sync pass, 29 Aug 2026] سطر الموقع تحت تحية الهيدر مباشرة (Figma node 33:21: \"قاع الهامور، شارع الأناناس\") — كان ناقص تمامًا، الـstreet جاي من user.bio.",
+    "placeholders": { "street": { "type": "String" } }
+  },
   "homeCategoriesHeading": "تصنيفات الشكاوى",
   "homeSubmitComplaintCta": "قدم شكوى جديدة",
   "homeSearchHint": "إبحث عن شكوى...",

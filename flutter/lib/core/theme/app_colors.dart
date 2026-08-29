@@ -99,6 +99,11 @@ abstract final class AppColors {
   // ---------------------------------------------------------------------
 
   static const Color textOnBrand = Colors.white;
+
+  /// [New, Figma Sync pass, 29 Aug 2026] Home header's "قاع الهامور، شارع الأناناس" location line
+  /// (Figma node 33:21) — a dimmed white, distinct from the fully-opaque [textOnBrand] the bold
+  /// greeting above it uses.
+  static const Color textOnBrandMuted = Color(0xB3FFFFFF); // rgba(255,255,255,0.7)
   static const Color textPrimaryDark =
       Color(0xFF191C1D); // Primary dark body text
   static const Color textSecondaryGrey =

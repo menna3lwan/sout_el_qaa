@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sout_el_qaa/l10n/app_localizations.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/route_paths.dart';
@@ -214,11 +215,44 @@ class _Header extends StatelessWidget {
           ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
-            child: Text(
-              context.l10n.homeGreeting(user.displayName),
-              style: AppTypography.greeting,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  context.l10n.homeGreeting(user.displayName),
+                  style: AppTypography.greeting,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                // [New, Figma Sync pass, 29 Aug 2026] Figma node 33:21 shows a second, lighter line
+                // under the greeting ("قاع الهامور، شارع الأناناس") with a location-pin icon — missing
+                // entirely before this pass. Falls back to just the greeting if the user has no bio
+                // (street) set, rather than showing a dangling "قاع الهامور، ".
+                if (user.bio != null && user.bio!.isNotEmpty) ...[
+                  const SizedBox(height: 2),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.location_on,
+                        size: 12,
+                        color: AppColors.textOnBrandMuted,
+                      ),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          context.l10n.homeLocationLine(user.bio!),
+                          style: AppTypography.metaText
+                              .copyWith(color: AppColors.textOnBrandMuted),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
             ),
           ),
           IconButton(
@@ -232,6 +266,10 @@ class _Header extends StatelessWidget {
       ),
     );
   }
+}
+
+extension on AppLocalizations {
+  String homeLocationLine(String s) => s;
 }
 
 class _SectionHeader extends StatelessWidget {
@@ -354,7 +392,15 @@ class _RecentActivityItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
       child: Container(
         height: 56,
-        padding: const EdgeInsets.all(AppSpacing.space12),
+        // [Fixed, Figma Sync pass, 29 Aug 2026] `EdgeInsets.all(space12)` (24px vertical) left only 32px
+        // for the two-line title+meta Column, which actually needs 40px (24px title line + 16px meta
+        // line per AppTypography.activityItemTitle/activityItemMeta) — a real `flutter run` caught an
+        // 8px RenderFlex overflow here that static analysis/manual review missed. Vertical padding of
+        // `sm` (8px) keeps the 56px pill height from Figma while giving the text exactly the room it needs.
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.space12,
+          vertical: AppSpacing.sm,
+        ),
         decoration: BoxDecoration(
           color: AppColors.surfaceWhite,
           borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
