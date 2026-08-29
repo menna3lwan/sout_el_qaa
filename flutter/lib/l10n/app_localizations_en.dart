@@ -185,6 +185,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get complaintsEmptyMessage => 'No complaints in this section yet';
 
   @override
+  String get complaintDetailsAppBarTitle => 'Complaint Details';
+
+  @override
   String get detailsTitle => 'Complaint Status';
 
   @override
@@ -213,6 +216,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get locationLabel => 'Location';
+
+  @override
+  String get severityFlavorHigh => 'National Disaster';
+
+  @override
+  String get severityFlavorMedium => 'Not a Small Deal';
+
+  @override
+  String get severityFlavorLow => 'Just a Heads-Up';
+
+  @override
+  String complaintReportsCount(int count) {
+    return '$count reports';
+  }
+
+  @override
+  String complaintDislikesCount(int count) {
+    return '$count dislikes';
+  }
 
   @override
   String get createComplaintTitle => 'Submit a Complaint';
@@ -343,13 +365,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileLogoutMenu => 'Log Out';
 
   @override
-  String get profileStatSubmitted => 'Submitted';
+  String get profileStatSubmitted => 'Complaint';
 
   @override
-  String get profileStatResolved => 'Resolved';
+  String get profileStatResolved => 'Closed';
 
   @override
-  String get profileStatPoints => 'Points';
+  String get profileStatPoints => 'Bubbles';
+
+  @override
+  String get profileCurrentLevelLabel => 'Current Level';
+
+  @override
+  String profileProgressToNextLabel(int percent) {
+    return '$percent% to promotion';
+  }
+
+  @override
+  String profileNextRankCaption(int points, String rank) {
+    return 'Collect $points more bubbles to reach \"$rank\"';
+  }
+
+  @override
+  String get profileMaxRankCaption =>
+      'You\'ve reached the top rank of Qaa El Hamour! 🏆';
+
+  @override
+  String get profileRankQaaResident => 'Qaa Resident';
+
+  @override
+  String get profileRankStreetWatcher => 'Street Watcher';
+
+  @override
+  String get profileRankSeaRescuer => 'Sea Rescuer';
+
+  @override
+  String get profileRankQaaHero => 'Hero of the Qaa';
+
+  @override
+  String get profileRankQaaLegend => 'Legend of Qaa El Hamour';
 
   @override
   String get myComplaintsTitle => 'My Complaints';

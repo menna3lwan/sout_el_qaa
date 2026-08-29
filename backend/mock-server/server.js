@@ -164,6 +164,33 @@ server.delete(`${PREFIX}/complaints/:id/reactions`, (req, res) => {
   return res.status(200).json({ liked: false });
 });
 
+// [New, Figma Sync pass, 29 Aug 2026] Complaint Details' 3-counter reaction row (node 33:518) needs
+// dislike/report tallies alongside the existing like counter above — same raw-counter shape (no
+// per-user vote tracking), not a moderation/abuse queue.
+server.post(`${PREFIX}/complaints/:id/dislikes`, (req, res) => {
+  const complaint = router.db.get('complaints').find({ id: req.params.id });
+  if (complaint.value()) complaint.update('dislikes', (n) => (n ?? 0) + 1).write();
+  return res.status(200).json({ disliked: true });
+});
+
+server.delete(`${PREFIX}/complaints/:id/dislikes`, (req, res) => {
+  const complaint = router.db.get('complaints').find({ id: req.params.id });
+  if (complaint.value()) complaint.update('dislikes', (n) => Math.max(0, (n ?? 0) - 1)).write();
+  return res.status(200).json({ disliked: false });
+});
+
+server.post(`${PREFIX}/complaints/:id/reports`, (req, res) => {
+  const complaint = router.db.get('complaints').find({ id: req.params.id });
+  if (complaint.value()) complaint.update('reports', (n) => (n ?? 0) + 1).write();
+  return res.status(200).json({ reported: true });
+});
+
+server.delete(`${PREFIX}/complaints/:id/reports`, (req, res) => {
+  const complaint = router.db.get('complaints').find({ id: req.params.id });
+  if (complaint.value()) complaint.update('reports', (n) => Math.max(0, (n ?? 0) - 1)).write();
+  return res.status(200).json({ reported: false });
+});
+
 // ---------------------------------------------------------------------
 // Complaint status (scope pending Q2 in PLAN.md — open here for development only)
 // ---------------------------------------------------------------------

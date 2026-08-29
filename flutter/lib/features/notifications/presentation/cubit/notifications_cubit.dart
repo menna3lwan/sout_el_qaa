@@ -57,7 +57,7 @@ final class NotificationsCubit extends Cubit<NotificationsState> {
     emit(
       current.copyWith(
         notifications: [
-          for (final n in current.notifications) n.copyWithRead(true)
+          for (final n in current.notifications) n.copyWithRead(true),
         ],
       ),
     );

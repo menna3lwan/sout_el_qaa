@@ -27,11 +27,7 @@ final class DioClientFactory {
     if (!AppConfig.isProduction) {
       dio.interceptors.add(
         PrettyDioLogger(
-          requestHeader: false,
           requestBody: true,
-          responseBody: true,
-          error: true,
-          compact: true,
         ),
       );
     }

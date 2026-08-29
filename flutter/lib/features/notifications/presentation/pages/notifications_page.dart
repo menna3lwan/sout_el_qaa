@@ -138,7 +138,11 @@ class _NotificationsView extends StatelessWidget {
         EmptyView(message: context.l10n.notificationsEmptyMessage),
       NotificationsLoaded(:final visibleNotifications) => ListView.separated(
           padding: const EdgeInsets.fromLTRB(
-              AppSpacing.md, 0, AppSpacing.md, AppSpacing.md),
+            AppSpacing.md,
+            0,
+            AppSpacing.md,
+            AppSpacing.md,
+          ),
           itemCount: visibleNotifications.length,
           separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.sm),
           itemBuilder: (context, index) {

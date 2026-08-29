@@ -71,8 +71,11 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
               ),
             ],
           ),
-          const Icon(Icons.location_pin,
-              size: 44, color: AppColors.urgentDestructive),
+          const Icon(
+            Icons.location_pin,
+            size: 44,
+            color: AppColors.urgentDestructive,
+          ),
           Positioned(
             bottom: 24,
             left: 24,

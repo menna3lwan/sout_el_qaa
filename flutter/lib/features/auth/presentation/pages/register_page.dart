@@ -60,8 +60,10 @@ class _RegisterViewState extends State<_RegisterView> {
               state.failureMessageKey != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                  content: Text(
-                      resolveMessageKey(context, state.failureMessageKey!))),
+                content: Text(
+                  resolveMessageKey(context, state.failureMessageKey!),
+                ),
+              ),
             );
           }
         },
@@ -79,7 +81,9 @@ class _RegisterViewState extends State<_RegisterView> {
                     errorText: state.fieldErrors['username'] == null
                         ? null
                         : resolveMessageKey(
-                            context, state.fieldErrors['username']!),
+                            context,
+                            state.fieldErrors['username']!,
+                          ),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   AppTextField(
@@ -90,7 +94,9 @@ class _RegisterViewState extends State<_RegisterView> {
                     errorText: state.fieldErrors['email'] == null
                         ? null
                         : resolveMessageKey(
-                            context, state.fieldErrors['email']!),
+                            context,
+                            state.fieldErrors['email']!,
+                          ),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   AppTextField(
@@ -101,7 +107,9 @@ class _RegisterViewState extends State<_RegisterView> {
                     errorText: state.fieldErrors['password'] == null
                         ? null
                         : resolveMessageKey(
-                            context, state.fieldErrors['password']!),
+                            context,
+                            state.fieldErrors['password']!,
+                          ),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   AppTextField(
@@ -112,7 +120,9 @@ class _RegisterViewState extends State<_RegisterView> {
                     errorText: state.fieldErrors['confirmPassword'] == null
                         ? null
                         : resolveMessageKey(
-                            context, state.fieldErrors['confirmPassword']!),
+                            context,
+                            state.fieldErrors['confirmPassword']!,
+                          ),
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   AppButton(
@@ -129,8 +139,10 @@ class _RegisterViewState extends State<_RegisterView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(context.l10n.authHaveAccountPrompt,
-                          style: context.textTheme.bodySmall),
+                      Text(
+                        context.l10n.authHaveAccountPrompt,
+                        style: context.textTheme.bodySmall,
+                      ),
                       TextButton(
                         onPressed: () => context.pop(),
                         child: Text(context.l10n.authLoginLink),

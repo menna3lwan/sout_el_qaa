@@ -31,6 +31,10 @@ abstract final class ApiEndpoints {
       '$apiVersionPrefix/comments/$commentId';
   static String reactions(String complaintId) =>
       '$apiVersionPrefix/complaints/$complaintId/reactions';
+  static String dislikes(String complaintId) =>
+      '$apiVersionPrefix/complaints/$complaintId/dislikes';
+  static String reports(String complaintId) =>
+      '$apiVersionPrefix/complaints/$complaintId/reports';
 
   // Map
   static const String complaintsMap = '$apiVersionPrefix/complaints/map';

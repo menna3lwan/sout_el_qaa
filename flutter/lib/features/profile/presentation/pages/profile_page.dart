@@ -15,8 +15,10 @@ import '../../../../core/widgets/loading_view.dart';
 import '../../../../core/widgets/qaa_avatar.dart';
 import '../../../../core/widgets/settings_menu_item.dart';
 import '../../../../core/widgets/stat_card.dart';
+import '../../domain/entities/profile_rank.dart';
 import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
+import '../widgets/rank_progress_card.dart';
 
 /// Real implementation, matching Figma node 33:794 (PLAN.md section 3.10).
 class ProfilePage extends StatelessWidget {
@@ -68,12 +70,27 @@ class _ProfileContent extends StatelessWidget {
         Center(
           child: Column(
             children: [
-              QaaAvatar(
-                assetPath: characterAvatarAsset(state.user.displayName),
-                displayName: state.user.displayName,
-                variant: QaaAvatarVariant.profile,
+              // [New, Figma Sync pass, 29 Aug 2026] Rank badge overlapping the avatar's bottom edge
+              // (Figma node 33:794) — a Stack + slight negative margin instead of Positioned, since
+              // (unlike the Home CTA mascot) both children stay in normal flow otherwise.
+              Stack(
+                alignment: Alignment.bottomCenter,
+                clipBehavior: Clip.none,
+                children: [
+                  QaaAvatar(
+                    assetPath: characterAvatarAsset(state.user.displayName),
+                    displayName: state.user.displayName,
+                    variant: QaaAvatarVariant.profile,
+                  ),
+                  PositionedDirectional(
+                    bottom: -12,
+                    child: RankBadge(
+                      rank: ProfileRankLadder.rankFor(state.stats.points),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: AppSpacing.md),
+              const SizedBox(height: AppSpacing.lg),
               Text(state.user.displayName, style: AppTypography.profileName),
               if (state.user.bio != null && state.user.bio!.isNotEmpty)
                 Text(state.user.bio!, style: AppTypography.metaText),
@@ -93,10 +110,14 @@ class _ProfileContent extends StatelessWidget {
               label: context.l10n.profileStatResolved,
             ),
             StatCard(
-                value: '${state.stats.points}',
-                label: context.l10n.profileStatPoints),
+              value: '${state.stats.points}',
+              label: context.l10n.profileStatPoints,
+              isHighlighted: true,
+            ),
           ],
         ),
+        const SizedBox(height: AppSpacing.lg),
+        RankProgressCard(points: state.stats.points),
         const SizedBox(height: AppSpacing.lg),
         SettingsMenuItem(
           label: context.l10n.profilePersonalInfoMenu,

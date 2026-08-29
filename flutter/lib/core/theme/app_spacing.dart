@@ -6,6 +6,11 @@ abstract final class AppSpacing {
   /// [New, added after the Figma review] 12 is a very common gap/padding value across all 6 screens (between sm=8 and md=16 on the same 4pt grid) — missing from the old scale despite real, repeated use.
   static const double space12 = 12;
 
+  /// [New, Figma Sync pass, 29 Aug 2026] Horizontal padding on the Complaint Details engagement
+  /// counter pills (Figma node 33:518, `px-[18px]`) — between md=16 and lg=24, a real repeated value
+  /// on that node's 3 pills, same "missing rung on the 4pt grid" case as [space12].
+  static const double space18 = 18;
+
   static const double md = 16;
   static const double lg = 24;
   static const double xl = 32;

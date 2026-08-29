@@ -22,6 +22,8 @@ base class Complaint extends Equatable {
     required this.mediaUrls,
     required this.authorId,
     required this.createdAt,
+    this.dislikes = 0,
+    this.reports = 0,
   });
 
   final String id;
@@ -35,14 +37,26 @@ base class Complaint extends Equatable {
   final double lng;
   final int views;
   final int likes;
+
+  /// [New, Figma Sync pass, 29 Aug 2026] Complaint Details' 3-counter reaction row (node 33:518:
+  /// report/dislike/like pills) needs a "disagree" counter distinct from [likes] — defaults to 0 for
+  /// any caller that doesn't pass one (map pins, older fixtures), same as [reports] below.
+  final int dislikes;
+
+  /// [New, Figma Sync pass, 29 Aug 2026] The same reaction row's "report" counter — a tally of
+  /// residents flagging the complaint as serious, not a moderation/abuse-report queue (no such queue
+  /// exists in this brief); defaults to 0.
+  final int reports;
   final List<String> mediaUrls;
   final String authorId;
   final DateTime createdAt;
 
-  /// Only [likes] is ever patched client-side (after a reaction toggle, ComplaintDetailsCubit) — the
-  /// rest of the entity is always replaced wholesale via a fresh fetch, so this is deliberately not a
-  /// full copyWith with every field optional.
-  Complaint copyWithLikes(int likes) => Complaint(
+  /// [Renamed from copyWithLikes, Figma Sync pass, 29 Aug 2026] Now covers all 3 reaction counters
+  /// (like/dislike/report), still patched client-side after a reaction toggle
+  /// ([ComplaintDetailsCubit]) — the rest of the entity is always replaced wholesale via a fresh
+  /// fetch, so this stays a partial copyWith rather than exposing every field.
+  Complaint copyWithReactions({int? likes, int? dislikes, int? reports}) =>
+      Complaint(
         id: id,
         title: title,
         description: description,
@@ -53,7 +67,9 @@ base class Complaint extends Equatable {
         lat: lat,
         lng: lng,
         views: views,
-        likes: likes,
+        likes: likes ?? this.likes,
+        dislikes: dislikes ?? this.dislikes,
+        reports: reports ?? this.reports,
         mediaUrls: mediaUrls,
         authorId: authorId,
         createdAt: createdAt,
@@ -72,6 +88,8 @@ base class Complaint extends Equatable {
         lng,
         views,
         likes,
+        dislikes,
+        reports,
         mediaUrls,
         authorId,
         createdAt,

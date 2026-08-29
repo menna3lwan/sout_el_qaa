@@ -422,7 +422,13 @@ abstract class AppLocalizations {
   /// **'مفيش شكاوى في القسم ده لسه'**
   String get complaintsEmptyMessage;
 
-  /// No description provided for @detailsTitle.
+  /// [New, Figma Sync pass 29 Aug 2026] عنوان الـAppBar الحقيقي لشاشة تفاصيل الشكوى (فيجما بتكتبها "تفصل الشكوي" بتصحيح إملائي بسيط) — كان [detailsTitle] بيستخدم غلط هنا، وهو فعليًا عنوان قسم فرعي جوه الصفحة مش عنوان الـAppBar
+  ///
+  /// In ar, this message translates to:
+  /// **'تفاصيل الشكوى'**
+  String get complaintDetailsAppBarTitle;
+
+  /// [Updated, Figma Sync pass 29 Aug 2026] بقى عنوان القسم الفرعي فوق الـstepper مباشرة (مؤكد من الفيجما المحدّثة node 33:518) بدل ما يكون عنوان الـAppBar
   ///
   /// In ar, this message translates to:
   /// **'حالة الشكوى'**
@@ -481,6 +487,36 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الموقع'**
   String get locationLabel;
+
+  /// [New, Figma Sync pass 29 Aug 2026] ليبل "الخطورة" المنكّه على بادچ تفاصيل الشكوى (node 33:518) — مؤكد نصيًا من الفيجما، مختلف عن ليبل "عالية" العادي المستخدم في نموذج تقديم الشكوى
+  ///
+  /// In ar, this message translates to:
+  /// **'كارثة قومية'**
+  String get severityFlavorHigh;
+
+  /// [Proposed] لم يظهر مثال فيجما حقيقي لدرجة الخطورة المتوسطة بالتنكيه ده — نص مقترح بنفس روح severityFlavorHigh لحد ما يتأكد
+  ///
+  /// In ar, this message translates to:
+  /// **'مصيبة مش بسيطة'**
+  String get severityFlavorMedium;
+
+  /// [Proposed] نفس ملاحظة severityFlavorMedium، لدرجة الخطورة المنخفضة
+  ///
+  /// In ar, this message translates to:
+  /// **'شكوى عادية'**
+  String get severityFlavorLow;
+
+  /// [New, Figma Sync pass 29 Aug 2026] عدّاد البلاغات في صف التفاعلات الجديد بتفاصيل الشكوى
+  ///
+  /// In ar, this message translates to:
+  /// **'{count} بلاغ'**
+  String complaintReportsCount(int count);
+
+  /// [New, Figma Sync pass 29 Aug 2026] عدّاد عدم الإعجاب في صف التفاعلات الجديد بتفاصيل الشكوى
+  ///
+  /// In ar, this message translates to:
+  /// **'{count} عدم إعجاب'**
+  String complaintDislikesCount(int count);
 
   /// No description provided for @createComplaintTitle.
   ///
@@ -728,23 +764,77 @@ abstract class AppLocalizations {
   /// **'تسجيل الخروج'**
   String get profileLogoutMenu;
 
-  /// No description provided for @profileStatSubmitted.
+  /// [Updated, Figma Sync pass 29 Aug 2026] الفيجما بتكتب اسم الوحدة القصير جوه كارت الإحصائية مباشرة ("12 شكوى")، مش ليبل طويل تحت الرقم — صححنا النص عشان يتطابق مع الفيجما بالظبط بعد ما اتأكد النموذج ده من fresh screenshot
   ///
   /// In ar, this message translates to:
-  /// **'شكاوى مقدَّمة'**
+  /// **'شكوى'**
   String get profileStatSubmitted;
 
-  /// No description provided for @profileStatResolved.
+  /// [Updated, Figma Sync pass 29 Aug 2026] نفس ملاحظة profileStatSubmitted — الفيجما بتكتب "8 مغلقة"
   ///
   /// In ar, this message translates to:
-  /// **'شكاوى محلولة'**
+  /// **'مغلقة'**
   String get profileStatResolved;
 
-  /// [Requires Confirmation] الفيجما فيها ليبل "منقذ بحري" غير واضح المعنى كنص نهائي — استخدمنا "نقاط المشاركة" كأقرب تفسير منطقي لحد ما يتأكد، انظر التقرير
+  /// [Resolved, Figma Sync pass 29 Aug 2026] كانت [Requires Confirmation] في الجولات السابقة — الفيجما المحدّثة أكّدت إن "فقاعة" هي وحدة عملة النقاط في التطبيق ("245 فقاعة")، مش "نقاط المشاركة"
   ///
   /// In ar, this message translates to:
-  /// **'نقاط المشاركة'**
+  /// **'فقاعة'**
   String get profileStatPoints;
+
+  /// [New, Figma Sync pass 29 Aug 2026] عنوان كارت الترقية/التقدّم في الملف الشخصي (node 33:794)
+  ///
+  /// In ar, this message translates to:
+  /// **'المستوى الحالي'**
+  String get profileCurrentLevelLabel;
+
+  /// [New] نص التقدّم نحو الرتبة التالية
+  ///
+  /// In ar, this message translates to:
+  /// **'{percent}% للترقية'**
+  String profileProgressToNextLabel(int percent);
+
+  /// [New] تعليمة إضافية النقاط للترقية للرتبة التالية — مؤكدة نصيًا من الفيجما لمثال "منقذ بحري -> بطل القاع"، ونفس الصياغة معمّمة على باقي الرتب
+  ///
+  /// In ar, this message translates to:
+  /// **'اجمع {points} فقاعة إضافية للوصول لرتبة \"{rank}\"'**
+  String profileNextRankCaption(int points, String rank);
+
+  /// [New, Proposed] نص بديل لما المستخدم يوصل لأعلى رتبة، مفيش مثال فيجما له لأن العيّنة المراجَعة كانت في رتبة وسطى
+  ///
+  /// In ar, this message translates to:
+  /// **'وصلت لأعلى رتبة في قاع الهامور! 🏆'**
+  String get profileMaxRankCaption;
+
+  /// [Proposed] أول رتبة في السلم — مفيش مثال فيجما، بُنيت لإكمال سلّم منطقي حوالين رتبتي "منقذ بحري"/"بطل القاع" المؤكدتين
+  ///
+  /// In ar, this message translates to:
+  /// **'ساكن القاع'**
+  String get profileRankQaaResident;
+
+  /// [Proposed] نفس ملاحظة profileRankQaaResident
+  ///
+  /// In ar, this message translates to:
+  /// **'مراقب الشوارع'**
+  String get profileRankStreetWatcher;
+
+  /// [Confirmed from Figma] مؤكدة نصيًا من node 33:794 كرتبة سبونج بوب الحالية
+  ///
+  /// In ar, this message translates to:
+  /// **'منقذ بحري'**
+  String get profileRankSeaRescuer;
+
+  /// [Confirmed from Figma] مؤكدة نصيًا من node 33:794 كالرتبة التالية بعد "منقذ بحري"
+  ///
+  /// In ar, this message translates to:
+  /// **'بطل القاع'**
+  String get profileRankQaaHero;
+
+  /// [Proposed] رتبة قمة السلّم — نفس ملاحظة profileRankQaaResident
+  ///
+  /// In ar, this message translates to:
+  /// **'أسطورة قاع الهامور'**
+  String get profileRankQaaLegend;
 
   /// No description provided for @myComplaintsTitle.
   ///

@@ -49,8 +49,9 @@ class _CreateComplaintView extends StatelessWidget {
             state.failureMessageKey != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-                content:
-                    Text(resolveMessageKey(context, state.failureMessageKey!))),
+              content:
+                  Text(resolveMessageKey(context, state.failureMessageKey!)),
+            ),
           );
         }
       },
@@ -64,9 +65,11 @@ class _CreateComplaintView extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text(isFormStep
-                ? context.l10n.createComplaintTitle
-                : context.l10n.createComplaintTitleShort),
+            title: Text(
+              isFormStep
+                  ? context.l10n.createComplaintTitle
+                  : context.l10n.createComplaintTitleShort,
+            ),
             automaticallyImplyLeading: false,
             leading: isFormStep
                 ? null
@@ -140,11 +143,11 @@ class _StepIndicator extends StatelessWidget {
   /// [CreateComplaintStep] values — Success is reached via [CreateComplaintStatus.success], not a 3rd
   /// step here, so this indicator (only rendered during [_WizardBody], i.e. pre-submission) never
   /// needs to represent it; [_SuccessView] renders its own 3rd-badge-active copy of this bar.
-  int get _activeIndex =>
-      currentStep == CreateComplaintStep.form ? 0 : 1;
+  int get _activeIndex => currentStep == CreateComplaintStep.form ? 0 : 1;
 
   @override
-  Widget build(BuildContext context) => _StepIndicatorRow(activeIndex: _activeIndex);
+  Widget build(BuildContext context) =>
+      _StepIndicatorRow(activeIndex: _activeIndex);
 }
 
 class _StepIndicatorRow extends StatelessWidget {
@@ -164,7 +167,11 @@ class _StepIndicatorRow extends StatelessWidget {
           );
         }
         final stepIndex = i ~/ 2;
-        return _StepBadge(stepNumber: stepIndex + 1, isActive: stepIndex == activeIndex, isCompleted: stepIndex < activeIndex);
+        return _StepBadge(
+          stepNumber: stepIndex + 1,
+          isActive: stepIndex == activeIndex,
+          isCompleted: stepIndex < activeIndex,
+        );
       }),
     );
   }
@@ -253,8 +260,11 @@ class _ReviewActions extends StatelessWidget {
           children: [
             TextButton.icon(
               onPressed: isSubmitting ? null : () => _confirmCancel(context),
-              icon: const Icon(Icons.delete_outline,
-                  size: 18, color: AppColors.urgentDestructive),
+              icon: const Icon(
+                Icons.delete_outline,
+                size: 18,
+                color: AppColors.urgentDestructive,
+              ),
               label: Text(
                 context.l10n.createComplaintCancelButton,
                 style: AppTypography.chipLabel
@@ -341,7 +351,10 @@ class _FormStep extends StatelessWidget {
         const SizedBox(height: AppSpacing.sm),
         _MediaPicker(state: state),
         const SizedBox(height: AppSpacing.lg),
-        Text(context.l10n.stepCategoryTitle, style: AppTypography.headingMedium),
+        Text(
+          context.l10n.stepCategoryTitle,
+          style: AppTypography.headingMedium,
+        ),
         const SizedBox(height: AppSpacing.sm),
         Wrap(
           spacing: AppSpacing.sm,
@@ -384,7 +397,10 @@ class _FormStep extends StatelessWidget {
               : resolveMessageKey(context, state.fieldErrors['description']!),
         ),
         const SizedBox(height: AppSpacing.lg),
-        Text(context.l10n.stepLocationTitle, style: AppTypography.headingMedium),
+        Text(
+          context.l10n.stepLocationTitle,
+          style: AppTypography.headingMedium,
+        ),
         const SizedBox(height: AppSpacing.sm),
         AppTextField(
           label: context.l10n.locationLabel,
@@ -408,7 +424,8 @@ class _FormStep extends StatelessWidget {
           onPressed: () async {
             final picked = await Navigator.of(context).push<LatLng>(
               MaterialPageRoute<LatLng>(
-                  builder: (_) => const LocationPickerPage()),
+                builder: (_) => const LocationPickerPage(),
+              ),
             );
             if (picked != null) {
               cubit.selectLocation(
@@ -437,7 +454,10 @@ class _FormStep extends StatelessWidget {
           ),
         ],
         const SizedBox(height: AppSpacing.lg),
-        Text(context.l10n.stepSeverityTitle, style: AppTypography.headingMedium),
+        Text(
+          context.l10n.stepSeverityTitle,
+          style: AppTypography.headingMedium,
+        ),
         const SizedBox(height: AppSpacing.sm),
         _SeverityPicker(state: state),
         if (state.fieldErrors['severity'] != null) ...[
@@ -471,8 +491,12 @@ class _MediaPicker extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
-                child: Image.network(url,
-                    width: 72, height: 72, fit: BoxFit.cover),
+                child: Image.network(
+                  url,
+                  width: 72,
+                  height: 72,
+                  fit: BoxFit.cover,
+                ),
               ),
               PositionedDirectional(
                 top: -8,
@@ -623,8 +647,10 @@ class _ReviewStep extends StatelessWidget {
                       borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
                       child: AspectRatio(
                         aspectRatio: 16 / 9,
-                        child: Image.network(state.mediaUrls.first,
-                            fit: BoxFit.cover),
+                        child: Image.network(
+                          state.mediaUrls.first,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     if (category != null)
@@ -644,7 +670,9 @@ class _ReviewStep extends StatelessWidget {
                 const SizedBox(height: AppSpacing.sm),
               ],
               Text(
-                state.title.isEmpty ? context.l10n.fieldTitleLabel : state.title,
+                state.title.isEmpty
+                    ? context.l10n.fieldTitleLabel
+                    : state.title,
                 style: AppTypography.cardTitle
                     .copyWith(fontSize: 20, fontWeight: FontWeight.w700),
               ),
@@ -688,7 +716,9 @@ class _ReviewCategoryBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+        horizontal: AppSpacing.sm,
+        vertical: AppSpacing.xs,
+      ),
       decoration: BoxDecoration(
         color: AppColors.surfaceWhite.withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
@@ -699,12 +729,17 @@ class _ReviewCategoryBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(category.name,
-              style: AppTypography.statusChipLabel
-                  .copyWith(color: AppColors.textFigmaPrimary, fontSize: 12)),
+          Text(
+            category.name,
+            style: AppTypography.statusChipLabel
+                .copyWith(color: AppColors.textFigmaPrimary, fontSize: 12),
+          ),
           const SizedBox(width: AppSpacing.xs),
-          Icon(categoryIcon(category.id),
-              size: 14, color: AppColors.textFigmaPrimary),
+          Icon(
+            categoryIcon(category.id),
+            size: 14,
+            color: AppColors.textFigmaPrimary,
+          ),
         ],
       ),
     );
@@ -728,7 +763,9 @@ class _ReviewMetaRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
+        horizontal: AppSpacing.sm,
+        vertical: AppSpacing.sm,
+      ),
       decoration: BoxDecoration(
         color: AppColors.surfaceOffWhite,
         borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
@@ -741,9 +778,11 @@ class _ReviewMetaRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label,
-                    style: AppTypography.metaText
-                        .copyWith(color: AppColors.textFigmaSecondary)),
+                Text(
+                  label,
+                  style: AppTypography.metaText
+                      .copyWith(color: AppColors.textFigmaSecondary),
+                ),
                 Text(
                   value,
                   style: AppTypography.metaText.copyWith(
@@ -785,8 +824,11 @@ class _SuccessView extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.check_circle,
-                        size: 72, color: AppColors.statusResolvedChip),
+                    const Icon(
+                      Icons.check_circle,
+                      size: 72,
+                      color: AppColors.statusResolvedChip,
+                    ),
                     const SizedBox(height: AppSpacing.lg),
                     Text(
                       context.l10n.successTitle,

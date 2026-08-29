@@ -135,6 +135,62 @@ abstract final class AppColors {
   static const Color categoryElectricityBorder = Color(0xFFAEC6FF);
 
   // ---------------------------------------------------------------------
+  // Complaint Details info-pill row (Figma node 33:518, `67:2339`-`67:2349`) —
+  // [New, Figma Sync pass, 29 Aug 2026]. Distinct from the solid urgent badge
+  // above the title ([urgentBadgeAltDetailPage]): these 3 pills (severity
+  // flavor / category / location) use soft, translucent tints with dark text
+  // instead. Only `high`/`water` have a real Figma example; `medium`/`low`
+  // are [Proposed] extrapolations in the same soft-tint style.
+  // ---------------------------------------------------------------------
+
+  static const Color severityHighPillBackground = Color(0xFFFFDAD6);
+  static const Color severityHighPillBorder = Color(0x33BA1A1A);
+  static const Color severityHighPillText = Color(0xFF93000A);
+
+  /// [Proposed] — same soft-tint family as [severityHighPillBackground], no confirmed Figma example.
+  static const Color severityMediumPillBackground = Color(0xFFFFE4C2);
+  static const Color severityMediumPillBorder = Color(0x33F77F00);
+  static const Color severityMediumPillText = Color(0xFF8A4B00);
+
+  /// [Proposed] — same soft-tint family as [severityHighPillBackground], no confirmed Figma example.
+  static const Color severityLowPillBackground = Color(0xFFD3E8D6);
+  static const Color severityLowPillBorder = Color(0x33256B36);
+  static const Color severityLowPillText = Color(0xFF1E5128);
+
+  static const Color categoryPillBackground = Color(0x8080D4DB);
+  static const Color categoryPillBorder = Color(0x6680D4DB);
+  static const Color categoryPillText = Color(0xFF063B78);
+
+  static const Color locationPillBackground = Color(0xFFDFE8FF);
+  static const Color locationPillBorder = Color(0x4DC3C6D2);
+  static const Color locationPillText = Color(0xFF434750);
+
+  // ---------------------------------------------------------------------
+  // Profile rank badge + stats/progress cards (Figma node 33:794,
+  // `61:1697`-`66:2336`) — [Updated/New, Figma Sync pass, 29 Aug 2026] a
+  // fresh fetch of this node found real hex values these tokens were
+  // guessing at before this pass (the badge's navy/text colors, the
+  // "plain" stat cells' background, and the progress bar's own fill/track,
+  // which are distinct shades from every other navy/gold token in this file).
+  // ---------------------------------------------------------------------
+
+  /// Border on the rank badge (`border-[#f9f9ff]`) and the stats-grid/progress-section card
+  /// backgrounds (`bg-[#f9f9ff]`) — same very-pale lavender-white in both real uses.
+  static const Color surfaceCardBackground = Color(0xFFF9F9FF);
+
+  static const Color rankBadgeText = Color(0xFFDDF7F8);
+
+  /// Plain (non-highlighted) stat cell background — distinct from [glassOverlayTrending], which
+  /// this cell's Figma example does NOT use despite a prior pass assuming it did.
+  static const Color statCardPlainBackground = Color(0xFFF1F3FF);
+
+  static const Color rankProgressFill = Color(0xFFFEC73C);
+
+  /// "اجمع 51 فقاعة..." caption's own soft background band, distinct from the progress bar fill it
+  /// echoes the color family of.
+  static const Color rankCaptionBackground = Color(0x1AFEC73C);
+
+  // ---------------------------------------------------------------------
   // Glass/blurred overlay cards (Trending card, Profile stats/menu, Notification cards) — same "semi-transparent glass" idea, slightly different alpha
   // ---------------------------------------------------------------------
 
@@ -227,4 +283,19 @@ abstract final class AppColors {
   static const Color settingsIconCircleBackground = Color(0xFFD7E3FF);
   static const Color settingsIconCircleDestructiveBackground =
       Color(0xFFFFDAD6);
+
+  // ---------------------------------------------------------------------
+  // Profile rank/points card (Figma Sync pass, 29 Aug 2026, node 33:794) —
+  // [Updated] a real `get_design_context` pull on this node (superseding
+  // this section's first pass, which only had a screenshot to eyeball)
+  // gives exact hex values: the highlighted stat cell is a translucent gold
+  // tint (not the solid `#FFF3D6`/`#F77F00` pair guessed at before), and the
+  // badge is [brandPrimary]'s navy, not [headerBackground]'s.
+  // ---------------------------------------------------------------------
+
+  static const Color statCardHighlightBackground = Color(0x33FEC73C);
+  static const Color statCardHighlightBorder = Color(0x4DFEC73C);
+  static const Color statCardHighlightText = Color(0xFFF2B800);
+  static const Color rankBadgeBackground = Color(0xFF063B78);
+  static const Color rankProgressTrack = Color(0xFF9AAEB8);
 }

@@ -24,7 +24,7 @@ final class NotificationRemoteDataSourceImpl
         queryParameters: {
           'userId': userId,
           '_sort': 'createdAt',
-          '_order': 'desc'
+          '_order': 'desc',
         },
       ),
     );

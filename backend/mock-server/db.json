@@ -53,6 +53,15 @@
       "displayName": "بلانكتون",
       "avatarId": null,
       "bio": "مطعم الحلبة المثلجة، شارع الأناناس"
+    },
+    {
+      "id": "u7",
+      "username": "mrs_puff",
+      "email": "mrspuff@qaa-el-hamour.eg",
+      "password": "qaaHamour1",
+      "displayName": "مدام نفيخة",
+      "avatarId": null,
+      "bio": "معلمة سواقة قوارب، مدرسة القاع لتعليم السواقة"
     }
   ],
   "categories": [
@@ -85,16 +94,18 @@
   "complaints": [
     {
       "id": "c1",
-      "title": "الشارع الرئيسي مكسر",
-      "description": "شهر كامل والحفرة في نص شارع الأناناس بتكبر وتتوحش! قارب باتريك اتخبط فيها وانكسر، وسكويدوارد بقى يتفرج علينا من شباك بيته ويضحك. شوفولنا حل سريع بدل ما نضطر نستنى Mermaid Man وBarnacle Boy يجولنا بالنجدة!",
-      "categoryId": "roads",
+      "title": "قارب مدام نفيخة مش هيعدي من هنا أبداً!",
+      "description": "مدام نفيخة قررت تعمل حصة سواقة قوارب في نص شارع القاع البحري وخربت الرصيف كله! الحفرة بقت غرقانة مية ومفيهاش قرار، وباتريك وقع فيها وهو رايح يتفرج على السيرك. حد يوقف حصص السواقة الوحشة دي قبل ما نحتاج قارب نجاة!",
+      "categoryId": "water",
       "severity": "high",
       "status": "inReview",
-      "location": "الطريق الرئيسي، شارع الأناناس",
+      "location": "شارع القاع البحري",
       "lat": 30.0444,
       "lng": 31.2357,
       "views": 342,
       "likes": 1248,
+      "dislikes": 48,
+      "reports": 50,
       "mediaUrls": [],
       "authorId": "u1",
       "createdAt": "2026-08-24T10:00:00.000Z"
@@ -111,6 +122,8 @@
       "lng": 31.24,
       "views": 88,
       "likes": 41,
+      "dislikes": 3,
+      "reports": 2,
       "mediaUrls": [],
       "authorId": "u1",
       "createdAt": "2026-08-21T10:00:00.000Z"
@@ -127,6 +140,8 @@
       "lng": 31.22,
       "views": 55,
       "likes": 22,
+      "dislikes": 2,
+      "reports": 1,
       "mediaUrls": [],
       "authorId": "u1",
       "createdAt": "2026-08-10T10:00:00.000Z"
@@ -143,6 +158,8 @@
       "lng": 31.233,
       "views": 12,
       "likes": 3,
+      "dislikes": 0,
+      "reports": 1,
       "mediaUrls": [],
       "authorId": "u2",
       "createdAt": "2026-08-25T08:30:00.000Z"
@@ -159,6 +176,8 @@
       "lng": 31.239,
       "views": 201,
       "likes": 567,
+      "dislikes": 12,
+      "reports": 30,
       "mediaUrls": [],
       "authorId": "u3",
       "createdAt": "2026-08-23T14:15:00.000Z"
@@ -175,6 +194,8 @@
       "lng": 31.229,
       "views": 34,
       "likes": 19,
+      "dislikes": 1,
+      "reports": 0,
       "mediaUrls": [],
       "authorId": "u1",
       "createdAt": "2026-08-25T06:00:00.000Z"
@@ -191,6 +212,8 @@
       "lng": 31.245,
       "views": 76,
       "likes": 95,
+      "dislikes": 5,
+      "reports": 3,
       "mediaUrls": [],
       "authorId": "u3",
       "createdAt": "2026-08-22T09:45:00.000Z"
@@ -207,6 +230,8 @@
       "lng": 31.236,
       "views": 29,
       "likes": 11,
+      "dislikes": 1,
+      "reports": 0,
       "mediaUrls": [],
       "authorId": "u5",
       "createdAt": "2026-08-15T12:00:00.000Z"
@@ -223,25 +248,29 @@
       "lng": 31.2365,
       "views": 5,
       "likes": 1,
+      "dislikes": 0,
+      "reports": 0,
       "mediaUrls": [],
       "authorId": "u6",
       "createdAt": "2026-08-20T10:00:00.000Z"
     },
     {
-      "title": "شكوي ساندي",
-      "description": "القاع",
+      "id": "c10",
+      "title": "معملي بقى غرقان في مياه الصرف!",
+      "description": "في تسريب من صرف صحي قريب من القبة الزجاجية بتاعتي، والمياه الملوثة بدأت تأثر على تجاربي العلمية! أنا عالمة مش عاملة مجاري، محتاجة حل بسرعة قبل ما التجارب كلها تتلف.",
       "categoryId": "water",
-      "severity": "medium",
-      "status": "received",
-      "location": "",
-      "lat": 30.0444,
-      "lng": 31.2357,
-      "views": 0,
-      "likes": 0,
+      "severity": "high",
+      "status": "inReview",
+      "location": "القبة الزجاجية، حي الأشجار",
+      "lat": 30.038,
+      "lng": 31.245,
+      "views": 64,
+      "likes": 58,
+      "dislikes": 4,
+      "reports": 6,
       "mediaUrls": [],
-      "authorId": "u1",
-      "createdAt": "2026-08-26T00:36:35.143500",
-      "id": "BoVc93Z"
+      "authorId": "u3",
+      "createdAt": "2026-08-26T09:15:00.000Z"
     }
   ],
   "comments": [
@@ -249,8 +278,9 @@
       "id": "cm1",
       "complaintId": "c1",
       "authorId": "u4",
-      "authorName": "سكويدوارد تنتاكلز",
+      "authorName": "شفيق",
       "text": "والله تعبنا من هالحال، كل يوم إزعاج وتكسير ومانقدر ننام. متوقعش حاجة تتغير برضو، البلدية زي العادة نايمة في العسل.",
+      "likes": 12,
       "createdAt": "2026-08-24T11:00:00.000Z"
     },
     {
@@ -259,6 +289,7 @@
       "authorId": "u2",
       "authorName": "باتريك ستار",
       "text": "أنا كمان وقعت فيها امبارح وأنا ماشي، ياريت يتحلها بسرعة.",
+      "likes": 5,
       "createdAt": "2026-08-24T13:20:00.000Z"
     },
     {
@@ -267,6 +298,7 @@
       "authorId": "u3",
       "authorName": "ساندي تشيكس",
       "text": "خطر حقيقي على العيال، لازم حل عاجل قبل ما حد يتصاب.",
+      "likes": 18,
       "createdAt": "2026-08-23T15:00:00.000Z"
     },
     {
@@ -275,6 +307,7 @@
       "authorId": "u1",
       "authorName": "سبونج بوب سكوير بانتس",
       "text": "يا باتريك! خد بالك من نفسك يا صاحبي، أنا جاي أساعدك نحل الموضوع ده!",
+      "likes": 7,
       "createdAt": "2026-08-25T09:00:00.000Z"
     },
     {
@@ -283,6 +316,7 @@
       "authorId": "u5",
       "authorName": "مستر كرابز",
       "text": "مفيش زباين بيهربوا من عندك يا بلانكتون، الأكل بتاعك هو المشكلة مش الزبالة!",
+      "likes": 24,
       "createdAt": "2026-08-20T12:00:00.000Z"
     },
     {
@@ -291,7 +325,17 @@
       "authorId": "u4",
       "authorName": "سكويدوارد تنتاكلز",
       "text": "طبعًا، وأنا اللي هقف في المطبخ من غير تكييف لحد ما يتصلح. يوم تاني حلو في الشغل.",
+      "likes": 9,
       "createdAt": "2026-08-15T13:00:00.000Z"
+    },
+    {
+      "id": "cm7",
+      "complaintId": "c1",
+      "authorId": "u7",
+      "authorName": "مدام نفيخة",
+      "text": "مين قال إن الحفرة دي غلطتي؟! أنا بس كنت بعلّم حد السواقة الصحيحة، مش مشكلتي إن الشارع مش عارف يتحمل درس بسيط!",
+      "likes": 3,
+      "createdAt": "2026-08-24T16:40:00.000Z"
     }
   ],
   "notifications": [

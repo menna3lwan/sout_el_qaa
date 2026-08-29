@@ -29,22 +29,32 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
   void updateTitle(String value) =>
       emit(state.copyWith(title: value, status: CreateComplaintStatus.editing));
 
-  void updateDescription(String value) => emit(state.copyWith(
-      description: value, status: CreateComplaintStatus.editing));
+  void updateDescription(String value) => emit(
+        state.copyWith(
+          description: value,
+          status: CreateComplaintStatus.editing,
+        ),
+      );
 
-  void selectCategory(String categoryId) => emit(state.copyWith(
-      categoryId: categoryId, status: CreateComplaintStatus.editing));
+  void selectCategory(String categoryId) => emit(
+        state.copyWith(
+          categoryId: categoryId,
+          status: CreateComplaintStatus.editing,
+        ),
+      );
 
   /// Sets the label only — lat/lng are untouched (omitted, so [CreateComplaintState.copyWith] keeps
   /// whatever was already picked, or stays null). Typing the label before tapping "pick on map" must
   /// never silently fabricate a (0, 0) coordinate that would pass [hasLocation]'s null-check.
   void updateLocationLabel(String value) => emit(
-      state.copyWith(location: value, status: CreateComplaintStatus.editing));
+        state.copyWith(location: value, status: CreateComplaintStatus.editing),
+      );
 
-  void selectLocation(
-          {required double lat,
-          required double lng,
-          required String location}) =>
+  void selectLocation({
+    required double lat,
+    required double lng,
+    required String location,
+  }) =>
       emit(
         state.copyWith(
           lat: lat,
@@ -54,8 +64,12 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
         ),
       );
 
-  void selectSeverity(ComplaintSeverity severity) => emit(state.copyWith(
-      severity: severity, status: CreateComplaintStatus.editing));
+  void selectSeverity(ComplaintSeverity severity) => emit(
+        state.copyWith(
+          severity: severity,
+          status: CreateComplaintStatus.editing,
+        ),
+      );
 
   Future<void> attachPhoto(String filePath) async {
     emit(state.copyWith(isUploadingMedia: true));
@@ -63,17 +77,24 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
     result.fold(
       (failure) => emit(
         state.copyWith(
-            isUploadingMedia: false, failureMessageKey: failure.message),
+          isUploadingMedia: false,
+          failureMessageKey: failure.message,
+        ),
       ),
       (url) => emit(
         state.copyWith(
-            isUploadingMedia: false, mediaUrls: [...state.mediaUrls, url]),
+          isUploadingMedia: false,
+          mediaUrls: [...state.mediaUrls, url],
+        ),
       ),
     );
   }
 
-  void removePhoto(String url) => emit(state.copyWith(
-      mediaUrls: state.mediaUrls.where((u) => u != url).toList()));
+  void removePhoto(String url) => emit(
+        state.copyWith(
+          mediaUrls: state.mediaUrls.where((u) => u != url).toList(),
+        ),
+      );
 
   /// [Updated, Full Audit & Sync pass, 27 Aug 2026] The redesigned Figma merged all 4 field groups
   /// onto one `form` screen, so "advance past the form" now validates every field at once instead of
@@ -85,8 +106,12 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
 
     final errors = _validateAll();
     if (errors.isNotEmpty) {
-      emit(state.copyWith(
-          status: CreateComplaintStatus.validationError, fieldErrors: errors));
+      emit(
+        state.copyWith(
+          status: CreateComplaintStatus.validationError,
+          fieldErrors: errors,
+        ),
+      );
       return;
     }
 
@@ -103,8 +128,12 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
   /// the old per-step Back button, just between 2 steps instead of 4 now.
   void previousStep() {
     if (state.step == CreateComplaintStep.review) {
-      emit(state.copyWith(
-          step: CreateComplaintStep.form, status: CreateComplaintStatus.editing));
+      emit(
+        state.copyWith(
+          step: CreateComplaintStep.form,
+          status: CreateComplaintStatus.editing,
+        ),
+      );
     }
   }
 
@@ -126,8 +155,12 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
   Future<void> submit() async {
     final errors = _validateAll();
     if (errors.isNotEmpty) {
-      emit(state.copyWith(
-          status: CreateComplaintStatus.validationError, fieldErrors: errors));
+      emit(
+        state.copyWith(
+          status: CreateComplaintStatus.validationError,
+          fieldErrors: errors,
+        ),
+      );
       return;
     }
 
@@ -159,12 +192,15 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
     result.fold(
       (failure) => emit(
         state.copyWith(
-            status: CreateComplaintStatus.failure,
-            failureMessageKey: failure.message),
+          status: CreateComplaintStatus.failure,
+          failureMessageKey: failure.message,
+        ),
       ),
       (complaint) => emit(
         state.copyWith(
-            status: CreateComplaintStatus.success, createdComplaint: complaint),
+          status: CreateComplaintStatus.success,
+          createdComplaint: complaint,
+        ),
       ),
     );
   }

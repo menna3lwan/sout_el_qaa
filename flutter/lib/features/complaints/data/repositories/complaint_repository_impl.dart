@@ -6,8 +6,8 @@ import '../../../../core/network/network_info.dart';
 import '../../domain/entities/category.dart';
 import '../../domain/entities/comment.dart';
 import '../../domain/entities/complaint.dart';
-import '../../domain/repositories/complaint_repository.dart';
 import '../../domain/entities/complaint_status.dart';
+import '../../domain/repositories/complaint_repository.dart';
 import '../datasources/complaint_remote_data_source.dart';
 
 final class ComplaintRepositoryImpl implements ComplaintRepository {
@@ -83,8 +83,10 @@ final class ComplaintRepositoryImpl implements ComplaintRepository {
     required String text,
     required String authorName,
   }) =>
-      _run(() =>
-          _remote.addComment(complaintId, text: text, authorName: authorName));
+      _run(
+        () =>
+            _remote.addComment(complaintId, text: text, authorName: authorName),
+      );
 
   @override
   Future<Either<Failure, int>> like(String complaintId) =>
@@ -93,6 +95,22 @@ final class ComplaintRepositoryImpl implements ComplaintRepository {
   @override
   Future<Either<Failure, int>> unlike(String complaintId) =>
       _run(() => _remote.unlike(complaintId));
+
+  @override
+  Future<Either<Failure, int>> dislike(String complaintId) =>
+      _run(() => _remote.dislike(complaintId));
+
+  @override
+  Future<Either<Failure, int>> undislike(String complaintId) =>
+      _run(() => _remote.undislike(complaintId));
+
+  @override
+  Future<Either<Failure, int>> report(String complaintId) =>
+      _run(() => _remote.report(complaintId));
+
+  @override
+  Future<Either<Failure, int>> unreport(String complaintId) =>
+      _run(() => _remote.unreport(complaintId));
 
   @override
   Future<Either<Failure, List<ComplaintMapPin>>> getMapPins() =>

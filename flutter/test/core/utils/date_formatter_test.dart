@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sout_el_qaa/core/utils/date_formatter.dart';
 
 void main() {
-  final referenceNow = DateTime(2026, 8, 24, 12, 0, 0);
+  final referenceNow = DateTime(2026, 8, 24, 12);
 
   group('DateFormatter.relative — matches Figma-confirmed copy exactly', () {
     test('"منذ ساعتين" for a 2-hour-old complaint (Complaints List example)',
@@ -42,7 +42,9 @@ void main() {
     test('singular minute has no leading number', () {
       final oneMinuteAgo = referenceNow.subtract(const Duration(minutes: 1));
       expect(
-          DateFormatter.relative(oneMinuteAgo, now: referenceNow), 'منذ دقيقة');
+        DateFormatter.relative(oneMinuteAgo, now: referenceNow),
+        'منذ دقيقة',
+      );
     });
 
     test('plural minutes include the count', () {
