@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../utils/extensions/context_extensions.dart';
 
-/// Unified empty state; like [ErrorView], each feature supplies its own message in the app's voice (see PLAN.md section 3), not a generic string.
+/// Unified empty state; like [ErrorView], each feature supplies its own message in the app's
+/// voice, not a generic string.
 class EmptyView extends StatelessWidget {
   const EmptyView({
     super.key,

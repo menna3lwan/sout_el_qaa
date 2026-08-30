@@ -4,11 +4,9 @@ import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
 
-/// صف قائمة إعدادات — مطابق لعناصر "المعلومات الشخصية / شكاوي / المفضلة /
-/// الإعدادات / تسجيل الخروج" في صفحة الملف الشخصي (Profile)، مستخرج من
-/// الـFigma الحقيقي. الاستخدام "الهدّام" (logout) بلون نص مختلف
-/// ([isDestructive]) — نفس لون "عاجل" في Home، مؤكد كدلالة "destructive"
-/// موحّدة عبر الشاشتين.
+/// One row of Profile's settings menu (Personal Info / Complaints / Favorites / Settings /
+/// Logout). The destructive use (logout) reuses the same "urgent" color as Home's badge, a
+/// consistent destructive signal across screens.
 class SettingsMenuItem extends StatelessWidget {
   const SettingsMenuItem({
     required this.label,
@@ -56,9 +54,7 @@ class SettingsMenuItem extends StatelessWidget {
             ),
             if (trailingIcon != null) ...[
               const SizedBox(width: AppSpacing.sm),
-              // [Updated, Full Audit & Sync pass, 27 Aug 2026] Every row in Figma node 33:794's
-              // Navigation List shows its icon inside a filled 40px circle — a bare, background-less
-              // icon before this pass.
+              // Every row's icon sits inside a filled 40px circle.
               Container(
                 width: 40,
                 height: 40,

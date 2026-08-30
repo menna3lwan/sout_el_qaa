@@ -3,15 +3,10 @@ import 'package:equatable/equatable.dart';
 import '../../../complaints/domain/entities/category.dart';
 import '../../../complaints/domain/entities/complaint.dart';
 
-/// [Updated, Full Audit & Sync pass, 27 Aug 2026] The redesigned Figma (nodes 33:210, 59:1207,
-/// 59:1389) replaced the old 4 field-group steps (Fill/Category/Location/Severity, each its own
-/// screen) with a 3-numbered-step flow whose UI is actually 2 pre-submission screens: (1) `form` —
-/// every field together on one screen — then (2) `review` — a read-only summary card with
-/// Edit/Cancel/Submit actions. The 3rd numbered step is Success, already modeled separately via
-/// [CreateComplaintStatus.success] below (unchanged) rather than as a third [CreateComplaintStep].
-/// Was 4 field-group values; the fields themselves (title/description/category/location/severity) and
-/// their validation rules are unchanged — only how they're grouped into screens changed (see
-/// [CreateComplaintCubit] in create_complaint_cubit.dart).
+/// A 3-numbered-step flow whose UI is actually 2 pre-submission screens: (1) `form` — every field
+/// together on one screen — then (2) `review` — a read-only summary card with Edit/Cancel/Submit
+/// actions. The 3rd numbered step is Success, already modeled separately via
+/// [CreateComplaintStatus.success] below rather than as a third [CreateComplaintStep].
 enum CreateComplaintStep { form, review }
 
 /// [Initial]=[Editing] here (a fresh form and an in-progress one are the same shape, just empty) —

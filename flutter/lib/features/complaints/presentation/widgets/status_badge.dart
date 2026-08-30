@@ -24,7 +24,7 @@ Color complaintStatusColor(ComplaintStatus status) => switch (status) {
       ComplaintStatus.resolved => AppColors.statusResolvedChip,
     };
 
-/// Solid-color chip for complaint status — corrected after the real Figma review (24 Aug 2026): solid background + white text (not the previously assumed soft-tint), with different colors than before ("in progress" is orange #F77F00, "resolved" is navy #002960, previously wrongly assumed green); [Requires Confirmation] no real "received" chip example was found in the reviewed sample (placeholder gray for now), and the final ARB wording for [label] is still open since Figma itself uses two different phrasings for "in review" across screens.
+/// Solid-color chip for complaint status: solid background + white text.
 class StatusBadge extends StatelessWidget {
   const StatusBadge({required this.status, required this.label, super.key});
 
@@ -54,9 +54,10 @@ class StatusBadge extends StatelessWidget {
   }
 }
 
-/// Horizontal stepper — the second Figma representation of complaint status, used on Complaint Details instead of the chip used in the list; deliberately distinct from [StatusBadge] since Figma itself uses two different visuals for the same concept on two different screens, so one widget shouldn't be forced to cover both.
-///
-/// Real shape: a gray connecting line with a gold-filled portion for reached steps, and 3 circles (reached = gold, pending = gray) — no per-status color variation, unlike [StatusBadge].
+/// Horizontal stepper used on Complaint Details instead of the chip used in the list —
+/// deliberately distinct from [StatusBadge] since the two screens show status differently.
+/// Shape: a gray connecting line with a gold-filled portion for reached steps, and 3 circles
+/// (reached = gold, pending = gray) — no per-status color variation, unlike [StatusBadge].
 class ComplaintStatusStepper extends StatelessWidget {
   const ComplaintStatusStepper({
     required this.currentStatus,
@@ -91,9 +92,6 @@ class ComplaintStatusStepper extends StatelessWidget {
                 margin: EdgeInsetsDirectional.only(
                   start: index == 0 ? 0 : AppSpacing.xs,
                 ),
-                // Figma node 33:623 (the stepper's connecting line, fresh fetch of Complaint Details,
-                // node 33:518) measures 8px tall, not the 4px [AppSpacing.xs] this held before this
-                // pass — that's [AppSpacing.sm].
                 height: AppSpacing.sm,
                 decoration: BoxDecoration(
                   color: isReached

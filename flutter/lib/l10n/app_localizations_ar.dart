@@ -131,6 +131,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String homeLocationLine(String street) {
+    return 'قاع الهامور، $street';
+  }
+
+  @override
   String get homeCategoriesHeading => 'تصنيفات الشكاوى';
 
   @override

@@ -1,4 +1,5 @@
-/// Relative-time formatting, matching the confirmed Figma examples exactly (PLAN.md section 3.5): "منذ ساعتين" (dual, no digit), "منذ 3 ايام" (plural, with digit), "منذ اسبوعين" (dual, no digit); the Arabic strings are hardcoded for now and become ARB plural keys once the app is bilingual in use, not just in structure (decision [C5]).
+/// Relative-time formatting. Arabic strings are hardcoded for now and should become ARB plural
+/// keys once the app is genuinely bilingual at runtime.
 abstract final class DateFormatter {
   static String relative(DateTime dateTime, {DateTime? now}) {
     final reference = now ?? DateTime.now();
@@ -12,7 +13,7 @@ abstract final class DateFormatter {
       return _phrase(difference.inHours, 'ساعة', 'ساعتين', 'ساعات');
     }
     if (difference.inDays < 7) {
-      // "ايام" is deliberately spelled without the hamza, matching the literal Figma text ("منذ 3 ايام", PLAN.md section 3.5), not the formal "أيام".
+      // "ايام" is deliberately spelled without the hamza, matching the design's literal text.
       return _phrase(difference.inDays, 'يوم', 'يومين', 'ايام');
     }
 
@@ -25,7 +26,8 @@ abstract final class DateFormatter {
     return _phrase(months, 'شهر', 'شهرين', 'شهور');
   }
 
-  /// Arabic singular/dual forms omit the digit ("منذ ساعتين" not "منذ 2 ساعتين"); plural (3+) includes it explicitly — confirmed directly from the real Figma text.
+  /// Arabic singular/dual forms omit the digit ("منذ ساعتين" not "منذ 2 ساعتين"); plural (3+)
+  /// includes it explicitly.
   static String _phrase(
     int count,
     String singular,

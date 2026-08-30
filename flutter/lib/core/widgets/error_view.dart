@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../utils/extensions/context_extensions.dart';
 import 'app_button.dart';
 
-/// Unified failure state with an optional "Try Again" button; the message must come from the Cubit in the app's voice (PLAN.md sections 1.6/19) — this widget only displays it, never decides its content.
+/// Unified failure state with an optional "Try Again" button; the message must come from the
+/// Cubit in the app's voice — this widget only displays it, never decides its content.
 class ErrorView extends StatelessWidget {
   const ErrorView({
     required this.message,

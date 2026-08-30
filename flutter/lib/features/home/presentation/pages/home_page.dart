@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sout_el_qaa/l10n/app_localizations.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/route_paths.dart';
@@ -25,8 +24,8 @@ import '../../../complaints/presentation/widgets/status_badge.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
 
-/// Real implementation, matching Figma node 33:21 (PLAN.md section 3.3): header with avatar/greeting/
-/// notifications bell, category grid, primary CTA, trending list, recent activity list.
+/// Header with avatar/greeting/notifications bell, category grid, primary CTA, trending list,
+/// recent activity list.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -82,17 +81,12 @@ class _HomeContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // [New, Full Audit & Sync pass, 27 Aug 2026] search bar — did not exist before this
-                // pass; Figma node 33:21 shows it above the CTA button. Not wired to a real search
-                // flow yet (no search screen/endpoint exists in this brief) — a disabled-looking but
-                // present field would be worse than an honest todo, so it's a real TextField that
-                // currently has nowhere to submit to; see the report's Remaining Issues.
+                // No search flow exists yet (no search screen/endpoint) — a real TextField with
+                // nowhere to submit to is more honest than a disabled-looking placeholder.
                 const _SearchBar(),
                 const SizedBox(height: AppSpacing.lg),
-                // The CTA mascot (Figma node 33:21's "image 4") peeks above the button's top-start
-                // corner — a Stack + Positioned overlay so the button itself keeps its normal size
-                // and tap target. Size/offset re-measured against the fresh Figma export (79x95,
-                // peeking 29px above the button's top edge, flush with its start edge).
+                // The CTA mascot peeks above the button's top-start corner — a Stack + Positioned
+                // overlay so the button itself keeps its normal size and tap target.
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -134,9 +128,6 @@ class _HomeContent extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                // [Reordered, Full Audit & Sync pass] categories now render AFTER the trending
-                // section, not before the CTA button — Figma node 33:21's real paint order changed;
-                // this moves the block rather than editing its contents.
                 Text(
                   context.l10n.homeCategoriesHeading,
                   style: AppTypography.sectionHeadingLarge
@@ -144,9 +135,8 @@ class _HomeContent extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 SizedBox(
-                  // Matches the rebuilt [CategoryChip]'s intrinsic height (48px icon circle + 4px gap
-                  // + 16px label line) — was 96 for the old bordered-rectangle chip design, which
-                  // left ~28px of dead space under the new circle+label shape.
+                  // Matches [CategoryChip]'s intrinsic height (48px icon circle + 4px gap + 16px
+                  // label line).
                   height: 68,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -225,10 +215,8 @@ class _Header extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                // [New, Figma Sync pass, 29 Aug 2026] Figma node 33:21 shows a second, lighter line
-                // under the greeting ("قاع الهامور، شارع الأناناس") with a location-pin icon — missing
-                // entirely before this pass. Falls back to just the greeting if the user has no bio
-                // (street) set, rather than showing a dangling "قاع الهامور، ".
+                // Falls back to just the greeting if the user has no bio (street) set, rather
+                // than showing a dangling location line.
                 if (user.bio != null && user.bio!.isNotEmpty) ...[
                   const SizedBox(height: 2),
                   Row(
@@ -266,10 +254,6 @@ class _Header extends StatelessWidget {
       ),
     );
   }
-}
-
-extension on AppLocalizations {
-  String homeLocationLine(String s) => s;
 }
 
 class _SectionHeader extends StatelessWidget {
@@ -322,8 +306,8 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-/// [New, Full Audit & Sync pass, 27 Aug 2026] Figma node 33:21's search field above the CTA button —
-/// see the doc comment where this is used for why it has no `onSubmitted` wiring yet.
+/// The search field above the CTA button; see the call site for why it has no `onSubmitted`
+/// wiring yet.
 class _SearchBar extends StatelessWidget {
   const _SearchBar();
 
@@ -371,14 +355,9 @@ class _SearchBar extends StatelessWidget {
   }
 }
 
-/// [New, Full Audit & Sync pass, 27 Aug 2026] Home's "شكاوى محتاجة صوتك" (recent-activity) row —
-/// Figma node 33:155/33:168 renders this section with a distinct compact pill component, not
-/// [ComplaintListCard] (which is still correct for the trending section above it — its photo/urgent
-/// badge/reaction-row layout matches Figma's trending cards exactly). Corrects a mismatch from this
-/// pass's own first draft, which reused [ComplaintListCard] here before the recent-activity section
-/// was re-checked against Figma in detail. Kept private to home_page.dart rather than promoted to a
-/// shared widgets/ file since no second real screen has been confirmed to reuse this exact shape yet
-/// (see the audit report — don't over-abstract ahead of a second real use).
+/// Home's recent-activity row — a distinct compact pill, not [ComplaintListCard] (which remains
+/// correct for the trending section above it). Kept private to home_page.dart rather than
+/// promoted to shared widgets/ since no second screen reuses this exact shape yet.
 class _RecentActivityItem extends StatelessWidget {
   const _RecentActivityItem({required this.complaint, required this.onTap});
 
@@ -392,11 +371,8 @@ class _RecentActivityItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
       child: Container(
         height: 56,
-        // [Fixed, Figma Sync pass, 29 Aug 2026] `EdgeInsets.all(space12)` (24px vertical) left only 32px
-        // for the two-line title+meta Column, which actually needs 40px (24px title line + 16px meta
-        // line per AppTypography.activityItemTitle/activityItemMeta) — a real `flutter run` caught an
-        // 8px RenderFlex overflow here that static analysis/manual review missed. Vertical padding of
-        // `sm` (8px) keeps the 56px pill height from Figma while giving the text exactly the room it needs.
+        // Vertical padding of `sm` (not space12) leaves the two-line title+meta Column the
+        // ~40px it needs without overflowing this pill's fixed height.
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.space12,
           vertical: AppSpacing.sm,

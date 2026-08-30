@@ -23,9 +23,6 @@ import '../widgets/complaint_scene_assets.dart';
 import '../widgets/severity_visuals.dart';
 import '../widgets/status_badge.dart';
 
-/// New screen (not present as a stub anywhere before this pass) implementing Figma node 33:518 —
-/// PLAN.md section 18's original split (List owns the list, Details lands later in gary-interactions)
-/// no longer applies once the combined Demo App pass builds both in one session.
 class ComplaintDetailsPage extends StatelessWidget {
   const ComplaintDetailsPage({required this.complaintId, super.key});
 
@@ -62,9 +59,8 @@ class _ComplaintDetailsViewState extends State<_ComplaintDetailsView> {
       appBar: AppBar(
         title: Text(context.l10n.complaintDetailsAppBarTitle),
         actions: const [
-          // The header avatar every other screen shows (Figma node 33:518) — this app has a single
-          // demo resident (SpongeBob), so it's the same bundled asset used everywhere else, not a
-          // per-user lookup.
+          // This app has a single demo resident (SpongeBob), so the header avatar is the same
+          // bundled asset used everywhere else, not a per-user lookup.
           Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
             child: QaaAvatar(
@@ -74,10 +70,8 @@ class _ComplaintDetailsViewState extends State<_ComplaintDetailsView> {
           ),
         ],
       ),
-      // [Fixed, Full Application Review pass, 28 Aug 2026] Was BlocBuilder — a failed comment post
-      // had no way to notify the user (see ComplaintDetailsLoaded.commentErrorMessageKey's doc
-      // comment). BlocConsumer adds exactly one side effect (the SnackBar below) without touching the
-      // existing builder logic.
+      // BlocConsumer (not BlocBuilder) so a failed comment post can surface the SnackBar below as a
+      // side effect without touching the builder logic.
       body: BlocConsumer<ComplaintDetailsCubit, ComplaintDetailsState>(
         listener: (context, state) {
           if (state is ComplaintDetailsLoaded &&
@@ -127,21 +121,14 @@ class _DetailsBody extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.md),
       children: [
-        // [Updated, Full Audit & Sync pass, 27 Aug 2026] Re-verified against a fresh fetch of Figma
-        // node 33:518: this page shows an "عاجل" badge above the title (node 33:597, high-severity
-        // complaints only — same signal as [ComplaintListCard.showUrgentBadge]) instead of a
-        // [StatusBadge] chip inline with it — status here is communicated by the stepper below
-        // instead, so the chip that duplicated it next to the title is dropped rather than kept
-        // unconditionally just because it existed before this pass.
+        // High-severity complaints get an urgent badge above the title (same signal as
+        // [ComplaintListCard.showUrgentBadge]); status itself is communicated by the stepper below.
         if (complaint.severity == ComplaintSeverity.high) ...[
           _DetailsUrgentBadge(label: context.l10n.homeUrgentBadge),
           const SizedBox(height: AppSpacing.xs),
         ],
         Text(complaint.title, style: AppTypography.complaintTitle),
         const SizedBox(height: AppSpacing.sm),
-        // [New, Figma Sync pass, 29 Aug 2026] Severity-flavor / category / location 3-pill row (Figma
-        // node 33:518) — re-ordered above the hero image, replacing the old plain location+time row,
-        // per a fresh fetch's real paint order (title -> pills -> image -> reaction counters).
         _InfoPillRow(complaint: complaint, category: state.category),
         const SizedBox(height: AppSpacing.md),
         if (showPhoto) ...[
@@ -170,9 +157,6 @@ class _DetailsBody extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.md),
         ],
-        // [Updated, Figma Sync pass, 29 Aug 2026] Was a single like button + a bare views count —
-        // Figma node 33:518 shows 3 counter pills (reports/dislikes/likes) instead; views moved out
-        // (not shown on this screen in the fresh fetch — it's still shown on list cards, unchanged).
         _EngagementCountersRow(
           complaint: complaint,
           isLiked: state.isLiked,
@@ -180,9 +164,6 @@ class _DetailsBody extends StatelessWidget {
           isReported: state.isReported,
         ),
         const SizedBox(height: AppSpacing.lg),
-        // [New, Figma Sync pass, 29 Aug 2026] A real section heading above the stepper — Figma node
-        // 33:518 shows "حالة الشكوى" here as body content, not as the AppBar title
-        // ([complaintDetailsAppBarTitle] now covers that instead, see this page's AppBar).
         Text(context.l10n.detailsTitle, style: AppTypography.cardTitle),
         const SizedBox(height: AppSpacing.sm),
         ComplaintStatusStepper(
@@ -192,10 +173,6 @@ class _DetailsBody extends StatelessWidget {
           resolvedLabel: context.l10n.statusResolvedLabel,
         ),
         const SizedBox(height: AppSpacing.lg),
-        // [Updated, Full Audit & Sync pass, 27 Aug 2026] [AppTypography.cardTitle]'s own doc comment
-        // already names "Details section heading" as one of its two real uses — this call site was
-        // using [AppTypography.sectionLabel] (a different family, Baloo Bhaijaan 2) instead, which a
-        // fresh fetch of node 33:646 confirms is wrong: Cairo Regular 16px, not Baloo 14px SemiBold.
         Text(
           context.l10n.detailsSectionHeading,
           style: AppTypography.cardTitle,
@@ -205,8 +182,6 @@ class _DetailsBody extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
-            // Figma node 33:644 is a white card with a 2px borderNeutral border, not the borderless
-            // surfaceOffWhite tint this held before this pass.
             color: AppColors.surfaceWhite,
             borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
             border: Border.all(color: AppColors.borderNeutral, width: 2),
@@ -256,13 +231,9 @@ class _DetailsBody extends StatelessWidget {
   }
 }
 
-/// [New, Full Audit & Sync pass, 27 Aug 2026] Figma node 33:597's "عاجل" pill above the Complaint
-/// Details title — deliberately a small local widget rather than reusing [ComplaintListCard]'s private
-/// `_UrgentBadge`, since that one isn't a shared/exported component (each screen's small pill has so
-/// far been local to its own file) and the two use genuinely different colors and text styles: this one
-/// is [AppColors.urgentBadgeAltDetailPage] (already documented as this page's distinct red, see that
-/// token) with [AppTypography.fieldLabel]'s 14px/tracking-0.5 shape in white, not the list card's
-/// 10px [AppTypography.statusChipLabel].
+/// The urgent pill above the Complaint Details title — deliberately local rather than reusing
+/// [ComplaintListCard]'s private `_UrgentBadge`, since the two use different colors/text styles and
+/// neither is a shared/exported component.
 class _DetailsUrgentBadge extends StatelessWidget {
   const _DetailsUrgentBadge({required this.label});
 
@@ -287,10 +258,8 @@ class _DetailsUrgentBadge extends StatelessWidget {
   }
 }
 
-/// [New, Figma Sync pass, 29 Aug 2026] Severity-flavor / category / location 3-pill row (Figma node
-/// 33:518) — deliberately local to this page (not promoted to a shared widget) since this exact
-/// 3-pill combination has only one confirmed real use so far, same "don't over-abstract ahead of a
-/// second real use" rule already applied elsewhere on this branch (e.g. Home's `_RecentActivityItem`).
+/// Severity-flavor / category / location 3-pill row — local to this page since this exact
+/// combination has only one real use so far; not worth promoting to a shared widget yet.
 class _InfoPillRow extends StatelessWidget {
   const _InfoPillRow({required this.complaint, required this.category});
 
@@ -300,10 +269,8 @@ class _InfoPillRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final severityColors = severityFlavorPillColors(complaint.severity);
-    // [Fixed, Figma Sync pass, 29 Aug 2026] A real fetch of node 33:518 shows this row's visual order
-    // (right-to-left, RTL reading order) as location → category → severity — the opposite of a prior
-    // pass's guess. Under RTL, a Wrap's *first* child renders at the *right* (start) edge same as Row,
-    // so the location pill (Figma's rightmost/first-read one) must be listed first here, not last.
+    // Under RTL, a Wrap's first child renders at the right (start) edge same as Row, so the
+    // rightmost/first-read pill (location) is listed first here, not last.
     return Wrap(
       alignment: WrapAlignment.end,
       spacing: AppSpacing.xs,
@@ -335,9 +302,8 @@ class _InfoPillRow extends StatelessWidget {
   }
 }
 
-/// Figma's real pill sizing (node `67:2339`-`67:2349`): 8px Cairo Bold, 0.5px tracking, ~11-13px
-/// icons — noticeably smaller than [AppTypography.statusChipLabel] (10px)'s other use, so this
-/// builds its own [TextStyle] rather than reusing it.
+/// Smaller than [AppTypography.statusChipLabel]'s other use (10px), so this builds its own
+/// [TextStyle] rather than reusing it.
 class _InfoPill extends StatelessWidget {
   const _InfoPill({
     required this.label,
@@ -384,12 +350,9 @@ class _InfoPill extends StatelessWidget {
   }
 }
 
-/// [New, Figma Sync pass, 29 Aug 2026] The details page's 3-counter reaction row (Figma node 33:518,
-/// containers `33:608`/`33:613`/`67:2352`, in that real DOM/RTL-visual order: report, dislike, like)
-/// — replaces the old single like button + bare views count. Local to this page for the same reason
-/// as [_InfoPillRow]. Unlike the pre-existing like button, Figma's 3 pills all share the same navy
-/// text/icon color regardless of state — only the icon glyph switches outline/filled to show "did I
-/// react", matching this row's one real Figma example (which has no separate "active" pill style).
+/// The details page's 3-counter reaction row — local to this page for the same reason as
+/// [_InfoPillRow]. All 3 pills share the same text/icon color regardless of state; only the icon
+/// glyph switches outline/filled to show "did I react".
 class _EngagementCountersRow extends StatelessWidget {
   const _EngagementCountersRow({
     required this.complaint,
@@ -406,10 +369,8 @@ class _EngagementCountersRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ComplaintDetailsCubit>();
-    // [Fixed, Figma Sync pass, 29 Aug 2026] A real fetch of node 33:518 shows this row's visual order
-    // (right-to-left, RTL reading order) as like → dislike → report — the opposite of a prior pass's
-    // guess. Under this app's RTL Directionality, a Row's *first* child renders at the *right* (start)
-    // edge, so the like pill (Figma's rightmost/first-read one) must be listed first here, not last.
+    // Under this app's RTL Directionality, a Row's first child renders at the right (start) edge,
+    // so the rightmost/first-read pill (like) is listed first here, not last.
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -550,10 +511,6 @@ class _CommentTile extends StatelessWidget {
                 ),
                 Text(comment.text, style: AppTypography.bodyDefault),
                 const SizedBox(height: AppSpacing.xs),
-                // [New, Figma Sync pass, 29 Aug 2026] Comment like count (Figma node 33:657,
-                // e.g. "12" + thumb icon under شفيق's comment) — the [Comment] entity gained a
-                // [Comment.likes] field this pass; display-only for now (no confirmed Figma
-                // affordance to actually tap-like a comment, unlike the complaint-level reactions).
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

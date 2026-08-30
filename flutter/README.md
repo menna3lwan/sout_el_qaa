@@ -33,7 +33,7 @@ flutter create --platforms=android,ios --org com.soutelqaa --project-name sout_e
 ```bash
 cd flutter
 flutter pub get
-dart run build_runner build --delete-conflicting-outputs   # يولّد ملفات الـl10n وأي .g.dart/.freezed.dart لاحقًا
+flutter gen-l10n   # يولّد ملفات الـl10n (app_localizations*.dart) من ARB files
 dart format .
 flutter analyze
 flutter test
@@ -62,9 +62,9 @@ flutter run --dart-define=API_BASE_URL=http://localhost:3000
 2. `flutter pub get` — للتأكد إن كل رقم إصدار في `pubspec.yaml` فعلًا موجود
    ومتوافق (الأرقام مكتوبة يدويًا من معرفتي بآخر إصدارات مستقرة، مش متأكدة
    100%).
-3. `dart run build_runner build` — لتوليد ملفات الـl10n (`app_localizations.dart`
-   المستخدم فعليًا في `lib/main.dart` و`context_extensions.dart` — الملف ده
-   **لسه مش موجود فعليًا في الـrepo**، بيتولد من `l10n.yaml` + ARB files).
+3. `flutter gen-l10n` — لتوليد ملفات الـl10n (`app_localizations.dart`
+   المستخدم فعليًا في `lib/main.dart` و`context_extensions.dart`)، بيتولد من
+   `l10n.yaml` + ARB files.
 4. `dart format .` و `flutter analyze` — عشان نتأكد فعلًا إن الكود نظيف
    بمعايير الـlints المفعّلة في `analysis_options.yaml`، مش بس "شكله صح"
    بمراجعة يدوية مني.

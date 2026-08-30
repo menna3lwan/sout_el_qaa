@@ -2,9 +2,8 @@ import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/app_notification.dart';
 
-/// The 4 tabs confirmed from Figma's Notifications screen (PLAN.md section 3.9): "الكل"/"الشكاوى"/
-/// "التفاعلات"/"عام". [complaints] covers both statusUpdate and newComment notification types — the
-/// UI groups them under one tab even though the domain models them as two distinct [NotificationType]s.
+/// [complaints] covers both statusUpdate and newComment notification types — the UI groups them
+/// under one tab even though the domain models them as two distinct [NotificationType]s.
 enum NotificationsFilter { all, complaints, reactions, general }
 
 sealed class NotificationsState extends Equatable {

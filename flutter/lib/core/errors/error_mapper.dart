@@ -3,7 +3,8 @@ import 'package:dio/dio.dart';
 import 'exceptions.dart';
 import 'failures.dart';
 
-/// Converts any technical exception into a [Failure] the Presentation layer understands (PLAN.md section 7) — call [ErrorMapper.map] instead of mapping ad hoc.
+/// Converts any technical exception into a [Failure] the Presentation layer understands — call
+/// [ErrorMapper.map] instead of mapping ad hoc.
 abstract final class ErrorMapper {
   static Failure map(Object error, {String? fallbackMessage}) {
     return switch (error) {

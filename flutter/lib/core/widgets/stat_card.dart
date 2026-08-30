@@ -4,9 +4,8 @@ import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
 
-/// One cell of the Profile page's 3-cell stats grid ("12 شكوى / 8 مغلقة / 245 فقاعة", Figma node
-/// 33:794's "Section - Stats Grid") — meant to sit inside that grid's own shared card/border/shadow
-/// (see [ProfileStatsGridCard]), not to carry its own border the way an earlier pass assumed.
+/// One cell of the Profile page's 3-cell stats grid — meant to sit inside [ProfileStatsGridCard]'s
+/// shared card/border/shadow, not to carry its own border.
 class StatCard extends StatelessWidget {
   const StatCard({
     required this.value,
@@ -18,8 +17,7 @@ class StatCard extends StatelessWidget {
   final String value;
   final String label;
 
-  /// [Updated, Figma Sync pass, 29 Aug 2026] The points cell (only) gets a translucent gold tint —
-  /// a real fetch of node `61:1715` confirms this, correcting a prior pass's solid-orange guess.
+  /// The points cell only — gets a translucent gold tint instead of the plain background.
   final bool isHighlighted;
 
   @override
@@ -43,8 +41,6 @@ class StatCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              // Figma node `61:1717`/`61:1722` is Cairo Bold, not [AppTypography.displayLarge]'s
-              // Baloo Bhaijaan 2 — that style is for headings elsewhere, wrong family for this cell.
               value,
               style: AppTypography.chipLabel.copyWith(
                 fontSize: 20,
@@ -67,9 +63,8 @@ class StatCard extends StatelessWidget {
   }
 }
 
-/// [New, Figma Sync pass, 29 Aug 2026] The shared card the 3 [StatCard] cells sit inside (Figma node
-/// `61:1713`, "Section - Stats Grid") — extracted once the real fetch showed the cells share one
-/// bordered/shadowed wrapper with gaps between them, not 3 independently-carded pills side by side.
+/// The shared card the 3 [StatCard] cells sit inside — one bordered wrapper with gaps between
+/// them, not 3 independently-carded pills side by side.
 class ProfileStatsGridCard extends StatelessWidget {
   const ProfileStatsGridCard({required this.children, super.key});
 

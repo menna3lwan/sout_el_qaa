@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../../core/di/injection.dart';
+import '../../../../core/permissions/permission_service.dart';
 import '../../../../core/router/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -21,11 +22,9 @@ import '../cubit/create_complaint_cubit.dart';
 import '../cubit/create_complaint_state.dart';
 import '../widgets/location_picker_page.dart';
 
-/// [Updated, Full Audit & Sync pass, 27 Aug 2026] Now a 2-pre-submission-step flow —
-/// Form -> Review -> Submit -> Success — matching the redesigned Figma (nodes 33:210 for the combined
-/// form, 59:1207 for the new review step, 59:1389 for success); was Fill -> Category -> Location ->
-/// Severity -> Submit -> Success (4 field-group steps). See [CreateComplaintStep]'s doc comment for
-/// why the field-level state model barely changed even though the screens did.
+/// A 2-pre-submission-step flow: Form -> Review -> Submit -> Success. See
+/// [CreateComplaintStep]'s doc comment for why the field-level state model is independent of
+/// the number of screens.
 class CreateComplaintPage extends StatelessWidget {
   const CreateComplaintPage({super.key});
 
@@ -241,8 +240,7 @@ class _FormNavButton extends StatelessWidget {
   }
 }
 
-/// Review step's actions — Figma node 59:1207: "إلغاء الشكوى" (Cancel) + "تعديل الشكوى" (Edit) side
-/// by side above the full-width submit button, not the old Back/Next row.
+/// Review step's actions — Cancel + Edit side by side above the full-width submit button.
 class _ReviewActions extends StatelessWidget {
   const _ReviewActions({required this.state});
 
@@ -325,13 +323,9 @@ class _ReviewActions extends StatelessWidget {
   }
 }
 
-/// [Updated] The combined form — Figma node 33:210 groups every field on one screen instead of the
-/// old 4 separate step screens (Fill/Category/Location/Severity). Field order follows Figma's layout
-/// (Media -> Category -> Description -> Location -> Severity); the title field is kept even though
-/// Figma's form doesn't show one — [Complaint.title] is a required domain/backend field and removing
-/// it would drop required data, not just change a screen, so it's placed right above Description
-/// rather than invented a new position for it. See the audit report's Remaining Issues for this
-/// specific ambiguity (documented, not silently resolved either way).
+/// The combined form — every field on one screen, ordered Media -> Category -> Title ->
+/// Description -> Location -> Severity. Title is kept since [Complaint.title] is a required
+/// domain/backend field.
 class _FormStep extends StatelessWidget {
   const _FormStep({required this.state});
 
@@ -408,8 +402,8 @@ class _FormStep extends StatelessWidget {
           onChanged: cubit.updateLocationLabel,
         ),
         const SizedBox(height: AppSpacing.md),
-        // Static illustrated map preview (Figma node 33:210's "Image" placeholder, section 3.6) —
-        // decorative context for the button below, not tied to the actually-picked location.
+        // Static illustrated map preview — decorative context for the button below, not tied to
+        // the actually-picked location.
         ClipRRect(
           borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
           child: Image.asset(
@@ -424,7 +418,9 @@ class _FormStep extends StatelessWidget {
           onPressed: () async {
             final picked = await Navigator.of(context).push<LatLng>(
               MaterialPageRoute<LatLng>(
-                builder: (_) => const LocationPickerPage(),
+                builder: (_) => LocationPickerPage(
+                  permissionService: getIt<PermissionService>(),
+                ),
               ),
             );
             if (picked != null) {
@@ -601,9 +597,9 @@ class _SeverityPicker extends StatelessWidget {
   }
 }
 
-/// [New, Full Audit & Sync pass, 27 Aug 2026] Review step — Figma node 59:1207: a read-only summary
-/// card (photo + category badge, title, description, location/severity meta rows) with Edit/Cancel
-/// actions below it (see [_ReviewActions]) and the real submit button. Did not exist before this pass.
+/// Review step — a read-only summary card (photo + category badge, title, description,
+/// location/severity meta rows) with Edit/Cancel actions below it (see [_ReviewActions]) and the
+/// submit button.
 class _ReviewStep extends StatelessWidget {
   const _ReviewStep({required this.state});
 
@@ -799,10 +795,8 @@ class _ReviewMetaRow extends StatelessWidget {
   }
 }
 
-/// [Updated] Success screen — Figma node 59:1389: exact copy re-confirmed against the redesigned
-/// Figma ("شكوتك وصلت للقاع! 🎉" / "تم إرسال شكوتك بنجاح، وشفيق استلمها 😂"), a new
-/// "مشاهدة الشكوى" (View Complaint) button added above the existing "back to home" one, and the
-/// step indicator now shown here too (3rd badge active) instead of disappearing entirely.
+/// Success screen — shows the step indicator with its 3rd badge active, plus "View Complaint"
+/// and "back to home" actions.
 class _SuccessView extends StatelessWidget {
   const _SuccessView({required this.complaint});
 

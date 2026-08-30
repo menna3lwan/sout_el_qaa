@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart';
 
+import '../../../../core/errors/failures.dart';
 import '../../../../core/storage/secure_storage_service.dart';
 import '../../../auth/domain/repositories/auth_repository.dart';
 import '../../domain/entities/category.dart';
@@ -32,10 +34,9 @@ final class ComplaintDetailsCubit extends Cubit<ComplaintDetailsState> {
         await commentsResult.fold(
           (failure) async => emit(ComplaintDetailsError(failure.message)),
           (comments) async {
-            // [New, Figma Sync pass, 29 Aug 2026] The severity/category/location pill row needs the
-            // category's real name — fetched here rather than blocking `load()` on it, since a
+            // The category name is fetched here rather than blocking `load()` on it, since a
             // failure here shouldn't take down the whole page the way a failed complaint/comments
-            // fetch does (the pill just falls back to the bare id, see [ComplaintDetailsLoaded.category]).
+            // fetch does (the pill falls back to the bare id, see [ComplaintDetailsLoaded.category]).
             final categoriesResult = await _repository.getCategories();
             final category = categoriesResult.fold(
               (_) => null,
@@ -59,91 +60,94 @@ final class ComplaintDetailsCubit extends Cubit<ComplaintDetailsState> {
     final current = state;
     if (current is! ComplaintDetailsLoaded) return;
 
-    final turningOn = !current.isLiked;
-    // Mutual exclusivity with dislike, mirroring a standard up/down-vote pattern — best-effort, same
-    // "silently ignored" convention as the primary reaction call below (no per-user vote state exists
-    // server-side to reconcile against, see [ComplaintDetailsLoaded.isLiked]'s doc comment).
-    if (turningOn && current.isDisliked) {
-      await _repository.undislike(current.complaint.id);
-    }
-
-    final result = current.isLiked
-        ? await _repository.unlike(current.complaint.id)
-        : await _repository.like(current.complaint.id);
-
-    result.fold(
-      // A failed like/unlike is silently ignored rather than surfacing a full-screen error — it's a
-      // secondary action on an already-loaded page, not a reason to lose the user's place (contrast
-      // with `load()`, where a failure legitimately blocks the whole screen).
-      (failure) {},
-      (newLikeCount) => emit(
-        current.copyWith(
-          isLiked: !current.isLiked,
-          isDisliked: turningOn ? false : current.isDisliked,
-          complaint: current.complaint.copyWithReactions(
-            likes: newLikeCount,
-            dislikes: turningOn && current.isDisliked
-                ? current.complaint.dislikes - 1
-                : current.complaint.dislikes,
-          ),
+    await _toggleReaction(
+      current,
+      isActive: current.isLiked,
+      onAction: () => _repository.like(current.complaint.id),
+      offAction: () => _repository.unlike(current.complaint.id),
+      // Mutual exclusivity with dislike, mirroring a standard up/down-vote pattern.
+      clearOpposite: current.isDisliked
+          ? () => _repository.undislike(current.complaint.id)
+          : null,
+      applyUpdate: (newCount, turningOn) => current.copyWith(
+        isLiked: !current.isLiked,
+        isDisliked: turningOn ? false : current.isDisliked,
+        complaint: current.complaint.copyWithReactions(
+          likes: newCount,
+          dislikes: turningOn && current.isDisliked
+              ? current.complaint.dislikes - 1
+              : current.complaint.dislikes,
         ),
       ),
     );
   }
 
-  /// [New, Figma Sync pass, 29 Aug 2026] Mirrors [toggleLike] for the details page's "dislike" pill —
-  /// see that method's doc comments for the shared conventions (mutual exclusivity, silent failure).
   Future<void> toggleDislike() async {
     final current = state;
     if (current is! ComplaintDetailsLoaded) return;
 
-    final turningOn = !current.isDisliked;
-    if (turningOn && current.isLiked) {
-      await _repository.unlike(current.complaint.id);
-    }
-
-    final result = current.isDisliked
-        ? await _repository.undislike(current.complaint.id)
-        : await _repository.dislike(current.complaint.id);
-
-    result.fold(
-      (failure) {},
-      (newDislikeCount) => emit(
-        current.copyWith(
-          isDisliked: !current.isDisliked,
-          isLiked: turningOn ? false : current.isLiked,
-          complaint: current.complaint.copyWithReactions(
-            dislikes: newDislikeCount,
-            likes: turningOn && current.isLiked
-                ? current.complaint.likes - 1
-                : current.complaint.likes,
-          ),
+    await _toggleReaction(
+      current,
+      isActive: current.isDisliked,
+      onAction: () => _repository.dislike(current.complaint.id),
+      offAction: () => _repository.undislike(current.complaint.id),
+      clearOpposite: current.isLiked
+          ? () => _repository.unlike(current.complaint.id)
+          : null,
+      applyUpdate: (newCount, turningOn) => current.copyWith(
+        isDisliked: !current.isDisliked,
+        isLiked: turningOn ? false : current.isLiked,
+        complaint: current.complaint.copyWithReactions(
+          dislikes: newCount,
+          likes: turningOn && current.isLiked
+              ? current.complaint.likes - 1
+              : current.complaint.likes,
         ),
       ),
     );
   }
 
-  /// [New, Figma Sync pass, 29 Aug 2026] The details page's "report" pill — fully independent of
-  /// like/dislike (reporting something as serious and reacting to it aren't mutually exclusive), same
-  /// toggle/silent-failure shape as [toggleLike] otherwise.
+  /// Reporting is independent of like/dislike — flagging something as serious and reacting to it
+  /// aren't mutually exclusive — so there's no [clearOpposite] here, unlike [toggleLike]/[toggleDislike].
   Future<void> toggleReport() async {
     final current = state;
     if (current is! ComplaintDetailsLoaded) return;
 
-    final result = current.isReported
-        ? await _repository.unreport(current.complaint.id)
-        : await _repository.report(current.complaint.id);
+    await _toggleReaction(
+      current,
+      isActive: current.isReported,
+      onAction: () => _repository.report(current.complaint.id),
+      offAction: () => _repository.unreport(current.complaint.id),
+      applyUpdate: (newCount, _) => current.copyWith(
+        isReported: !current.isReported,
+        complaint: current.complaint.copyWithReactions(reports: newCount),
+      ),
+    );
+  }
+
+  /// Shared shape behind [toggleLike]/[toggleDislike]/[toggleReport]: flip an on/off reaction,
+  /// best-effort clear a mutually-exclusive one first, and fold the server's new count into state.
+  /// A failed toggle is silently ignored rather than surfacing a full-screen error — it's a secondary
+  /// action on an already-loaded page, not a reason to lose the user's place.
+  Future<void> _toggleReaction(
+    ComplaintDetailsLoaded current, {
+    required bool isActive,
+    required Future<Either<Failure, int>> Function() onAction,
+    required Future<Either<Failure, int>> Function() offAction,
+    required ComplaintDetailsLoaded Function(int newCount, bool turningOn)
+        applyUpdate,
+    Future<Either<Failure, int>> Function()? clearOpposite,
+  }) async {
+    final turningOn = !isActive;
+    if (turningOn && clearOpposite != null) {
+      await clearOpposite();
+    }
+
+    final result = isActive ? await offAction() : await onAction();
 
     result.fold(
       (failure) {},
-      (newReportCount) => emit(
-        current.copyWith(
-          isReported: !current.isReported,
-          complaint: current.complaint.copyWithReactions(
-            reports: newReportCount,
-          ),
-        ),
-      ),
+      (newCount) => emit(applyUpdate(newCount, turningOn)),
     );
   }
 

@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 
-/// Figma uses 3 real font families (not 1): Baloo Bhaijaan 2 (large headings/CTAs/greeting), Cairo (body/labels/nav, most of the UI), and Be Vietnam Pro ([Requires Confirmation] numeric-only elements — wizard step numbers, char counters — may be intentional or incidental, fold into Cairo if unconfirmed); google_fonts is a [P] Proposed new dependency to source them; "Liberation Sans"/"FreeSerif" appearances are excluded as Figma rendering glitches, not real font choices (see branch report).
+/// Three font families, matching the design: Baloo Bhaijaan 2 (large headings/CTAs/greeting),
+/// Cairo (body/labels/nav, most of the UI), and Be Vietnam Pro (numeric-only elements — wizard
+/// step numbers, char counters).
 abstract final class AppTypography {
   // ---------------------------------------------------------------------
   // Baloo Bhaijaan 2 — large headings / CTAs / greeting
@@ -69,22 +71,15 @@ abstract final class AppTypography {
   // Cairo — body / labels / nav / most of the UI
   // ---------------------------------------------------------------------
 
-  /// [New, Full Audit & Sync pass, 27 Aug 2026] Shared "large Cairo Bold section heading" shape — Cairo
-  /// Bold 20px/34, no color baked in (Figma reuses this exact size/weight/line-height with two
-  /// different colors: node 33:94 "أكثر الشكاوى تفاعلاً" uses profileAccent, node 33:130 "تصنيفات
-  /// الشكاوى" uses textFigmaPrimary — callers supply the color via `.copyWith`, same convention as
-  /// [chipLabel]/[stepLabel] below). Corrects a prior mismatch: both headings were previously styled
-  /// with either [displayLarge] (Baloo Bhaijaan 2, 24px — wrong family and size) or [headingMedium]
-  /// (16px — wrong size); [displayLarge] itself is unchanged and still correct for its other real uses
-  /// (Profile's [StatCard] figures, the theme's `headlineLarge`) so it's kept as-is rather than edited.
+  /// Shared "large Cairo Bold section heading" shape — no color baked in since callers apply
+  /// different colors via `.copyWith`, same convention as [chipLabel]/[stepLabel] below.
   static TextStyle get sectionHeadingLarge => GoogleFonts.cairo(
         fontSize: 20,
         fontWeight: FontWeight.w700,
         height: 34 / 20,
       );
 
-  /// [New, Full Audit & Sync pass, 27 Aug 2026] "شوف إيه اللي شاغل سكان القاع" (Home's trending-section
-  /// subheading, node 55:898) — Cairo Medium 14px/22, did not exist before this pass.
+  /// Home's trending-section subheading — Cairo Medium 14px/22.
   static TextStyle get trendingSectionSubheading => GoogleFonts.cairo(
         fontSize: 14,
         fontWeight: FontWeight.w500,
@@ -92,10 +87,8 @@ abstract final class AppTypography {
         height: 22 / 14,
       );
 
-  /// [New, Full Audit & Sync pass, 27 Aug 2026] "عرض الكل" (Home's trending-section "View All" link,
-  /// node 33:92) — Cairo Bold 14px/20, color textFigmaPrimary; corrects a prior mismatch ([metaText] +
-  /// [AppColors.homeLinkText], Cairo Regular 12px in a different navy). Named generically (not
-  /// "homeViewAll...") since the same bold-link treatment is a reusable pattern, not a Home-only one.
+  /// Bold link text (e.g. Home's "عرض الكل" trending-section link). Named generically since the
+  /// same bold-link treatment is reused beyond Home.
   static TextStyle get linkButtonBold => GoogleFonts.cairo(
         fontSize: 14,
         fontWeight: FontWeight.w700,
@@ -103,10 +96,8 @@ abstract final class AppTypography {
         height: 20 / 14,
       );
 
-  /// [New, Full Audit & Sync pass, 27 Aug 2026] Small bold pill/button label — Cairo Bold 12px/16 +
-  /// letter-spacing 0.5, no color baked in. Matches Home's "عندي نفس المشكله" button (node 63:1989);
-  /// corrects a prior mismatch that reused [statusChipLabel] (10px, no letter-spacing) for this — a
-  /// visually similar but distinctly-sized Figma style, not the same one.
+  /// Small bold pill/button label (e.g. Home's "عندي نفس المشكله" button) — distinct from
+  /// [statusChipLabel], which is a smaller size with no letter-spacing.
   static TextStyle get pillButtonLabel => GoogleFonts.cairo(
         fontSize: 12,
         fontWeight: FontWeight.w700,
@@ -114,11 +105,8 @@ abstract final class AppTypography {
         height: 16 / 12,
       );
 
-  /// [New, Full Audit & Sync pass, 27 Aug 2026] "شكاوى محتاجة صوتك" (Home's recent-activity heading,
-  /// node 52:810) — Cairo Bold 20px/28, color [AppColors.recentActivityHeading]. Same 20px-Bold family
-  /// as [sectionHeadingLarge] above but a different line-height (28 vs 34) and a 7th near-duplicate
-  /// navy — see that color token's own "requires confirmation" note; kept as its own style rather than
-  /// silently rounded onto [sectionHeadingLarge] since the line-height genuinely differs in Figma.
+  /// Home's recent-activity heading — same 20px-Bold family as [sectionHeadingLarge] but a
+  /// different line-height, kept distinct rather than merged since the two genuinely differ.
   static TextStyle get recentActivityHeading => GoogleFonts.cairo(
         fontSize: 20,
         fontWeight: FontWeight.w700,
@@ -126,38 +114,29 @@ abstract final class AppTypography {
         height: 28 / 20,
       );
 
-  /// [New, Full Audit & Sync pass, 27 Aug 2026] Small caption under an icon — Cairo Regular 12px/16, no
-  /// color baked in. Matches the category-chip labels on Home/Create Complaint (e.g. node 55:907
-  /// "مياه"); corrects a prior mismatch that reused [metaText] with a `fontWeight: w600` override (12px
-  /// but the wrong line-height, 16/12 vs [metaText]'s 16/12 — the actual bug was the weight: Figma is
-  /// Regular here, not SemiBold).
+  /// Small caption under an icon (category-chip labels on Home/Create Complaint) — Regular weight,
+  /// distinct from [metaText] which is SemiBold.
   static TextStyle get iconCaptionLabel => GoogleFonts.cairo(
         fontSize: 12,
         fontWeight: FontWeight.w400,
         height: 16 / 12,
       );
 
-  /// [New, Full Audit & Sync pass, 27 Aug 2026] Home's recent-activity pill row title (e.g. node
-  /// 33:162) — Cairo Regular 10px/24, no color baked in. This specific "small text, generous
-  /// line-height" combination did not exist elsewhere in the type scale.
+  /// Home's recent-activity pill row title — small text with generous line-height.
   static TextStyle get activityItemTitle => GoogleFonts.cairo(
         fontSize: 10,
         fontWeight: FontWeight.w400,
         height: 24 / 10,
       );
 
-  /// [New, Full Audit & Sync pass, 27 Aug 2026] Home's recent-activity pill row meta text ("status -
-  /// relative time", e.g. node 33:164) — Cairo Regular 8px/16, no color baked in.
+  /// Home's recent-activity pill row meta text ("status - relative time").
   static TextStyle get activityItemMeta => GoogleFonts.cairo(
         fontSize: 8,
         fontWeight: FontWeight.w400,
         height: 16 / 8,
       );
 
-  /// [New, Full Audit & Sync pass, 27 Aug 2026] Notification card title (Figma node 33:936's 4
-  /// example cards, e.g. "تم تحديث حالة شكواك") — Cairo Bold 18px/22.5, color notificationCardAccent.
-  /// [NotificationCard] previously reused [fieldLabel] (14px, a different color) for this text; the
-  /// weight is still toggled per read/unread state at the call site, same as before this pass.
+  /// Notification card title — weight is toggled per read/unread state at the call site.
   static TextStyle get notificationCardTitle => GoogleFonts.cairo(
         fontSize: 18,
         color: AppColors.notificationCardAccent,
@@ -180,13 +159,8 @@ abstract final class AppTypography {
         height: 38 / 28,
       );
 
-  /// [Updated, Full Audit & Sync pass, 27 Aug 2026] Complaint title on the details page (Figma node
-  /// 33:600, fresh fetch) — Cairo Bold 16px, not the 20px SemiBold this held before this pass; the
-  /// single real call site ([ComplaintDetailsPage]) is corrected in place rather than adding a
-  /// duplicate token. [Requires Confirmation] the 40px line-height (2.5x the font size) is unusually
-  /// generous for a 16px heading — kept as extracted rather than snapped to a smaller ratio since,
-  /// unlike the small 8-12px "auto-layout artifact" cases elsewhere in this file, a prominent 2-line
-  /// wrapped heading plausibly does want this much breathing room by design.
+  /// Complaint title on the details page — the generous line-height gives a wrapped 2-line title
+  /// room to breathe.
   static TextStyle get complaintTitle => GoogleFonts.cairo(
         fontSize: 16,
         fontWeight: FontWeight.w700,
@@ -265,7 +239,7 @@ abstract final class AppTypography {
       );
 
   // ---------------------------------------------------------------------
-  // Be Vietnam Pro — [Requires Confirmation], numeric elements only
+  // Be Vietnam Pro — numeric elements only
   // ---------------------------------------------------------------------
 
   /// Wizard step numbers / character counter / reply counter — 12-15px Medium/Bold.

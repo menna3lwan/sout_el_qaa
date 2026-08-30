@@ -1,18 +1,13 @@
-/// [New, Figma Sync pass, 29 Aug 2026] The Profile screen's rank/points system (Figma node 33:794:
-/// avatar ring badge "منقذ بحري", "245 فقاعة", progress card "49% للترقية" / "اجمع 51 فقاعة إضافية
-/// للوصول لرتبة 'بطل القاع'"). Only [ProfileRank.seaRescuer] and [ProfileRank.qaaHero] are
-/// Figma-confirmed rank *names* (from the one reviewed example); the other 3 are [Proposed] to
-/// complete a believable 5-rank ladder. Localized labels live in the presentation layer
-/// ([profile_rank_visuals.dart]) — same split as [ComplaintSeverity] (plain enum here) vs.
-/// `severityFlavorLabel` (BuildContext-dependent, in presentation/widgets/).
+/// The Profile screen's rank/points system. Only [ProfileRank.seaRescuer] and
+/// [ProfileRank.qaaHero] are Figma-confirmed rank names; the other 3 complete a believable
+/// 5-rank ladder. Localized labels live in the presentation layer ([profile_rank_visuals.dart])
+/// — same split as [ComplaintSeverity] (plain enum here) vs. `severityFlavorLabel`
+/// (BuildContext-dependent, in presentation/widgets/).
 enum ProfileRank { qaaResident, streetWatcher, seaRescuer, qaaHero, qaaLegend }
 
-/// A points-to-rank ladder — a pure domain rule, not server data (the mock server has no dedicated
-/// rank field; [ProfileStats.points] is all it serves, same `submittedCount * 10` formula as before
-/// this pass). Thresholds are deliberately tuned to this world's actual (small) complaint volume
-/// rather than copying Figma's own example numbers (245 points / 51-to-go / 49%) verbatim — those read
-/// as one-off placeholder content, consistent with other placeholder values already flagged in prior
-/// audit rounds, not a formula to reverse-engineer exactly.
+/// A points-to-rank ladder — a pure domain rule, not server data (the mock server only serves
+/// [ProfileStats.points]). Thresholds are tuned to this world's actual (small) complaint volume
+/// rather than copying Figma's own example numbers verbatim.
 abstract final class ProfileRankLadder {
   static const List<(int minPoints, ProfileRank rank)> _thresholds = [
     (0, ProfileRank.qaaResident),

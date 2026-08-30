@@ -5,9 +5,9 @@ import '../../domain/entities/complaint_status.dart';
 import '../../domain/repositories/complaint_repository.dart';
 import 'complaints_state.dart';
 
-/// Drives the Complaints List screen (all 3 filter tabs); re-fetches from the server on every filter
-/// change rather than filtering a locally-cached full list, since the server already supports
-/// authorId/status query filtering (PLAN.md section 5: Repository/DataSource own filtering, not Presentation).
+/// Drives the Complaints List screen (all 3 filter tabs); re-fetches from the server on every
+/// filter change rather than filtering a locally-cached full list, since the server already
+/// supports authorId/status query filtering.
 final class ComplaintsCubit extends Cubit<ComplaintsState> {
   ComplaintsCubit(this._repository, this._secureStorage)
       : super(const ComplaintsLoading());

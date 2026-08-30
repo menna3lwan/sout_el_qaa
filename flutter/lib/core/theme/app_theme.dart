@@ -4,7 +4,8 @@ import 'app_colors.dart';
 import 'app_spacing.dart';
 import 'app_typography.dart';
 
-/// Unified [ThemeData]; RTL is set via [MaterialApp.locale], not here (see core/router/app_router.dart and l10n) — this only owns visual appearance. Fully updated after the real Figma review (24 Aug 2026) — see app_colors.dart/app_typography.dart for each value's source and any open [Requires Confirmation] items.
+/// Unified [ThemeData]; RTL is set via [MaterialApp.locale], not here (see
+/// core/router/app_router.dart and l10n) — this only owns visual appearance.
 abstract final class AppTheme {
   static ThemeData get light {
     final colorScheme = ColorScheme.fromSeed(

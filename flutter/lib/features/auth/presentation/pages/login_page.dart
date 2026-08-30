@@ -13,7 +13,8 @@ import '../../../../core/widgets/app_text_field.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 
-/// Real implementation of the screen [C3] we design ourselves (Figma has no Login/Register frame, PLAN.md section 3.2) — same visual language (screen background, pill inputs/buttons, Baloo Bhaijaan 2 heading) as every Figma-designed screen.
+/// This screen has no Figma frame of its own; it reuses the same visual language (screen
+/// background, pill inputs/buttons, Baloo Bhaijaan 2 heading) as every designed screen.
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 

@@ -4,7 +4,7 @@ import '../../../../core/utils/validators.dart';
 import '../../domain/repositories/auth_repository.dart';
 import 'auth_state.dart';
 
-/// Drives both LoginPage and RegisterPage; validation happens here (not in the widget), matching PLAN.md section 1.2 — "no business logic inside widgets".
+/// Drives both LoginPage and RegisterPage; validation happens here, not in the widget.
 final class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this._repository) : super(const AuthState());
 

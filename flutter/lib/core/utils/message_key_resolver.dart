@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart';
 
 import 'extensions/context_extensions.dart';
 
-/// Resolves an ARB-key string (returned by [Failure.message] or a [Validators] function, see PLAN.md section 7) to its localized text; centralized here instead of every Cubit/widget repeating its own switch, since the same failure/validation keys are shared across every feature.
+/// Resolves an ARB-key string (returned by [Failure.message] or a [Validators] function) to its
+/// localized text; centralized here instead of every Cubit/widget repeating its own switch.
 ///
 /// [ServerFailure.message] is a special case: it's often the mock/real backend's own already-Arabic
 /// message (e.g. "الإيميل ده مستخدم بالفعل يا جار"), not one of our fixed ARB keys — any string that

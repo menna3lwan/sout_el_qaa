@@ -145,61 +145,64 @@ final class ComplaintRemoteDataSourceImpl implements ComplaintRemoteDataSource {
   }
 
   @override
-  Future<int> like(String complaintId) async {
-    await guardDioCall(
-      () =>
-          _dio.post<Map<String, dynamic>>(ApiEndpoints.reactions(complaintId)),
-    );
-    final complaint = await getComplaintById(complaintId);
-    return complaint.likes;
-  }
+  Future<int> like(String complaintId) => _mutateReactionAndFetchCount(
+        complaintId,
+        request: () => _dio
+            .post<Map<String, dynamic>>(ApiEndpoints.reactions(complaintId)),
+        selectCount: (complaint) => complaint.likes,
+      );
 
   @override
-  Future<int> unlike(String complaintId) async {
-    await guardDioCall(
-      () => _dio
-          .delete<Map<String, dynamic>>(ApiEndpoints.reactions(complaintId)),
-    );
-    final complaint = await getComplaintById(complaintId);
-    return complaint.likes;
-  }
+  Future<int> unlike(String complaintId) => _mutateReactionAndFetchCount(
+        complaintId,
+        request: () => _dio
+            .delete<Map<String, dynamic>>(ApiEndpoints.reactions(complaintId)),
+        selectCount: (complaint) => complaint.likes,
+      );
 
   @override
-  Future<int> dislike(String complaintId) async {
-    await guardDioCall(
-      () => _dio.post<Map<String, dynamic>>(ApiEndpoints.dislikes(complaintId)),
-    );
-    final complaint = await getComplaintById(complaintId);
-    return complaint.dislikes;
-  }
+  Future<int> dislike(String complaintId) => _mutateReactionAndFetchCount(
+        complaintId,
+        request: () =>
+            _dio.post<Map<String, dynamic>>(ApiEndpoints.dislikes(complaintId)),
+        selectCount: (complaint) => complaint.dislikes,
+      );
 
   @override
-  Future<int> undislike(String complaintId) async {
-    await guardDioCall(
-      () =>
-          _dio.delete<Map<String, dynamic>>(ApiEndpoints.dislikes(complaintId)),
-    );
-    final complaint = await getComplaintById(complaintId);
-    return complaint.dislikes;
-  }
+  Future<int> undislike(String complaintId) => _mutateReactionAndFetchCount(
+        complaintId,
+        request: () => _dio
+            .delete<Map<String, dynamic>>(ApiEndpoints.dislikes(complaintId)),
+        selectCount: (complaint) => complaint.dislikes,
+      );
 
   @override
-  Future<int> report(String complaintId) async {
-    await guardDioCall(
-      () => _dio.post<Map<String, dynamic>>(ApiEndpoints.reports(complaintId)),
-    );
-    final complaint = await getComplaintById(complaintId);
-    return complaint.reports;
-  }
+  Future<int> report(String complaintId) => _mutateReactionAndFetchCount(
+        complaintId,
+        request: () =>
+            _dio.post<Map<String, dynamic>>(ApiEndpoints.reports(complaintId)),
+        selectCount: (complaint) => complaint.reports,
+      );
 
   @override
-  Future<int> unreport(String complaintId) async {
-    await guardDioCall(
-      () =>
-          _dio.delete<Map<String, dynamic>>(ApiEndpoints.reports(complaintId)),
-    );
+  Future<int> unreport(String complaintId) => _mutateReactionAndFetchCount(
+        complaintId,
+        request: () => _dio
+            .delete<Map<String, dynamic>>(ApiEndpoints.reports(complaintId)),
+        selectCount: (complaint) => complaint.reports,
+      );
+
+  /// Shared shape behind every reaction toggle (like/unlike/dislike/undislike/report/unreport): the
+  /// mock backend's mutation endpoints don't echo the new count, so each one re-fetches the complaint
+  /// afterward and reads the field the caller cares about.
+  Future<int> _mutateReactionAndFetchCount(
+    String complaintId, {
+    required Future<Response<dynamic>> Function() request,
+    required int Function(ComplaintModel complaint) selectCount,
+  }) async {
+    await guardDioCall(request);
     final complaint = await getComplaintById(complaintId);
-    return complaint.reports;
+    return selectCount(complaint);
   }
 
   @override

@@ -1,10 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-/// Unified error classification for the Domain/Presentation layers (PLAN.md section 7).
+/// Unified error classification for the Domain/Presentation layers.
 sealed class Failure extends Equatable {
   const Failure({required this.message});
 
-  /// User-facing message in the app's own voice (PLAN.md section 19); actual translation is resolved via [core/l10n] in the Cubit, not here.
+  /// User-facing message in the app's own voice; actual translation is resolved via
+  /// [core/l10n] in the Cubit, not here.
   final String message;
 
   @override

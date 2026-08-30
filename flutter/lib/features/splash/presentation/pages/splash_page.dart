@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../../common/widgets/placeholder_screen.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 
-/// Visual placeholder only — "Checking Auth → Redirect" logic (PLAN.md section 3.1) deliberately lives in core/router/app_router.dart (GoRouter.redirect), not here, so this widget stays presentation-only with no direct I/O ("no business logic inside widgets", PLAN.md section 1.2), and so splash/auth stay fully empty until feature/patrick-auth like every other unimplemented feature.
+/// Visual placeholder only — the "Checking Auth → Redirect" logic lives in
+/// core/router/app_router.dart (GoRouter.redirect), not here, keeping this widget
+/// presentation-only with no direct I/O.
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
 

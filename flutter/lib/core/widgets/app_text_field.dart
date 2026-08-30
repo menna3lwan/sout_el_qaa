@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// Unified input field showing validation messages inline, matching PLAN.md section 7: a ValidationFailure appears next to its field, not in a snackbar.
+/// Unified input field showing validation messages inline, next to the field rather than in a
+/// snackbar.
 class AppTextField extends StatelessWidget {
   const AppTextField({
     required this.label,

@@ -36,8 +36,8 @@ final class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  /// Returns true on success so the page can navigate to /login only once the session is actually
-  /// cleared — navigation itself stays the widget's job, not the Cubit's (PLAN.md section 1.2).
+  /// Returns true on success so the page can navigate to /login only once the session is
+  /// actually cleared — navigation itself stays the widget's job, not the Cubit's.
   Future<bool> logout() async {
     final result = await _authRepository.logout();
     return result.isRight();

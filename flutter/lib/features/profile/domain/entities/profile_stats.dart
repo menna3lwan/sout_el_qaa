@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// GET /users/me/stats (PLAN.md section 16) — backs the 3 [StatCard]s on Profile ("شكاوى مقدَّمة" /
-/// "شكاوى محلولة" / a 3rd stat whose Figma label "منقذ بحري" is unclear as final copy, mapped to
-/// "points" here — see profileStatPoints's ARB description and the final report's Assumptions section).
+/// Backs the 3 [StatCard]s on Profile — submitted / resolved / points.
 base class ProfileStats extends Equatable {
   const ProfileStats({
     required this.submittedCount,

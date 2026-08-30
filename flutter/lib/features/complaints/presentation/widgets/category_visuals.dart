@@ -2,16 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
-/// Category id -> icon, shared by [CategoryChip] (Home/Create Complaint) and the Map tab's markers —
-/// extracted here once a second consumer needed the same lookup (see dio_exception_guard.dart for the
-/// same "wait for a real third use" rule applied the other way).
+/// Category id -> icon, shared by [CategoryChip] (Home/Create Complaint) and the Map tab's markers.
 const Map<String, IconData> categoryIcons = {
-  // [New, Full Audit & Sync pass, 27 Aug 2026] "أخر" (Other) — a 5th category
-  // added in the redesigned Figma (Home's category grid and the Create
-  // Complaint form both show it first, before "مياه"), not present in the
-  // original 4-category set. Figma's icon reads as a generic pin/marker
-  // glyph; the closest Material equivalent is used pending a real exported
-  // asset.
   'other': Icons.push_pin_outlined,
   'water': Icons.water_drop_outlined,
   'roads': Icons.add_road_outlined,

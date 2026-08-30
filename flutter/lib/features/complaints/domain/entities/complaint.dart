@@ -2,10 +2,12 @@ import 'package:equatable/equatable.dart';
 
 import 'complaint_status.dart';
 
-/// Severity confirmed from the Create Complaint form (PLAN.md section 3.6) — a distinct axis from [ComplaintStatus] (severity is set once by the reporter, status changes over the complaint's lifecycle).
+/// A distinct axis from [ComplaintStatus]: severity is set once by the reporter, status changes
+/// over the complaint's lifecycle.
 enum ComplaintSeverity { high, medium, low }
 
-/// A single complaint against Qaa El Hamour's infrastructure — the entity shared by Home (trending/recent), Complaints List, Complaint Details, Map, and Profile/My Complaints (PLAN.md section 18: these screens are different views over one domain concept, not five separate ones).
+/// A single complaint, shared as one domain concept across Home, Complaints List, Complaint
+/// Details, Map, and Profile/My Complaints rather than duplicated per screen.
 base class Complaint extends Equatable {
   const Complaint({
     required this.id,
@@ -38,23 +40,18 @@ base class Complaint extends Equatable {
   final int views;
   final int likes;
 
-  /// [New, Figma Sync pass, 29 Aug 2026] Complaint Details' 3-counter reaction row (node 33:518:
-  /// report/dislike/like pills) needs a "disagree" counter distinct from [likes] — defaults to 0 for
-  /// any caller that doesn't pass one (map pins, older fixtures), same as [reports] below.
+  /// The "disagree" counter in the 3-way reaction row, distinct from [likes]; defaults to 0 for
+  /// callers that don't pass one.
   final int dislikes;
 
-  /// [New, Figma Sync pass, 29 Aug 2026] The same reaction row's "report" counter — a tally of
-  /// residents flagging the complaint as serious, not a moderation/abuse-report queue (no such queue
-  /// exists in this brief); defaults to 0.
+  /// A tally of residents flagging the complaint as serious — not a moderation/abuse-report queue.
   final int reports;
   final List<String> mediaUrls;
   final String authorId;
   final DateTime createdAt;
 
-  /// [Renamed from copyWithLikes, Figma Sync pass, 29 Aug 2026] Now covers all 3 reaction counters
-  /// (like/dislike/report), still patched client-side after a reaction toggle
-  /// ([ComplaintDetailsCubit]) — the rest of the entity is always replaced wholesale via a fresh
-  /// fetch, so this stays a partial copyWith rather than exposing every field.
+  /// Covers only the 3 reaction counters, patched client-side after a toggle
+  /// ([ComplaintDetailsCubit]) — every other field is always replaced wholesale via a fresh fetch.
   Complaint copyWithReactions({int? likes, int? dislikes, int? reports}) =>
       Complaint(
         id: id,
@@ -96,7 +93,8 @@ base class Complaint extends Equatable {
       ];
 }
 
-/// Lightweight projection returned by GET /complaints/map (id/lat/lng/categoryId/status only, PLAN.md section 16) — a distinct entity rather than reusing [Complaint] with fake defaults, since the server deliberately doesn't send the other fields for this endpoint.
+/// Lightweight projection returned by the map-pins endpoint (id/lat/lng/categoryId/status only) —
+/// a distinct entity rather than reusing [Complaint] with fake defaults for the fields it lacks.
 base class ComplaintMapPin extends Equatable {
   const ComplaintMapPin({
     required this.id,

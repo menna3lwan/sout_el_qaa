@@ -20,8 +20,7 @@ base class AppNotification extends Equatable {
   final NotificationType type;
   final String title;
 
-  /// Null for [NotificationType.general] — nothing to deep-link to (PLAN.md section 3.9: Notification
-  /// -> Related Complaint only applies when one exists).
+  /// Null for [NotificationType.general] — nothing to deep-link to.
   final String? complaintId;
   final bool isRead;
   final DateTime createdAt;

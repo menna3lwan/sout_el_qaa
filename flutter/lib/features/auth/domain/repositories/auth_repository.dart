@@ -3,7 +3,8 @@ import 'package:fpdart/fpdart.dart';
 import '../../../../core/errors/failures.dart';
 import '../entities/user.dart';
 
-/// Session/account operations; the Presentation layer (AuthCubit) only ever talks to this interface, never to Dio or SecureStorage directly (PLAN.md section 1.2).
+/// Session/account operations; the Presentation layer (AuthCubit) only ever talks to this
+/// interface, never to Dio or SecureStorage directly.
 abstract interface class AuthRepository {
   Future<Either<Failure, User>> login({
     required String email,
@@ -16,7 +17,8 @@ abstract interface class AuthRepository {
     required String password,
   });
 
-  /// Clears the local session; the mock backend's logout endpoint is best-effort (204, no real invalidation), so this always succeeds locally even if the call fails.
+  /// Clears the local session; always succeeds locally even if the (best-effort) backend call
+  /// fails.
   Future<Either<Failure, void>> logout();
 
   Future<Either<Failure, User>> currentUser();

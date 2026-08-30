@@ -33,7 +33,8 @@ import '../storage/secure_storage_service.dart';
 
 final GetIt getIt = GetIt.instance;
 
-/// Manual get_it registration instead of @injectable codegen — build_runner has no network access in this sandbox (see branch report A9); swap in @InjectableInit once you can run it locally.
+/// Manual get_it registration — the app's dependency graph is small enough that codegen (injectable)
+/// would add a build step without a real payoff over this explicit composition root.
 void configureDependencies() {
   // --- Storage ---
   getIt.registerLazySingleton<FlutterSecureStorage>(
@@ -80,7 +81,7 @@ void configureDependencies() {
   // and must not leak between separate visits to the same screen.
   getIt.registerFactory<AuthCubit>(() => AuthCubit(getIt<AuthRepository>()));
 
-  // --- Complaints feature (shared by Home/Complaints/Map/Create Complaint/Profile, PLAN.md section 18) ---
+  // --- Complaints feature (shared by Home/Complaints/Map/Create Complaint/Profile) ---
   getIt.registerLazySingleton<ComplaintRemoteDataSource>(
     () => ComplaintRemoteDataSourceImpl(getIt<Dio>()),
   );

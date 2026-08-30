@@ -4,19 +4,19 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../../core/constants/map_config.dart';
-import '../../../../core/di/injection.dart';
 import '../../../../core/permissions/permission_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/widgets/app_button.dart';
 
-/// [Proposed P3] Full-screen "pin the location" picker for the Create Complaint wizard's Location
-/// step — a center-fixed-pin map (pan the map, not drag a marker) is the simplest reliable UX with
-/// flutter_map and needs no extra gesture-recognizer wiring; returns the picked [LatLng] via
+/// Full-screen "pin the location" picker for the Create Complaint wizard's Location step — a
+/// center-fixed-pin map (pan the map, not drag a marker). Returns the picked [LatLng] via
 /// [Navigator.pop] rather than writing into any Cubit directly (this widget doesn't know about
 /// CreateComplaintCubit — the page that pushed it reads the popped result instead).
 class LocationPickerPage extends StatefulWidget {
-  const LocationPickerPage({super.key});
+  const LocationPickerPage({required this.permissionService, super.key});
+
+  final PermissionService permissionService;
 
   @override
   State<LocationPickerPage> createState() => _LocationPickerPageState();
@@ -33,8 +33,8 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
   }
 
   Future<void> _initCenterFromDeviceLocation() async {
-    final permissionService = getIt<PermissionService>();
-    final status = await permissionService.request(AppPermission.location);
+    final status =
+        await widget.permissionService.request(AppPermission.location);
     if (status != AppPermissionStatus.granted) return;
 
     try {

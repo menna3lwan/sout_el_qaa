@@ -7,8 +7,6 @@ environment:
   sdk: ">=3.4.0 <4.0.0"
   flutter: ">=3.22.0"
 
-# Note (foundation branch): version numbers reflect the latest stable releases known when this file was written; this sandbox has no network access to pub.dev (403 on the egress allowlist) so `flutter pub get` couldn't actually run here — your first local `flutter pub get` may need a small bump for anything that changed since (documented as a Remaining Issue in the branch report).
-
 dependencies:
   flutter:
     sdk: flutter
@@ -22,8 +20,6 @@ dependencies:
 
   # Dependency Injection
   get_it: ^7.7.0
-  # [Remaining Issue, 2026-08-25 live run] the pinned version caused a real version-solving conflict with freezed/bloc_test via the analyzer dependency chain — left as "any" like intl, along with the paired injectable_generator below, so the resolver can find versions that actually work together.
-  injectable: any
 
   # Routing
   go_router: ^14.2.7
@@ -32,11 +28,6 @@ dependencies:
   dio: ^5.6.0
   pretty_dio_logger: ^1.4.0
   connectivity_plus: ^6.0.5
-
-  # Models
-  # [Remaining Issue, 2026-08-25 live run] freezed/json_serializable below were the center of most version-solving conflicts found — these annotations are also left as "any" to match whatever version the resolver picks for their generators below.
-  freezed_annotation: any
-  json_annotation: any
 
   # Functional / Error handling
   fpdart: ^1.1.0
@@ -88,15 +79,9 @@ dev_dependencies:
 
   flutter_lints: ^4.0.0
 
-  build_runner: ^2.4.13
-  # [Remaining Issue, 2026-08-25 live run] the originally pinned versions (freezed ^2.5.7, json_serializable ^6.8.0, injectable_generator ^2.6.2) caused real version-solving conflicts with each other and with bloc_test via the analyzer dependency chain (3 attempts, full details in the session report) — left as "any" so the resolver can find a working frontier against your real SDK instead of guessing versions one by one.
-  freezed: any
-  json_serializable: any
-  injectable_generator: any
-  # [Remaining Issue, 2026-08-25 live run] hive_generator was temporarily removed — every version tried (pinned ^2.0.1, then "any") caused a real version-solving conflict/deadlock with freezed via analyzer/macros/source_gen; no @HiveType class is actually used yet (local_cache_service.dart only calls Hive.initFlutter()), so removing it has no functional effect now — it returns once Hive codegen is actually needed (the drafts box, branch sandy-create-complaint), when a version genuinely compatible with pub.dev can be pinned instead of guessed.
-
-  # [Remaining Issue, 2026-08-25 live run] bloc_test ^9.1.7 was part of the conflict chain (clashed with injectable_generator ^2.5.0 via flutter_test/analyzer) — also left as "any".
-  bloc_test: any
+  # No @HiveType class is used yet (local_cache_service.dart only calls Hive.initFlutter()); hive_generator
+  # returns once Hive codegen is actually needed.
+  bloc_test: ^9.1.7
   mocktail: ^1.0.4
 
 flutter:

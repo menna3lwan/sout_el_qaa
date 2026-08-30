@@ -6,26 +6,12 @@ import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../utils/extensions/context_extensions.dart';
 
-/// الـShell البصري لـBottomNavBar — 5 تابات مؤكدة من الـFigma في كل شاشة
-/// (القسم 1.5 من الـplan): الرئيسية / الخريطة / إضافة / شكاوي / الملف الشخصي.
+/// The bottom nav bar shell — 5 tabs: Home / Map / Add / Complaints / Profile.
 ///
-/// **[P14] قرار تنفيذي اتاخد أثناء بناء الـfoundation، مش موجود صراحة في
-/// الـplan الأصلي:** التابات الأربعة (Home/Map/Complaints/Profile) بس هي
-/// [StatefulShellRoute] branches حقيقية (بتحافظ على الـstate بتاعها). تاب
-/// "إضافة" اتعامل معاه كـaction button بيعمل `push` لـ`/create-complaint`
-/// فوق الشاشة الحالية، مش branch خامس — لأن flow تقديم شكوى مفروض يبدأ من
-/// جديد كل مرة (زي أي "+" flow)، مش يحافظ على "آخر حالة" كتاب متصفح عادي.
-/// ده قرار Proposed جديد محتاج تأكيدك، موثّق في تقرير الـbranch.
-///
-/// [Icon audit, Figma Sync pass, 29 Aug 2026] The 5 real icon SVGs actually exported off this bar's
-/// two Figma layers (the visible one at `bottom:0` and a leftover off-screen duplicate at
-/// `bottom:-165px`) are standard Material Design glyphs (home/map/add-circle/assignment/person) —
-/// not custom art — confirming [Icons.home]/[Icons.map]/[Icons.add]/[Icons.report]/[Icons.person]
-/// below are the *intentional* equivalents already, not a placeholder needing a real asset export.
-/// The two layers' per-tab icon/label pairings actively disagree with each other on 2 of 5 tabs
-/// (e.g. one layer's "الخريطة" exports as a settings-chevron shape, not a map) — a real authoring
-/// inconsistency in the source file between a stale duplicate and the live layer, not something a
-/// pixel-exact re-export could resolve, so this documents the finding rather than importing either.
+/// Only Home/Map/Complaints/Profile are real [StatefulShellRoute] branches (each keeps its own
+/// state). "Add" is an action button that pushes `/create-complaint` on top of the current screen
+/// rather than a 5th branch, since starting a new complaint should always begin fresh, not resume
+/// a stale in-progress state like a normal browsed tab would.
 class BottomNavShell extends StatelessWidget {
   const BottomNavShell({
     required this.navigationShell,
@@ -38,12 +24,6 @@ class BottomNavShell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: navigationShell,
-      // [Updated, Full Audit & Sync pass, 27 Aug 2026] A fresh fetch of every screen's Figma export
-      // (Home, Complaints List, Complaint Details, Profile, Notifications) consistently shows the same
-      // stylized bar — rounded top corners, a light-gray fill, and a 4px gold top border — not the
-      // theme-default flat bar this held before this pass. All three values were already real,
-      // correctly-documented tokens in app_colors.dart/app_spacing.dart (surfaceLightGrey,
-      // navyBarAccentBorder, radiusXl) that this widget simply never applied.
       bottomNavigationBar: SafeArea(
         child: Container(
           height: AppSpacing.bottomNavHeight,
@@ -78,10 +58,6 @@ class BottomNavShell extends StatelessWidget {
                 onTap: () => context.push(RoutePaths.createComplaint),
               ),
               _NavItem(
-                // [Fixed, Figma Sync pass, 29 Aug 2026] The real exported SVG for this tab (the
-                // clean, non-corrupted layer — see this file's class-level doc comment) is a
-                // clipboard/checklist glyph, not [Icons.report]'s warning-shield — [Icons.assignment]
-                // is the much closer Material equivalent for a "شكاوي"/complaints-list tab anyway.
                 icon: Icons.assignment_outlined,
                 selectedIcon: Icons.assignment,
                 label: context.l10n.navComplaints,
@@ -104,9 +80,9 @@ class BottomNavShell extends StatelessWidget {
 
   void _goToBranch(int index) {
     navigationShell.goBranch(
+      // Re-tapping the current tab resets it to its initial location instead of keeping whatever
+      // was pushed on top of it.
       index,
-      // الرجوع لنفس التاب تاني بيرجّعه لأول صفحة فيه (initialLocation),
-      // مش يحافظ على أعمق navigation state لو المستخدم كان عامل push جواه.
       initialLocation: index == navigationShell.currentIndex,
     );
   }
@@ -152,8 +128,7 @@ class _NavItem extends StatelessWidget {
   }
 }
 
-/// التاب الأوسط المرتفع بصريًا (نمط FAB مدمج) — [A1] افتراض مبني على
-/// الـstyling المتكرر (`Group 2` / `Background+Border`) في كل الشاشات.
+/// The visually-raised center tab (an embedded-FAB look).
 class _AddNavItem extends StatelessWidget {
   const _AddNavItem({required this.label, required this.onTap});
 
@@ -168,11 +143,6 @@ class _AddNavItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // [Updated, Full Audit & Sync pass, 27 Aug 2026] Every screen's Figma export shows this
-            // circle filled with [AppColors.fabBackground] (a token that already existed, documented
-            // as "Background of the raised center FAB", but was never actually wired in here — the
-            // theme's `colorScheme.primary` was used instead) plus a 2px surfaceIconCircle border and a
-            // drop shadow.
             Container(
               width: 44,
               height: 44,

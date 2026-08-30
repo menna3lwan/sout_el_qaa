@@ -1,11 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-/// Secure storage for sensitive session data only (access/refresh tokens, the signed-in user's id); simple flags belong in shared_preferences, not here (PLAN.md section 1.8).
+/// Secure storage for sensitive session data only (access/refresh tokens, the signed-in user's
+/// id); simple flags belong in shared_preferences, not here.
 ///
-/// [saveUserId]/[readUserId] are a [Proposed] Demo App addition: several screens (Complaints List's
-/// "Mine" filter, Create Complaint's authorId, Comment's authorName lookup) need to know "who is
-/// currently signed in" synchronously with no extra network round-trip; storing the id alongside the
-/// tokens it's issued with is simpler and cheaper than an extra GET /auth/me call on every screen.
+/// [saveUserId]/[readUserId] let screens (Complaints List's "Mine" filter, Create Complaint's
+/// authorId, Comment's authorName lookup) know who's signed in synchronously, avoiding an extra
+/// GET /auth/me call on every screen.
 abstract interface class SecureStorageService {
   Future<void> saveAccessToken(String token);
   Future<String?> readAccessToken();
@@ -16,7 +16,7 @@ abstract interface class SecureStorageService {
   Future<void> saveUserId(String userId);
   Future<String?> readUserId();
 
-  /// Called on logout or auto-logout after a 401 (PLAN.md sections 1.6/1.7).
+  /// Called on logout or auto-logout after a 401.
   Future<void> clearSession();
 }
 

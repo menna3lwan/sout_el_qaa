@@ -2,12 +2,11 @@ import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/complaint.dart';
 
-/// The 3 filter tabs confirmed from Figma's Complaints List (PLAN.md section 3.5): "الكل"/"شكاواي"/"تم الحل".
 enum ComplaintsFilter { all, mine, resolved }
 
-/// Loading/Success(+Empty)/Error per PLAN.md section 6; Empty isn't a separate subclass — it's
-/// [ComplaintsLoaded] with an empty list, so the UI (`state.complaints.isEmpty`) decides whether to
-/// show [EmptyView] instead of doubling every "loaded" transition into two near-identical states.
+/// Empty isn't a separate subclass — it's [ComplaintsLoaded] with an empty list, so the UI
+/// (`state.complaints.isEmpty`) decides whether to show [EmptyView] instead of doubling every
+/// "loaded" transition into two near-identical states.
 sealed class ComplaintsState extends Equatable {
   const ComplaintsState();
 
