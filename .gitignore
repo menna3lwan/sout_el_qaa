@@ -18,8 +18,9 @@ build/
 # .vscode/ متتبّع عمدًا (settings.json بس، مفيش machine-specific files فيه) —
 # انظر .vscode/settings.json
 
-# macOS
+# macOS — ._* are AppleDouble sidecars created on exFAT/FAT32, not real project files
 .DS_Store
+._*
 
 # Android
 android/**/gradle-wrapper.jar
