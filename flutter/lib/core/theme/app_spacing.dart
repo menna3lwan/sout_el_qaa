@@ -31,5 +31,21 @@ abstract final class AppSpacing {
   static const double iconMd = 20;
   static const double iconLg = 24;
 
-  static const double bottomNavHeight = 84;
+  /// Bar body including the 4px gold top edge, excluding the home-indicator inset.
+  static const double bottomNavHeight = 80;
+
+  /// Gold top stroke that follows the 32px corners (nested-fill, not a rectangular Border).
+  static const double bottomNavGoldBorder = 4;
+
+  /// Layout slot for a nav glyph — larger than [navIconSize] so the icon is not edge-to-edge.
+  static const double navIconSlot = 28;
+
+  /// Optical size of Home/Map/Complaints/Profile glyphs (not the slot).
+  static const double navIconSize = 22;
+
+  static const double fabSize = 56;
+  static const double fabIconSize = 28;
+
+  /// How far the Add circle sits above the gold edge.
+  static const double fabOverlap = 18;
 }

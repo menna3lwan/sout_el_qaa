@@ -22,9 +22,25 @@ abstract final class AppShadows {
 
   static const List<BoxShadow> fab = [
     BoxShadow(
-      color: Color(0x33001F49),
+      color: Color(0x1A000000),
       offset: Offset(0, 4),
-      blurRadius: 10,
+      blurRadius: 6,
+      spreadRadius: -1,
+    ),
+    BoxShadow(
+      color: Color(0x1A000000),
+      offset: Offset(0, 2),
+      blurRadius: 4,
+      spreadRadius: -2,
+    ),
+  ];
+
+  /// Upward wash so the bar sits above scrolling content.
+  static const List<BoxShadow> bottomNav = [
+    BoxShadow(
+      color: Color(0x1A000000),
+      offset: Offset(0, -4),
+      blurRadius: 5,
     ),
   ];
 
