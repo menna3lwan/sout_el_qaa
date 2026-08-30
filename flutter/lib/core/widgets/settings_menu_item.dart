@@ -47,7 +47,7 @@ class SettingsMenuItem extends StatelessWidget {
         decoration: BoxDecoration(
           border: showDivider
               ? const Border(
-                  bottom: BorderSide(color: Color(0x33002431)),
+                  bottom: BorderSide(color: AppColors.divider),
                 )
               : null,
         ),
@@ -55,7 +55,10 @@ class SettingsMenuItem extends StatelessWidget {
           children: [
             Icon(
               context.isRtl ? _chevronStartward : _chevronEndward,
-              size: 16,
+              size: AppSpacing.iconSm,
+              color: isDestructive
+                  ? AppColors.urgentDestructive
+                  : AppColors.profileAccent,
             ),
             const Spacer(),
             Text(

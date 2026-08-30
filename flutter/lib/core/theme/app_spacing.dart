@@ -27,5 +27,9 @@ abstract final class AppSpacing {
   /// repeating BorderRadius.circular(9999).
   static const double radiusPill = 9999;
 
-  static const double bottomNavHeight = 80;
+  static const double iconSm = 16;
+  static const double iconMd = 20;
+  static const double iconLg = 24;
+
+  static const double bottomNavHeight = 84;
 }

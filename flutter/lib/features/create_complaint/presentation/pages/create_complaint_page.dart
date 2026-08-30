@@ -310,7 +310,8 @@ class _ReviewActions extends StatelessWidget {
             onPressed: () => Navigator.of(dialogContext).pop(true),
             child: Text(
               context.l10n.genericConfirm,
-              style: const TextStyle(color: AppColors.urgentDestructive),
+              style: AppTypography.chipLabel
+                  .copyWith(color: AppColors.urgentDestructive),
             ),
           ),
         ],
@@ -367,7 +368,7 @@ class _FormStep extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Text(
             resolveMessageKey(context, state.fieldErrors['category']!),
-            style: TextStyle(color: context.colorScheme.error),
+            style: AppTypography.metaText.copyWith(color: AppColors.error),
           ),
         ],
         const SizedBox(height: AppSpacing.lg),
@@ -446,7 +447,7 @@ class _FormStep extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Text(
             resolveMessageKey(context, state.fieldErrors['location']!),
-            style: TextStyle(color: context.colorScheme.error),
+            style: AppTypography.metaText.copyWith(color: AppColors.error),
           ),
         ],
         const SizedBox(height: AppSpacing.lg),
@@ -460,7 +461,7 @@ class _FormStep extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Text(
             resolveMessageKey(context, state.fieldErrors['severity']!),
-            style: TextStyle(color: context.colorScheme.error),
+            style: AppTypography.metaText.copyWith(color: AppColors.error),
           ),
         ],
         const SizedBox(height: AppSpacing.lg),
@@ -818,10 +819,19 @@ class _SuccessView extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
-                      Icons.check_circle,
-                      size: 72,
-                      color: AppColors.statusResolvedChip,
+                    Container(
+                      width: 88,
+                      height: 88,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.surfaceWhite,
+                      ),
+                      child: const Icon(
+                        Icons.check_circle,
+                        size: 56,
+                        color: AppColors.success,
+                      ),
                     ),
                     const SizedBox(height: AppSpacing.lg),
                     Text(

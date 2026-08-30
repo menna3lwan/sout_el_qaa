@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_motion.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
 
@@ -87,7 +88,9 @@ class _Pill extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
-      child: Container(
+      child: AnimatedContainer(
+        duration: AppMotion.fast,
+        curve: AppMotion.standard,
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
           vertical: AppSpacing.sm,
@@ -98,13 +101,14 @@ class _Pill extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
           border: Border.all(
             color: isSelected ? selectedBorderColor : unselectedBorderColor,
-            width: 2,
+            width: 1.5,
           ),
         ),
         child: Text(
           label,
           style: AppTypography.chipLabel.copyWith(
             color: isSelected ? selectedTextColor : unselectedTextColor,
+            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
           ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,

@@ -50,6 +50,8 @@ cd backend/mock-server && npm install && npm start
 
 ```bash
 flutter run --dart-define=API_BASE_URL=http://localhost:3000
+# Demo login: spongebob@qaa-el-hamour.eg / qaaHamour1
+# (resident@qaa-el-hamour.eg is also accepted by the mock server)
 ```
 
 ## ⚠️ لسه محتاج يتنفذ عندك (مقدرتش أشغّله في الـsandbox بتاعي)

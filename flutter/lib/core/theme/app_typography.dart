@@ -122,18 +122,18 @@ abstract final class AppTypography {
         height: 16 / 12,
       );
 
-  /// Home's recent-activity pill row title — small text with generous line-height.
+  /// Home's recent-activity pill row title — readable at a glance, not micro-type.
   static TextStyle get activityItemTitle => GoogleFonts.cairo(
-        fontSize: 10,
-        fontWeight: FontWeight.w400,
-        height: 24 / 10,
+        fontSize: 13,
+        fontWeight: FontWeight.w600,
+        height: 18 / 13,
       );
 
   /// Home's recent-activity pill row meta text ("status - relative time").
   static TextStyle get activityItemMeta => GoogleFonts.cairo(
-        fontSize: 8,
+        fontSize: 11,
         fontWeight: FontWeight.w400,
-        height: 16 / 8,
+        height: 14 / 11,
       );
 
   /// Notification card title — weight is toggled per read/unread state at the call site.
@@ -159,29 +159,28 @@ abstract final class AppTypography {
         height: 38 / 28,
       );
 
-  /// Complaint title on the details page — the generous line-height gives a wrapped 2-line title
-  /// room to breathe.
+  /// Complaint title on the details page — tight enough to scan, tall enough for two Arabic lines.
   static TextStyle get complaintTitle => GoogleFonts.cairo(
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: FontWeight.w700,
         color: AppColors.headerBackground,
-        height: 40 / 16,
+        height: 28 / 18,
       );
 
-  /// Card title (complaint title in list, "Details" section heading) — 16px/24 Regular.
+  /// Card title (complaint title in list, "Details" section heading) — 16px/24 SemiBold.
   static TextStyle get cardTitle => GoogleFonts.cairo(
         fontSize: 16,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w600,
         color: AppColors.headerBackground,
         height: 24 / 16,
       );
 
-  /// Primary body text (complaint description, comment text) — 12px/24 Regular.
+  /// Primary body text (complaint description, comment text) — 14px/22 Regular.
   static TextStyle get bodyDefault => GoogleFonts.cairo(
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: FontWeight.w400,
         color: AppColors.textPrimaryDark,
-        height: 24 / 12,
+        height: 22 / 14,
       );
 
   /// Form field label (issue type, description, severity) — 14px/20 Regular + letter-spacing 0.5.

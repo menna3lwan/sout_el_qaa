@@ -74,10 +74,10 @@ class _LoginViewState extends State<_LoginView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Icon(
-                    Icons.waves_rounded,
-                    size: 56,
-                    color: context.colorScheme.primary,
+                  Image.asset(
+                    'assets/images/characters/spongebob_cta_mascot.png',
+                    height: 96,
+                    fit: BoxFit.contain,
                   ),
                   const SizedBox(height: AppSpacing.md),
                   Text(
@@ -89,7 +89,7 @@ class _LoginViewState extends State<_LoginView> {
                   Text(
                     context.l10n.authLoginTitle,
                     textAlign: TextAlign.center,
-                    style: context.textTheme.bodyMedium,
+                    style: AppTypography.metaText,
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   AppTextField(

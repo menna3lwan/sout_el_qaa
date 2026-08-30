@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_colors.dart';
+import '../theme/app_spacing.dart';
+
 /// Unified input field showing validation messages inline, next to the field rather than in a
 /// snackbar.
 class AppTextField extends StatelessWidget {
@@ -30,6 +33,17 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMultiline = !obscureText && maxLines > 1;
+    final radius = BorderRadius.circular(
+      isMultiline ? AppSpacing.radiusLg : AppSpacing.radiusPill,
+    );
+
+    OutlineInputBorder border(Color color, {double width = 1.5}) =>
+        OutlineInputBorder(
+          borderRadius: radius,
+          borderSide: BorderSide(color: color, width: width),
+        );
+
     return TextField(
       controller: controller,
       obscureText: obscureText,
@@ -38,10 +52,18 @@ class AppTextField extends StatelessWidget {
       maxLines: obscureText ? 1 : maxLines,
       onChanged: onChanged,
       textInputAction: textInputAction,
+      textAlignVertical:
+          isMultiline ? TextAlignVertical.top : TextAlignVertical.center,
       decoration: InputDecoration(
         labelText: label,
         hintText: hintText,
         errorText: errorText,
+        alignLabelWithHint: isMultiline,
+        border: border(AppColors.borderFigmaDefault),
+        enabledBorder: border(AppColors.borderFigmaDefault),
+        focusedBorder: border(AppColors.borderFigmaFocus, width: 2),
+        errorBorder: border(AppColors.error),
+        focusedErrorBorder: border(AppColors.error, width: 2),
       ),
     );
   }

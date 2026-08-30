@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
@@ -165,32 +166,44 @@ class _ProfileContent extends StatelessWidget {
         const SizedBox(height: AppSpacing.lg),
         RankProgressCard(points: state.stats.points),
         const SizedBox(height: AppSpacing.lg),
-        SettingsMenuItem(
-          label: context.l10n.profilePersonalInfoMenu,
-          trailingIcon: Icons.person_outline,
-          onTap: () => _showComingSoon(context),
-        ),
-        SettingsMenuItem(
-          label: context.l10n.profileMyComplaintsMenu,
-          trailingIcon: Icons.report_outlined,
-          onTap: () => context.push(RoutePaths.myComplaints),
-        ),
-        SettingsMenuItem(
-          label: context.l10n.profileFavoritesMenu,
-          trailingIcon: Icons.favorite_border,
-          onTap: () => _showComingSoon(context),
-        ),
-        SettingsMenuItem(
-          label: context.l10n.profileSettingsMenu,
-          trailingIcon: Icons.settings_outlined,
-          onTap: () => _showLanguagePicker(context),
-        ),
-        SettingsMenuItem(
-          label: context.l10n.profileLogoutMenu,
-          trailingIcon: Icons.logout,
-          isDestructive: true,
-          showDivider: false,
-          onTap: () => _confirmLogout(context),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: AppColors.surfaceWhite,
+            borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+            border: Border.all(color: AppColors.cardBorder),
+            boxShadow: AppShadows.card,
+          ),
+          child: Column(
+            children: [
+              SettingsMenuItem(
+                label: context.l10n.profilePersonalInfoMenu,
+                trailingIcon: Icons.person_outline,
+                onTap: () => _showComingSoon(context),
+              ),
+              SettingsMenuItem(
+                label: context.l10n.profileMyComplaintsMenu,
+                trailingIcon: Icons.report_outlined,
+                onTap: () => context.push(RoutePaths.myComplaints),
+              ),
+              SettingsMenuItem(
+                label: context.l10n.profileFavoritesMenu,
+                trailingIcon: Icons.favorite_border,
+                onTap: () => _showComingSoon(context),
+              ),
+              SettingsMenuItem(
+                label: context.l10n.profileSettingsMenu,
+                trailingIcon: Icons.settings_outlined,
+                onTap: () => _showLanguagePicker(context),
+              ),
+              SettingsMenuItem(
+                label: context.l10n.profileLogoutMenu,
+                trailingIcon: Icons.logout,
+                isDestructive: true,
+                showDivider: false,
+                onTap: () => _confirmLogout(context),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -227,7 +240,8 @@ class _ProfileContent extends StatelessWidget {
             onPressed: () => Navigator.of(dialogContext).pop(true),
             child: Text(
               context.l10n.logoutConfirmYes,
-              style: const TextStyle(color: AppColors.urgentDestructive),
+              style: AppTypography.chipLabel
+                  .copyWith(color: AppColors.urgentDestructive),
             ),
           ),
         ],

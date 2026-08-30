@@ -191,6 +191,11 @@ class _MapPinSheetState extends State<_MapPinSheet> {
             complaint.location,
             style: AppTypography.metaText,
           ),
+          const SizedBox(height: AppSpacing.sm),
+          StatusBadge(
+            status: complaint.status,
+            label: complaintStatusLabel(context, complaint.status),
+          ),
           const SizedBox(height: AppSpacing.md),
           AppButton(
             label: context.l10n.mapViewDetailsButton,

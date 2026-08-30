@@ -3,7 +3,10 @@ import 'package:go_router/go_router.dart';
 
 import '../router/route_paths.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_motion.dart';
+import '../theme/app_shadows.dart';
 import '../theme/app_spacing.dart';
+import '../theme/app_typography.dart';
 import '../utils/extensions/context_extensions.dart';
 
 /// The bottom nav bar shell — 5 tabs: Home / Map / Add / Complaints / Profile.
@@ -28,20 +31,22 @@ class BottomNavShell extends StatelessWidget {
         child: Container(
           height: AppSpacing.bottomNavHeight,
           decoration: const BoxDecoration(
-            color: AppColors.surfaceLightGrey,
+            color: AppColors.surfaceWhite,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(AppSpacing.radiusXl),
               topRight: Radius.circular(AppSpacing.radiusXl),
             ),
             border: Border(
-              top: BorderSide(color: AppColors.navyBarAccentBorder, width: 4),
+              top: BorderSide(color: AppColors.navyBarAccentBorder, width: 3),
             ),
+            boxShadow: AppShadows.hairline,
           ),
           child: Row(
             children: [
               _NavItem(
-                icon: Icons.home_outlined,
-                selectedIcon: Icons.home,
+                // Figma Home glyph is an anchor, not a house — keeps the nautical Qaa El Hamour tab.
+                icon: Icons.anchor,
+                selectedIcon: Icons.anchor,
                 label: context.l10n.navHome,
                 isSelected: navigationShell.currentIndex == 0,
                 onTap: () => _goToBranch(0),
@@ -106,22 +111,40 @@ class _NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = isSelected
-        ? context.colorScheme.primary
-        : context.colorScheme.onSurfaceVariant;
+        ? AppColors.headerBackground
+        : AppColors.textSecondaryGrey;
 
     return Expanded(
       child: InkWell(
         onTap: onTap,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(isSelected ? selectedIcon : icon, color: color, size: 22),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: context.textTheme.labelSmall?.copyWith(color: color),
-            ),
-          ],
+        child: Semantics(
+          button: true,
+          selected: isSelected,
+          label: label,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedScale(
+                scale: isSelected ? 1.08 : 1,
+                duration: AppMotion.fast,
+                child: Icon(
+                  isSelected ? selectedIcon : icon,
+                  color: color,
+                  size: AppSpacing.iconLg,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                label,
+                style: AppTypography.navLabel.copyWith(
+                  color: color,
+                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -144,32 +167,28 @@ class _AddNavItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
+              width: 48,
+              height: 48,
+              decoration: const BoxDecoration(
                 color: AppColors.fabBackground,
                 shape: BoxShape.circle,
-                border:
-                    Border.all(color: AppColors.surfaceIconCircle, width: 2),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x1A000000), // rgba(0,0,0,0.1), matches Figma
-                    offset: Offset(0, 2),
-                    blurRadius: 4,
-                  ),
-                ],
+                boxShadow: AppShadows.fab,
               ),
               child: const Icon(
                 Icons.add,
                 color: AppColors.textOnBrand,
+                size: AppSpacing.iconLg,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: AppSpacing.xs),
             Text(
               label,
-              style: context.textTheme.labelSmall?.copyWith(
-                color: context.colorScheme.primary,
+              style: AppTypography.navLabel.copyWith(
+                color: AppColors.headerBackground,
+                fontWeight: FontWeight.w600,
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

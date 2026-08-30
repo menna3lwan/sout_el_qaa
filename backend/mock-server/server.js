@@ -14,7 +14,13 @@ const PREFIX = '/api/v1';
 const fakeToken = (userId) => `mock-token-${userId}-${Date.now()}`;
 
 function findUserByEmail(email) {
-  return router.db.get('users').find({ email }).value();
+  const user = router.db.get('users').find({ email }).value();
+  if (user) return user;
+  // README documents resident@ as the demo login; the seeded citizen is SpongeBob.
+  if (email === 'resident@qaa-el-hamour.eg') {
+    return router.db.get('users').find({ id: 'u1' }).value();
+  }
+  return undefined;
 }
 
 function publicUser(user) {

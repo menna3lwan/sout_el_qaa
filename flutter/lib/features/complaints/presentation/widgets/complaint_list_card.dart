@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
@@ -146,7 +147,8 @@ class ComplaintListCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surfaceWhite,
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-          border: Border.all(color: AppColors.profileAccent, width: 2),
+          border: Border.all(color: AppColors.cardBorder),
+          boxShadow: AppShadows.card,
         ),
         // Only complaints with a real Figma-sourced scene photo (see complaint_scene_assets.dart)
         // get a thumbnail — everyone else keeps the original text-only layout unchanged.
@@ -161,9 +163,8 @@ class ComplaintListCard extends StatelessWidget {
                     width: 80,
                     height: 84,
                     decoration: BoxDecoration(
-                      // Shares [AppSpacing.radiusSm] with the image-upload/location boxes.
-                      borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
-                      border: Border.all(color: AppColors.borderNeutral),
+                      borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                      border: Border.all(color: AppColors.cardBorder),
                     ),
                     clipBehavior: Clip.antiAlias,
                     child: Image.asset(
@@ -239,9 +240,9 @@ class _SameProblemRow extends StatelessWidget {
             height: 35,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: AppColors.brandSecondary,
+              color: AppColors.ctaBackground,
               borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
-              border: Border.all(color: const Color(0x33002431)),
+              boxShadow: AppShadows.hairline,
             ),
             child: Text(
               context.l10n.homeSameProblemCta,

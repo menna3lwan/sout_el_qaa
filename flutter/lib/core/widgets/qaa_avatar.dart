@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_typography.dart';
 
 /// [header] (44px, light-blue background, thin yellow border, soft shadow) vs. [profile] (128px,
 /// light-sky background, darker navy border, hard 3D shadow with no blur) — two distinct shapes,
@@ -108,7 +109,7 @@ class QaaAvatar extends StatelessWidget {
       child: Center(
         child: Text(
           initial,
-          style: TextStyle(
+          style: AppTypography.chipLabel.copyWith(
             color: AppColors.profileAccent,
             fontSize: _size * 0.4,
             fontWeight: FontWeight.w700,

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
@@ -185,7 +186,8 @@ class _DetailsBody extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surfaceWhite,
             borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-            border: Border.all(color: AppColors.borderNeutral, width: 2),
+            border: Border.all(color: AppColors.cardBorder),
+            boxShadow: AppShadows.hairline,
           ),
           child: BidiAwareText(
             complaint.description,
@@ -341,7 +343,6 @@ class _InfoPill extends StatelessWidget {
             label,
             style: AppTypography.statusChipLabel.copyWith(
               color: textColor,
-              fontSize: 8,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -452,7 +453,7 @@ class _CounterPill extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surfaceOffWhite,
             borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
-            border: Border.all(color: AppColors.borderNeutral, width: 2),
+            border: Border.all(color: AppColors.cardBorder),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -567,7 +568,10 @@ class _CommentInput extends StatelessWidget {
                   height: 20,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Icon(Icons.send),
+              : const Icon(
+                  Icons.send,
+                  color: AppColors.headerBackground,
+                ),
           onPressed: isPosting
               ? null
               : () {

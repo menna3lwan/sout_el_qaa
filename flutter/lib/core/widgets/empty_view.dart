@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_colors.dart';
+import '../theme/app_spacing.dart';
+import '../theme/app_typography.dart';
 import '../utils/extensions/context_extensions.dart';
 
 /// Unified empty state; like [ErrorView], each feature supplies its own message in the app's
@@ -8,7 +11,7 @@ class EmptyView extends StatelessWidget {
   const EmptyView({
     super.key,
     this.message,
-    this.icon = Icons.inbox_outlined,
+    this.icon = Icons.anchor,
   });
 
   final String? message;
@@ -18,15 +21,29 @@ class EmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 48, color: context.colorScheme.outline),
-            const SizedBox(height: 16),
+            Container(
+              width: 72,
+              height: 72,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.surfaceWhite,
+                border: Border.all(color: AppColors.cardBorder),
+              ),
+              child: Icon(
+                icon,
+                size: 32,
+                color: AppColors.headerBackground,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
             Text(
               message ?? context.l10n.genericEmptyMessage,
-              style: context.textTheme.bodyMedium,
+              style: AppTypography.bodyDefault,
               textAlign: TextAlign.center,
             ),
           ],

@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_motion.dart';
+import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
@@ -49,14 +51,22 @@ class _HomeView extends StatelessWidget {
         bottom: false,
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
-            return switch (state) {
-              HomeLoading() => const LoadingView(),
-              HomeError(:final messageKey) => ErrorView(
-                  message: resolveMessageKey(context, messageKey),
-                  onRetry: () => context.read<HomeCubit>().load(),
-                ),
-              HomeLoaded() => _HomeContent(state: state),
-            };
+            return AnimatedSwitcher(
+              duration: AppMotion.medium,
+              switchInCurve: AppMotion.standard,
+              child: switch (state) {
+                HomeLoading() => const LoadingView(key: ValueKey('loading')),
+                HomeError(:final messageKey) => ErrorView(
+                    key: const ValueKey('error'),
+                    message: resolveMessageKey(context, messageKey),
+                    onRetry: () => context.read<HomeCubit>().load(),
+                  ),
+                HomeLoaded() => _HomeContent(
+                    key: const ValueKey('loaded'),
+                    state: state,
+                  ),
+              },
+            );
           },
         ),
       ),
@@ -65,7 +75,7 @@ class _HomeView extends StatelessWidget {
 }
 
 class _HomeContent extends StatelessWidget {
-  const _HomeContent({required this.state});
+  const _HomeContent({required this.state, required ValueKey<String> key});
 
   final HomeLoaded state;
 
@@ -244,12 +254,18 @@ class _Header extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.notifications_outlined,
-              color: AppColors.textOnBrand,
+          Material(
+            color: AppColors.surfaceWhite,
+            shape: const CircleBorder(),
+            child: IconButton(
+              tooltip: context.l10n.notificationsTitle,
+              icon: const Icon(
+                Icons.notifications_outlined,
+                color: AppColors.headerBackground,
+                size: 20,
+              ),
+              onPressed: () => context.push(RoutePaths.notifications),
             ),
-            onPressed: () => context.push(RoutePaths.notifications),
           ),
         ],
       ),
@@ -307,46 +323,44 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-/// The search field above the CTA button; see the call site for why it has no `onSubmitted`
-/// wiring yet.
+/// Search field that routes to the complaints list; there is no dedicated search endpoint yet.
 class _SearchBar extends StatelessWidget {
   const _SearchBar();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 53,
-      padding: const EdgeInsetsDirectional.only(start: 17, end: 17),
+      height: 52,
+      padding: const EdgeInsetsDirectional.symmetric(horizontal: AppSpacing.md),
       decoration: BoxDecoration(
         color: AppColors.surfaceWhite,
         borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
-        border: Border.all(color: AppColors.brandSecondaryDark),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x0D000000),
-            offset: Offset(0, 1),
-            blurRadius: 1,
-          ),
-        ],
+        border: Border.all(color: AppColors.cardBorder),
+        boxShadow: AppShadows.hairline,
       ),
       child: Row(
         children: [
           const Icon(
             Icons.search,
-            size: 20,
+            size: AppSpacing.iconMd,
             color: AppColors.textFigmaTertiary,
           ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: TextField(
+              textInputAction: TextInputAction.search,
+              onSubmitted: (_) => context.go(RoutePaths.complaints),
               decoration: InputDecoration(
                 border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                filled: false,
                 isDense: true,
                 hintText: context.l10n.homeSearchHint,
-                hintStyle: AppTypography.fieldPlaceholder
-                    .copyWith(fontSize: 14, color: AppColors.textFigmaTertiary),
+                hintStyle: AppTypography.metaText
+                    .copyWith(color: AppColors.textFigmaTertiary),
               ),
-              style: AppTypography.fieldPlaceholder.copyWith(fontSize: 14),
+              style: AppTypography.bodyDefault,
             ),
           ),
         ],
@@ -370,9 +384,7 @@ class _RecentActivityItem extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
       child: Container(
-        height: 56,
-        // Vertical padding of `sm` (not space12) leaves the two-line title+meta Column the
-        // ~40px it needs without overflowing this pill's fixed height.
+        constraints: const BoxConstraints(minHeight: 56),
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.space12,
           vertical: AppSpacing.sm,
@@ -380,13 +392,8 @@ class _RecentActivityItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surfaceWhite,
           borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x0D000000),
-              offset: Offset(0, 1),
-              blurRadius: 1,
-            ),
-          ],
+          border: Border.all(color: AppColors.cardBorder),
+          boxShadow: AppShadows.hairline,
         ),
         child: Row(
           children: [

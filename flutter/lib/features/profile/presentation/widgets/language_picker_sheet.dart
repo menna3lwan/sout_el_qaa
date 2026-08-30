@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/locale/app_locale_cubit.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_motion.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
@@ -85,9 +86,19 @@ class _LanguageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+      child: AnimatedContainer(
+        duration: AppMotion.fast,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm,
+          vertical: AppSpacing.sm,
+        ),
+        decoration: BoxDecoration(
+          color: selected
+              ? AppColors.statCardHighlightBackground
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+        ),
         child: Row(
           children: [
             Icon(

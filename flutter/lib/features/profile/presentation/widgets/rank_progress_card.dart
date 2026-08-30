@@ -39,7 +39,7 @@ class RankBadge extends StatelessWidget {
           Text(
             profileRankLabel(context, rank),
             style: AppTypography.chipLabel.copyWith(
-              fontSize: 8,
+              fontSize: 10,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.5,
               color: AppColors.rankBadgeText,

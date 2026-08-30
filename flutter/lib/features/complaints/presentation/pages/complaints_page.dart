@@ -33,13 +33,11 @@ class ComplaintsPage extends StatelessWidget {
 class _ComplaintsView extends StatelessWidget {
   const _ComplaintsView();
 
-  /// Display order only, deliberately different from [ComplaintsFilter]'s own declaration order —
-  /// spelled out explicitly rather than `ComplaintsFilter.values` so this page's display order can
-  /// differ from the enum's business-meaning order without touching the enum itself.
+  /// RTL start (right) is All, matching Figma frame 33:663.
   static const _filters = [
-    ComplaintsFilter.resolved,
-    ComplaintsFilter.mine,
     ComplaintsFilter.all,
+    ComplaintsFilter.mine,
+    ComplaintsFilter.resolved,
   ];
 
   @override
@@ -71,9 +69,9 @@ class _ComplaintsView extends StatelessWidget {
                 padding: const EdgeInsets.all(AppSpacing.md),
                 child: FilterPillTabs(
                   options: [
-                    context.l10n.complaintsFilterResolved,
-                    context.l10n.complaintsFilterMine,
                     context.l10n.complaintsFilterAll,
+                    context.l10n.complaintsFilterMine,
+                    context.l10n.complaintsFilterResolved,
                   ],
                   selectedIndex: _filters.indexOf(selectedFilter),
                   onSelected: (index) => context

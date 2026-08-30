@@ -219,6 +219,15 @@ abstract final class AppColors {
   static const Color error = Color(0xFFDC2626);
   static const Color divider = Color(0xFFE5E7EB);
 
+  /// Success surfaces (Create Complaint done state) — distinct from the navy resolved chip.
+  static const Color success = Color(0xFF1E5128);
+
+  /// Disabled fills for primary buttons and inputs, quieter than [surfaceLightGrey].
+  static const Color surfaceDisabled = Color(0xFFE8EAED);
+
+  /// Default card outline — aqua, not heavy navy, so yellow/navy can stay as accents.
+  static const Color cardBorder = Color(0xFFB8D6DB);
+
   // ---------------------------------------------------------------------
   // A separate named token layer (search bar, category grid, complaint-review card, profile
   // stats, Create Complaint wizard) — kept as its own names rather than merged into the
