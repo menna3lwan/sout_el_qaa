@@ -28,24 +28,15 @@ class BottomNavShell extends StatelessWidget {
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return Scaffold(
-      extendBody: true,
       body: navigationShell,
       bottomNavigationBar: Material(
-        color: Colors.transparent,
+        type: MaterialType.transparency,
         child: SizedBox(
-          height: AppSpacing.fabOverlap +
-              AppSpacing.bottomNavHeight +
-              bottomInset,
+          height: AppSpacing.bottomNavHeight + bottomInset,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              Positioned(
-                left: 0,
-                right: 0,
-                top: AppSpacing.fabOverlap,
-                bottom: 0,
-                child: const _BarSurface(),
-              ),
+              const Positioned.fill(child: _BarSurface()),
               Positioned(
                 left: 0,
                 right: 0,
@@ -112,29 +103,62 @@ class _BarSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: AppColors.navyBarAccentBorder,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AppSpacing.radiusXl),
-        ),
+    const radius = BorderRadius.vertical(
+      top: Radius.circular(AppSpacing.radiusXl),
+    );
+    return const DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: radius,
         boxShadow: AppShadows.bottomNav,
       ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: AppSpacing.bottomNavGoldBorder),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: AppColors.surfaceLightGrey,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(
-                AppSpacing.radiusXl - AppSpacing.bottomNavGoldBorder,
-              ),
-            ),
+      child: ClipRRect(
+        borderRadius: radius,
+        child: ColoredBox(
+          color: AppColors.surfaceLightGrey,
+          child: CustomPaint(
+            painter: _GoldTopEdgePainter(),
+            child: SizedBox.expand(),
           ),
         ),
       ),
     );
   }
+}
+
+/// 4px #FFB200 stroke along the rounded top — a rectangular Border would cut the corners.
+class _GoldTopEdgePainter extends CustomPainter {
+  const _GoldTopEdgePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const stroke = AppSpacing.bottomNavGoldBorder;
+    const radius = AppSpacing.radiusXl;
+    final paint = Paint()
+      ..color = AppColors.navyBarAccentBorder
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = stroke
+      ..strokeJoin = StrokeJoin.round
+      ..isAntiAlias = true;
+    const inset = stroke / 2;
+    const arc = radius - inset;
+    final path = Path()
+      ..moveTo(inset, inset + arc)
+      ..arcToPoint(
+        const Offset(inset + arc, inset),
+        radius: const Radius.circular(arc),
+        clockwise: false,
+      )
+      ..lineTo(size.width - inset - arc, inset)
+      ..arcToPoint(
+        Offset(size.width - inset, inset + arc),
+        radius: const Radius.circular(arc),
+        clockwise: false,
+      );
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class _NavItem extends StatelessWidget {
@@ -168,7 +192,7 @@ class _NavItem extends StatelessWidget {
           selected: isSelected,
           label: label,
           child: Padding(
-            padding: const EdgeInsets.only(top: AppSpacing.fabOverlap),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -177,7 +201,7 @@ class _NavItem extends StatelessWidget {
                   height: AppSpacing.navIconSlot,
                   child: Center(
                     child: AnimatedScale(
-                      scale: isSelected ? 1.05 : 1,
+                      scale: isSelected ? 1.04 : 1,
                       duration: AppMotion.fast,
                       curve: AppMotion.standard,
                       child: Icon(
@@ -188,20 +212,27 @@ class _NavItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: AppSpacing.xs),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-                  child: Text(
-                    label,
-                    style: AppTypography.navLabel.copyWith(
-                      color: color,
-                      fontWeight:
-                          isSelected ? FontWeight.w600 : FontWeight.w400,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
+                AnimatedContainer(
+                  duration: AppMotion.fast,
+                  curve: AppMotion.standard,
+                  margin: const EdgeInsets.only(top: 2),
+                  width: isSelected ? 12 : 0,
+                  height: 2,
+                  decoration: BoxDecoration(
+                    color: AppColors.navyBarAccentBorder,
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
                   ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  label,
+                  style: AppTypography.navLabel.copyWith(
+                    color: color,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),
@@ -227,48 +258,56 @@ class _AddNavItem extends StatelessWidget {
         label: label,
         child: InkWell(
           onTap: onTap,
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          child: Column(
+          splashColor: AppColors.headerBackground.withValues(alpha: 0.08),
+          highlightColor: AppColors.headerBackground.withValues(alpha: 0.04),
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.bottomCenter,
             children: [
-              SizedBox(
-                height: AppSpacing.fabOverlap + AppSpacing.navIconSlot,
-                child: OverflowBox(
-                  maxWidth: AppSpacing.fabSize,
-                  maxHeight: AppSpacing.fabSize,
-                  child: Container(
-                    width: AppSpacing.fabSize,
-                    height: AppSpacing.fabSize,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: AppColors.fabBackground,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.surfaceWhite,
-                        width: 3,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: AppSpacing.navIconSlot,
+                    height: AppSpacing.navIconSlot,
+                  ),
+                  const SizedBox(height: 6),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+                    child: Text(
+                      label,
+                      style: AppTypography.navLabel.copyWith(
+                        color: AppColors.headerBackground,
+                        fontWeight: FontWeight.w600,
                       ),
-                      boxShadow: AppShadows.fab,
-                    ),
-                    child: const Icon(
-                      Icons.add_rounded,
-                      color: AppColors.textOnBrand,
-                      size: AppSpacing.fabIconSize,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                ),
+                ],
               ),
-              const SizedBox(height: AppSpacing.xs),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-                child: Text(
-                  label,
-                  style: AppTypography.navLabel.copyWith(
-                    color: AppColors.headerBackground,
-                    fontWeight: FontWeight.w600,
+              Positioned(
+                top: -AppSpacing.fabOverlap,
+                child: Container(
+                  width: AppSpacing.fabSize,
+                  height: AppSpacing.fabSize,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppColors.fabBackground,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppColors.surfaceWhite,
+                      width: 3,
+                    ),
+                    boxShadow: AppShadows.fab,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
+                  child: const Icon(
+                    Icons.add_rounded,
+                    color: AppColors.textOnBrand,
+                    size: AppSpacing.fabIconSize,
+                  ),
                 ),
               ),
             ],
