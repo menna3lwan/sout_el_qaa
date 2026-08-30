@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:sout_el_qaa/core/di/injection.dart';
+import 'package:sout_el_qaa/core/locale/app_locale_cubit.dart';
 import 'package:sout_el_qaa/core/storage/local_cache_service.dart';
 import 'package:sout_el_qaa/features/complaints/presentation/widgets/complaint_list_card.dart';
+import 'package:sout_el_qaa/features/notifications/presentation/widgets/notification_card.dart';
 import 'package:sout_el_qaa/main.dart';
 
 /// Drives the app on a real simulator/device end-to-end using [WidgetTester], instead of OS-level
@@ -18,6 +20,7 @@ void main() {
   testWidgets('full app walkthrough for visual verification', (tester) async {
     await LocalCacheService.init();
     configureDependencies();
+    await getIt<AppLocaleCubit>().hydrate();
 
     await tester.pumpWidget(const SoutElQaaApp());
     await tester.pumpAndSettle(const Duration(seconds: 2));
@@ -36,6 +39,11 @@ void main() {
     await tester.tap(find.byIcon(Icons.notifications_outlined).first);
     await tester.pumpAndSettle(const Duration(seconds: 1));
     await _hold(tester, 'notifications');
+    await tester.tap(find.byType(NotificationCard).first);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await _hold(tester, 'notification_complaint_details');
+    await _goBack(tester);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
     await _goBack(tester);
     await tester.pumpAndSettle(const Duration(seconds: 1));
 
@@ -61,9 +69,35 @@ void main() {
     await tester.pumpAndSettle(const Duration(seconds: 1));
     await _hold(tester, 'profile');
 
+    // Profile -> My Complaints.
+    await tester.tap(find.text('شكاواي').first);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await _hold(tester, 'my_complaints');
+    await _goBack(tester);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    // Profile -> Settings language sheet.
+    await tester.tap(find.text('الإعدادات').first);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await _hold(tester, 'language_sheet');
+    await tester.tap(find.text('English').first);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await _hold(tester, 'profile_english');
+    await tester.tap(find.text('Settings').first);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await tester.tap(find.text('Deutsch').first);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await _hold(tester, 'profile_german');
+    await tester.tap(find.text('Einstellungen').first);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await tester.tap(find.text('العربية').first);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await _hold(tester, 'profile_arabic');
+
     // Back to Home for a clean final frame.
     await tester.tap(find.text('الرئيسية').first);
     await tester.pumpAndSettle(const Duration(seconds: 1));
+    await _hold(tester, 'home_final');
   });
 }
 
@@ -79,6 +113,13 @@ Future<void> _hold(WidgetTester tester, String name) async {
 /// (e.g. Create Complaint's entry form step) intentionally render with no back arrow at all per
 /// Figma, relying only on the OS edge-swipe gesture, which a [WidgetTester] can't easily replicate.
 Future<void> _goBack(WidgetTester tester) async {
-  Navigator.of(tester.element(find.byType(Scaffold).last)).pop();
-  await tester.pumpAndSettle(const Duration(seconds: 1));
+  final navigators = find.byType(Navigator);
+  for (final element in navigators.evaluate().toList().reversed) {
+    final navigator = (element as StatefulElement).state as NavigatorState;
+    if (navigator.canPop()) {
+      navigator.pop();
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      return;
+    }
+  }
 }

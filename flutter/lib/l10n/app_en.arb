@@ -143,5 +143,25 @@
   "logoutConfirmTitle": "Log Out",
   "logoutConfirmMessage": "Are you sure you want to log out, citizen?",
   "logoutConfirmYes": "Yes, log me out",
-  "logoutConfirmCancel": "No, take me back"
+  "logoutConfirmCancel": "No, take me back",
+
+  "relativeTimeNow": "Just now",
+  "relativeMinutes": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
+  "@relativeMinutes": {
+    "description": "Relative time in minutes.",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "relativeHours": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "@relativeHours": { "placeholders": { "count": { "type": "int" } } },
+  "relativeDays": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "@relativeDays": { "placeholders": { "count": { "type": "int" } } },
+  "relativeWeeks": "{count, plural, =1{1 week ago} other{{count} weeks ago}}",
+  "@relativeWeeks": { "placeholders": { "count": { "type": "int" } } },
+  "relativeMonths": "{count, plural, =1{1 month ago} other{{count} months ago}}",
+  "@relativeMonths": { "placeholders": { "count": { "type": "int" } } },
+
+  "settingsLanguageTitle": "Language",
+  "languageNameAr": "العربية",
+  "languageNameEn": "English",
+  "languageNameDe": "Deutsch"
 }

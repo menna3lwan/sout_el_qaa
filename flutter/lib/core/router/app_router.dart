@@ -16,10 +16,8 @@ import '../storage/secure_storage_service.dart';
 import '../widgets/bottom_nav_shell.dart';
 import 'route_paths.dart';
 
-/// Creates the [GoRouter]: 5-tab shell + auth guard, plus every push route the Demo App's 5 named
-/// flows need (complaint details, notifications, register, My Complaints) — all registered here now
-/// rather than "per owning feature branch" (the old [P12] scope note), since the combined pass builds
-/// every feature in one session instead of one branch at a time.
+/// Creates the [GoRouter]: 5-tab shell + auth guard, plus every push route the app's flows need
+/// (complaint details, notifications, register, My Complaints).
 final class AppRouterFactory {
   const AppRouterFactory(this._secureStorage);
 

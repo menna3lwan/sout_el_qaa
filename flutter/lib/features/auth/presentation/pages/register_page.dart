@@ -12,7 +12,8 @@ import '../../../../core/widgets/app_text_field.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 
-/// New screen, not in Figma — [C3] same reasoning as LoginPage; required so "App Launch -> Splash -> Auth -> Home" is a real, complete flow instead of Login being a dead end with no way to create an account.
+/// Not in Figma, same reasoning as LoginPage; required so Login isn't a dead end with no way to
+/// create an account.
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
 

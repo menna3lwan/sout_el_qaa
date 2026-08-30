@@ -4,7 +4,8 @@ enum AppPermission { camera, gallery, location, notifications }
 
 enum AppPermissionStatus { granted, denied, permanentlyDenied }
 
-/// Single point for requesting/checking any app permission (camera/gallery/location/notifications) instead of each feature repeating permission_handler + "open settings if permanently denied" logic (PLAN.md section 1).
+/// Single point for requesting/checking any app permission instead of each feature repeating
+/// permission_handler + "open settings if permanently denied" logic.
 abstract interface class PermissionService {
   Future<AppPermissionStatus> request(AppPermission permission);
   Future<AppPermissionStatus> check(AppPermission permission);

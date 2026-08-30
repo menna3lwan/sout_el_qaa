@@ -4,14 +4,9 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../domain/entities/complaint.dart';
 
-/// [New, Figma Sync pass, 29 Aug 2026] Severity -> flavored display label/icon/color for the
-/// Complaint Details severity pill (Figma node 33:518: a high-severity complaint shows "كارثة قومية",
-/// not the plain "عالية" label) — a distinct display concept from [ComplaintSeverity]'s plain
-/// عالية/متوسطة/منخفضة labels, which the Create Complaint severity picker and review step keep
-/// unchanged (re-confirmed against fresh Figma fetches of nodes 33:210/59:1207 — neither uses flavor
-/// text). Only `high` is Figma-confirmed from the one reviewed example; `medium`/`low` are [Proposed]
-/// flavor labels completing the same playful register, pending a real Figma example — mirrors
-/// [categoryIcon]/[complaintStatusLabel]'s existing "one place this mapping lives" pattern.
+/// Severity -> flavored display label/icon/color for the Complaint Details severity pill — a
+/// distinct display concept from [ComplaintSeverity]'s plain labels, which the Create Complaint
+/// severity picker and review step keep unchanged.
 String severityFlavorLabel(BuildContext context, ComplaintSeverity severity) =>
     switch (severity) {
       ComplaintSeverity.high => context.l10n.severityFlavorHigh,

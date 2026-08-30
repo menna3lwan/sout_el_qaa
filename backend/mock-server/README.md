@@ -24,7 +24,7 @@ flutter run --dart-define=API_BASE_URL=http://localhost:3000
 
 بيانات دخول جاهزة (من `db.json`):
 
-- **Email:** `resident@qaa-el-hamour.eg`
+- **Email:** `spongebob@qaa-el-hamour.eg` (also accepts `resident@qaa-el-hamour.eg`)
 - **Password:** `qaaHamour1`
 
 ## حدود معروفة (documented limitations — مش bugs)

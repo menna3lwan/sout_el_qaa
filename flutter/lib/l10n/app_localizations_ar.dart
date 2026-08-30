@@ -131,6 +131,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String homeLocationLine(String street) {
+    return 'قاع الهامور، $street';
+  }
+
+  @override
   String get homeCategoriesHeading => 'تصنيفات الشكاوى';
 
   @override
@@ -417,4 +422,79 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get logoutConfirmCancel => 'لأ، رجّعني';
+
+  @override
+  String get relativeTimeNow => 'الآن';
+
+  @override
+  String relativeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'منذ $count دقايق',
+      two: 'منذ دقيقتين',
+      one: 'منذ دقيقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'منذ $count ساعات',
+      two: 'منذ ساعتين',
+      one: 'منذ ساعة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'منذ $count ايام',
+      two: 'منذ يومين',
+      one: 'منذ يوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'منذ $count اسابيع',
+      two: 'منذ اسبوعين',
+      one: 'منذ اسبوع',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'منذ $count شهور',
+      two: 'منذ شهرين',
+      one: 'منذ شهر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsLanguageTitle => 'اللغة';
+
+  @override
+  String get languageNameAr => 'العربية';
+
+  @override
+  String get languageNameEn => 'English';
+
+  @override
+  String get languageNameDe => 'Deutsch';
 }

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// A comment on a complaint (Complaint Details screen only — PLAN.md section 3.8).
+/// A comment on a complaint (Complaint Details screen only).
 base class Comment extends Equatable {
   const Comment({
     required this.id,
@@ -19,9 +19,7 @@ base class Comment extends Equatable {
   final String text;
   final DateTime createdAt;
 
-  /// [New, Figma Sync pass, 29 Aug 2026] Per-comment like count shown on Complaint Details (node
-  /// 33:518) — display-only for now (no toggle UI/endpoint exists yet, unlike the complaint-level
-  /// like/dislike/report reactions), defaults to 0 for comments posted client-side this session.
+  /// Display-only for now — no toggle UI/endpoint exists yet, unlike the complaint-level reactions.
   final int likes;
 
   @override

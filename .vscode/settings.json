@@ -16,5 +16,14 @@
     "**/build": true,
     "**/node_modules": true,
     "flutter/ios/Pods": true
+  },
+  // This repo lives on an exFAT volume. macOS otherwise writes AppleDouble `._*`
+  // sidecars on every Flutter/Dart/terminal copy, which then block `flutter analyze`
+  // from deleting ios/Flutter/ephemeral/Packages/.packages.
+  "dart.env": {
+    "COPYFILE_DISABLE": "1"
+  },
+  "terminal.integrated.env.osx": {
+    "COPYFILE_DISABLE": "1"
   }
 }

@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_ar.dart';
+import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
 
 // ignore_for_file: type=lint
@@ -95,6 +96,7 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
+    Locale('de'),
     Locale('en')
   ];
 
@@ -248,7 +250,7 @@ abstract class AppLocalizations {
   /// **'النص ده أطول من المسموح'**
   String get validationTooLong;
 
-  /// عنوان شاشة تسجيل الدخول — شاشة من تصميمنا [C3]، مش من الـFigma
+  /// عنوان شاشة تسجيل الدخول — شاشة من تصميمنا، مش من الـFigma
   ///
   /// In ar, this message translates to:
   /// **'تسجيل الدخول'**
@@ -326,6 +328,12 @@ abstract class AppLocalizations {
   /// **'صباح الفل يا ساكن القاع، {name}!'**
   String homeGreeting(String name);
 
+  /// سطر الموقع تحت تحية الهيدر مباشرة — الـstreet جاي من user.bio.
+  ///
+  /// In ar, this message translates to:
+  /// **'قاع الهامور، {street}'**
+  String homeLocationLine(String street);
+
   /// No description provided for @homeCategoriesHeading.
   ///
   /// In ar, this message translates to:
@@ -338,7 +346,7 @@ abstract class AppLocalizations {
   /// **'قدم شكوى جديدة'**
   String get homeSubmitComplaintCta;
 
-  /// [New, Full Audit & Sync pass 27 Aug 2026] نص الـsearch bar الجديد اللي ظهر في الفيجما المحدّثة — مش موجود في التصميم القديم
+  /// نص الـsearch bar — لا يوجد search flow حقيقي مربوط بيه لسه
   ///
   /// In ar, this message translates to:
   /// **'إبحث عن شكوى...'**
@@ -350,7 +358,7 @@ abstract class AppLocalizations {
   /// **'أكثر الشكاوى تفاعلاً'**
   String get homeTrendingHeading;
 
-  /// [New] عنوان فرعي جديد تحت "أكثر الشكاوى تفاعلاً" — مؤكد من الفيجما المحدّثة
+  /// No description provided for @homeTrendingSubheading.
   ///
   /// In ar, this message translates to:
   /// **'شوف إيه اللي شاغل سكان القاع'**
@@ -362,19 +370,19 @@ abstract class AppLocalizations {
   /// **'عرض الكل'**
   String get homeViewAll;
 
-  /// [New] زرار جديد على كارت الشكوى الرائجة في الرئيسية — بيودّي لتفاصيل الشكوى بدل ما يعدّل الحالة من الكارت نفسه
+  /// زرار على كارت الشكوى الرائجة — بيودّي لتفاصيل الشكوى بدل ما يعدّل الحالة من الكارت نفسه
   ///
   /// In ar, this message translates to:
   /// **'عندي نفس المشكله'**
   String get homeSameProblemCta;
 
-  /// [New] عدّاد "كام واحد بلّغ عن نفس المشكلة" — بيستخدم نفس قيمة likes الموجودة لحد ما يتوفر حقل مخصص من الباك إند
+  /// عدّاد "كام واحد بلّغ عن نفس المشكلة" — بيستخدم نفس قيمة likes لحد ما يتوفر حقل مخصص من الباك إند
   ///
   /// In ar, this message translates to:
   /// **'+{count}'**
   String homeSameProblemCount(int count);
 
-  /// [Updated] الفيجما المحدّثة غيّرت العنوان من "نشاطاتك الأخيرة" لـ"شكاوى محتاجة صوتك" — النص اتحدّث هنا، لكن مصدر البيانات (recentActivity) فضل زي ما هو لحد ما يتأكد إن المعنى اتغيّر فعلاً مش بس النص (انظر التقرير)
+  /// No description provided for @homeRecentActivityHeading.
   ///
   /// In ar, this message translates to:
   /// **'شكاوى محتاجة صوتك'**
@@ -422,13 +430,13 @@ abstract class AppLocalizations {
   /// **'مفيش شكاوى في القسم ده لسه'**
   String get complaintsEmptyMessage;
 
-  /// [New, Figma Sync pass 29 Aug 2026] عنوان الـAppBar الحقيقي لشاشة تفاصيل الشكوى (فيجما بتكتبها "تفصل الشكوي" بتصحيح إملائي بسيط) — كان [detailsTitle] بيستخدم غلط هنا، وهو فعليًا عنوان قسم فرعي جوه الصفحة مش عنوان الـAppBar
+  /// عنوان الـAppBar لشاشة تفاصيل الشكوى — مختلف عن [detailsTitle]، عنوان القسم الفرعي جوه الصفحة
   ///
   /// In ar, this message translates to:
   /// **'تفاصيل الشكوى'**
   String get complaintDetailsAppBarTitle;
 
-  /// [Updated, Figma Sync pass 29 Aug 2026] بقى عنوان القسم الفرعي فوق الـstepper مباشرة (مؤكد من الفيجما المحدّثة node 33:518) بدل ما يكون عنوان الـAppBar
+  /// عنوان القسم الفرعي فوق الـstepper مباشرة
   ///
   /// In ar, this message translates to:
   /// **'حالة الشكوى'**
@@ -446,7 +454,7 @@ abstract class AppLocalizations {
   /// **'تم الاستلام'**
   String get statusReceivedLabel;
 
-  /// [Assumption A#] الفيجما بتستخدم صياغتين مختلفتين لنفس الحالة (قيد المراجعة/قيد المعالجة) — اخترنا دي كنص موحّد لحد ما يتأكد
+  /// No description provided for @statusInReviewLabel.
   ///
   /// In ar, this message translates to:
   /// **'قيد المراجعة'**
@@ -488,31 +496,31 @@ abstract class AppLocalizations {
   /// **'الموقع'**
   String get locationLabel;
 
-  /// [New, Figma Sync pass 29 Aug 2026] ليبل "الخطورة" المنكّه على بادچ تفاصيل الشكوى (node 33:518) — مؤكد نصيًا من الفيجما، مختلف عن ليبل "عالية" العادي المستخدم في نموذج تقديم الشكوى
+  /// ليبل "الخطورة" المنكّه على بادچ تفاصيل الشكوى — مختلف عن ليبل "عالية" العادي في نموذج تقديم الشكوى
   ///
   /// In ar, this message translates to:
   /// **'كارثة قومية'**
   String get severityFlavorHigh;
 
-  /// [Proposed] لم يظهر مثال فيجما حقيقي لدرجة الخطورة المتوسطة بالتنكيه ده — نص مقترح بنفس روح severityFlavorHigh لحد ما يتأكد
+  /// بنفس روح severityFlavorHigh، لدرجة الخطورة المتوسطة
   ///
   /// In ar, this message translates to:
   /// **'مصيبة مش بسيطة'**
   String get severityFlavorMedium;
 
-  /// [Proposed] نفس ملاحظة severityFlavorMedium، لدرجة الخطورة المنخفضة
+  /// بنفس روح severityFlavorHigh، لدرجة الخطورة المنخفضة
   ///
   /// In ar, this message translates to:
   /// **'شكوى عادية'**
   String get severityFlavorLow;
 
-  /// [New, Figma Sync pass 29 Aug 2026] عدّاد البلاغات في صف التفاعلات الجديد بتفاصيل الشكوى
+  /// عدّاد البلاغات في صف التفاعلات بتفاصيل الشكوى
   ///
   /// In ar, this message translates to:
   /// **'{count} بلاغ'**
   String complaintReportsCount(int count);
 
-  /// [New, Figma Sync pass 29 Aug 2026] عدّاد عدم الإعجاب في صف التفاعلات الجديد بتفاصيل الشكوى
+  /// عدّاد عدم الإعجاب في صف التفاعلات بتفاصيل الشكوى
   ///
   /// In ar, this message translates to:
   /// **'{count} عدم إعجاب'**
@@ -524,7 +532,7 @@ abstract class AppLocalizations {
   /// **'تقديم شكوى'**
   String get createComplaintTitle;
 
-  /// [New] عنوان الـAppBar في خطوتي المراجعة والنجاح — الفيجما بتستخدم عنوان أقصر من عنوان خطوة النموذج الأولى
+  /// عنوان الـAppBar في خطوتي المراجعة والنجاح — أقصر من عنوان خطوة النموذج الأولى
   ///
   /// In ar, this message translates to:
   /// **'تقديم شكوي'**
@@ -632,7 +640,7 @@ abstract class AppLocalizations {
   /// **'إرسال الشكوة'**
   String get submitComplaintButton;
 
-  /// [New] عنوان خطوة المراجعة الجديدة (خطوة 2 من 3) — الفيجما المحدّثة بقت 3 خطوات مش 4: (1) نموذج موحّد، (2) مراجعة، (3) نجاح — بدل الـ4 خطوات المنفصلة القديمة (بيانات/نوع/موقع/خطورة)
+  /// عنوان خطوة المراجعة (خطوة 2 من 3): نموذج موحّد -> مراجعة -> نجاح
   ///
   /// In ar, this message translates to:
   /// **'راجع شكوتك قبل الإرسال'**
@@ -656,19 +664,19 @@ abstract class AppLocalizations {
   /// **'تعديل الشكوى'**
   String get createComplaintEditButton;
 
-  /// [Updated] نص مؤكد من الفيجما المحدّثة، بدل النص القديم
+  /// No description provided for @successTitle.
   ///
   /// In ar, this message translates to:
   /// **'شكوتك وصلت للقاع! 🎉'**
   String get successTitle;
 
-  /// [Updated] نص مؤكد من الفيجما المحدّثة
+  /// No description provided for @successMessage.
   ///
   /// In ar, this message translates to:
   /// **'تم إرسال شكوتك بنجاح، وشفيق استلمها 😂'**
   String get successMessage;
 
-  /// [New] زرار جديد على شاشة النجاح — بيودّي لتفاصيل الشكوى اللي اتقدمت
+  /// زرار على شاشة النجاح — بيودّي لتفاصيل الشكوى اللي اتقدمت
   ///
   /// In ar, this message translates to:
   /// **'مشاهدة الشكوى'**
@@ -680,7 +688,7 @@ abstract class AppLocalizations {
   /// **'العودة للرئيسية'**
   String get successBackToHomeButton;
 
-  /// [Proposed P3] الشاشة دي مالهاش تصميم في الفيجما (الفريم فاضي)، التصميم من عندنا بنفس روح باقي الشاشات
+  /// الشاشة دي مالهاش تصميم في الفيجما، التصميم من عندنا بنفس روح باقي الشاشات
   ///
   /// In ar, this message translates to:
   /// **'الخريطة'**
@@ -764,79 +772,79 @@ abstract class AppLocalizations {
   /// **'تسجيل الخروج'**
   String get profileLogoutMenu;
 
-  /// [Updated, Figma Sync pass 29 Aug 2026] الفيجما بتكتب اسم الوحدة القصير جوه كارت الإحصائية مباشرة ("12 شكوى")، مش ليبل طويل تحت الرقم — صححنا النص عشان يتطابق مع الفيجما بالظبط بعد ما اتأكد النموذج ده من fresh screenshot
+  /// اسم الوحدة القصير جوه كارت الإحصائية ("12 شكوى")، مش ليبل طويل تحت الرقم
   ///
   /// In ar, this message translates to:
   /// **'شكوى'**
   String get profileStatSubmitted;
 
-  /// [Updated, Figma Sync pass 29 Aug 2026] نفس ملاحظة profileStatSubmitted — الفيجما بتكتب "8 مغلقة"
+  /// بنفس صياغة profileStatSubmitted ("8 مغلقة")
   ///
   /// In ar, this message translates to:
   /// **'مغلقة'**
   String get profileStatResolved;
 
-  /// [Resolved, Figma Sync pass 29 Aug 2026] كانت [Requires Confirmation] في الجولات السابقة — الفيجما المحدّثة أكّدت إن "فقاعة" هي وحدة عملة النقاط في التطبيق ("245 فقاعة")، مش "نقاط المشاركة"
+  /// "فقاعة" هي وحدة عملة النقاط في التطبيق ("245 فقاعة")
   ///
   /// In ar, this message translates to:
   /// **'فقاعة'**
   String get profileStatPoints;
 
-  /// [New, Figma Sync pass 29 Aug 2026] عنوان الـAppBar لشاشة الملف الشخصي (node 33:794) — كانت الشاشة من غير AppBar نهائي قبل الـpass ده، بعكس كل الشاشات التانية
+  /// عنوان الـAppBar لشاشة الملف الشخصي
   ///
   /// In ar, this message translates to:
   /// **'الملف الشخصي'**
   String get profilePageTitle;
 
-  /// [New, Figma Sync pass 29 Aug 2026] عنوان كارت الترقية/التقدّم في الملف الشخصي (node 33:794)
+  /// عنوان كارت الترقية/التقدّم في الملف الشخصي
   ///
   /// In ar, this message translates to:
   /// **'المستوى الحالي'**
   String get profileCurrentLevelLabel;
 
-  /// [Updated, Figma Sync pass 29 Aug 2026] الكابشن المنفصل تحت نسبة التقدّم — الفيجما (node 66:2317) بتعرض النسبة والكابشن في سطرين بستايلات مختلفة، مش نص واحد مدموج زي ما كان مفروض قبل الـpass ده
+  /// الكابشن المنفصل تحت نسبة التقدّم، في سطر مستقل بستايل مختلف
   ///
   /// In ar, this message translates to:
   /// **'للترقية'**
   String get profileProgressToNextLabel;
 
-  /// [New] تعليمة إضافية النقاط للترقية للرتبة التالية — مؤكدة نصيًا من الفيجما لمثال "منقذ بحري -> بطل القاع"، ونفس الصياغة معمّمة على باقي الرتب
+  /// تعليمة إضافية النقاط للترقية للرتبة التالية
   ///
   /// In ar, this message translates to:
   /// **'اجمع {points} فقاعة إضافية للوصول لرتبة \"{rank}\"'**
   String profileNextRankCaption(int points, String rank);
 
-  /// [New, Proposed] نص بديل لما المستخدم يوصل لأعلى رتبة، مفيش مثال فيجما له لأن العيّنة المراجَعة كانت في رتبة وسطى
+  /// نص بديل لما المستخدم يوصل لأعلى رتبة
   ///
   /// In ar, this message translates to:
   /// **'وصلت لأعلى رتبة في قاع الهامور! 🏆'**
   String get profileMaxRankCaption;
 
-  /// [Proposed] أول رتبة في السلم — مفيش مثال فيجما، بُنيت لإكمال سلّم منطقي حوالين رتبتي "منقذ بحري"/"بطل القاع" المؤكدتين
+  /// أول رتبة في السلم، بُنيت لإكمال سلّم منطقي حوالين رتبتي "منقذ بحري"/"بطل القاع" المؤكدتين
   ///
   /// In ar, this message translates to:
   /// **'ساكن القاع'**
   String get profileRankQaaResident;
 
-  /// [Proposed] نفس ملاحظة profileRankQaaResident
+  /// بنفس ملاحظة profileRankQaaResident
   ///
   /// In ar, this message translates to:
   /// **'مراقب الشوارع'**
   String get profileRankStreetWatcher;
 
-  /// [Confirmed from Figma] مؤكدة نصيًا من node 33:794 كرتبة سبونج بوب الحالية
+  /// رتبة سبونج بوب الحالية، مؤكدة من الفيجما
   ///
   /// In ar, this message translates to:
   /// **'منقذ بحري'**
   String get profileRankSeaRescuer;
 
-  /// [Confirmed from Figma] مؤكدة نصيًا من node 33:794 كالرتبة التالية بعد "منقذ بحري"
+  /// الرتبة التالية بعد "منقذ بحري"، مؤكدة من الفيجما
   ///
   /// In ar, this message translates to:
   /// **'بطل القاع'**
   String get profileRankQaaHero;
 
-  /// [Proposed] رتبة قمة السلّم — نفس ملاحظة profileRankQaaResident
+  /// رتبة قمة السلّم، بنفس ملاحظة profileRankQaaResident
   ///
   /// In ar, this message translates to:
   /// **'أسطورة قاع الهامور'**
@@ -871,6 +879,66 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'لأ، رجّعني'**
   String get logoutConfirmCancel;
+
+  /// No description provided for @relativeTimeNow.
+  ///
+  /// In ar, this message translates to:
+  /// **'الآن'**
+  String get relativeTimeNow;
+
+  /// وقت نسبي بالدقائق. المثنى العربي من غير رقم، والجمع برقمه.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{منذ دقيقة} =2{منذ دقيقتين} other{منذ {count} دقايق}}'**
+  String relativeMinutes(int count);
+
+  /// No description provided for @relativeHours.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{منذ ساعة} =2{منذ ساعتين} other{منذ {count} ساعات}}'**
+  String relativeHours(int count);
+
+  /// No description provided for @relativeDays.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{منذ يوم} =2{منذ يومين} other{منذ {count} ايام}}'**
+  String relativeDays(int count);
+
+  /// No description provided for @relativeWeeks.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{منذ اسبوع} =2{منذ اسبوعين} other{منذ {count} اسابيع}}'**
+  String relativeWeeks(int count);
+
+  /// No description provided for @relativeMonths.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{منذ شهر} =2{منذ شهرين} other{منذ {count} شهور}}'**
+  String relativeMonths(int count);
+
+  /// عنوان اختيار اللغة في الملف الشخصي
+  ///
+  /// In ar, this message translates to:
+  /// **'اللغة'**
+  String get settingsLanguageTitle;
+
+  /// No description provided for @languageNameAr.
+  ///
+  /// In ar, this message translates to:
+  /// **'العربية'**
+  String get languageNameAr;
+
+  /// No description provided for @languageNameEn.
+  ///
+  /// In ar, this message translates to:
+  /// **'English'**
+  String get languageNameEn;
+
+  /// No description provided for @languageNameDe.
+  ///
+  /// In ar, this message translates to:
+  /// **'Deutsch'**
+  String get languageNameDe;
 }
 
 class _AppLocalizationsDelegate
@@ -884,7 +952,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['ar', 'en'].contains(locale.languageCode);
+      <String>['ar', 'de', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -895,6 +963,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return AppLocalizationsAr();
+    case 'de':
+      return AppLocalizationsDe();
     case 'en':
       return AppLocalizationsEn();
   }

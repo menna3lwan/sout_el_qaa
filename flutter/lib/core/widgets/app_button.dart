@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_motion.dart';
+import '../theme/app_shadows.dart';
+import '../theme/app_spacing.dart';
+
 /// Unified primary button wrapping [ElevatedButton] with a built-in loading state, so every form screen (Login, Create Complaint...) doesn't repeat "disable + show spinner while submitting" logic.
 class AppButton extends StatelessWidget {
   const AppButton({
@@ -21,25 +25,45 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final canPress = isEnabled && !isLoading && onPressed != null;
 
-    return ElevatedButton(
-      onPressed: canPress ? onPressed : null,
-      child: isLoading
-          ? const SizedBox(
-              width: 22,
-              height: 22,
-              child: CircularProgressIndicator(strokeWidth: 2.4),
-            )
-          : Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (icon != null) ...[
-                  Icon(icon, size: 20),
-                  const SizedBox(width: 8),
-                ],
-                Text(label),
-              ],
-            ),
+    return AnimatedOpacity(
+      duration: AppMotion.fast,
+      opacity: canPress || isLoading ? 1 : 0.64,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+          boxShadow: canPress ? AppShadows.cta : const [],
+        ),
+        child: ElevatedButton(
+          onPressed: canPress ? onPressed : null,
+          child: AnimatedSwitcher(
+            duration: AppMotion.fast,
+            child: isLoading
+                ? const SizedBox(
+                    key: ValueKey('loading'),
+                    width: 22,
+                    height: 22,
+                    child: CircularProgressIndicator(strokeWidth: 2.4),
+                  )
+                : Row(
+                    key: const ValueKey('label'),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (icon != null) ...[
+                        Icon(icon, size: AppSpacing.iconMd),
+                        const SizedBox(width: AppSpacing.sm),
+                      ],
+                      Flexible(
+                        child: Text(
+                          label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
+        ),
+      ),
     );
   }
 }

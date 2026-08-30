@@ -4,7 +4,9 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../constants/app_config.dart';
 import 'interceptors/auth_interceptor.dart';
 
-/// Single [Dio] instance wired with the required interceptors; baseUrl comes from [AppConfig.apiBaseUrl] so it can switch between the mock server and the real backend without code changes (PLAN.md section 16).
+/// Single [Dio] instance wired with the required interceptors; baseUrl comes from
+/// [AppConfig.apiBaseUrl] so it can switch between the mock server and the real backend without
+/// code changes.
 final class DioClientFactory {
   const DioClientFactory(this._authInterceptor);
 

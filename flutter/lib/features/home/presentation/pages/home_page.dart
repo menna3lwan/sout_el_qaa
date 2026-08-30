@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sout_el_qaa/l10n/app_localizations.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_motion.dart';
+import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/message_key_resolver.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/bidi_aware_text.dart';
 import '../../../../core/widgets/character_avatar_assets.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/loading_view.dart';
@@ -25,8 +27,8 @@ import '../../../complaints/presentation/widgets/status_badge.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
 
-/// Real implementation, matching Figma node 33:21 (PLAN.md section 3.3): header with avatar/greeting/
-/// notifications bell, category grid, primary CTA, trending list, recent activity list.
+/// Header with avatar/greeting/notifications bell, category grid, primary CTA, trending list,
+/// recent activity list.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -49,14 +51,22 @@ class _HomeView extends StatelessWidget {
         bottom: false,
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
-            return switch (state) {
-              HomeLoading() => const LoadingView(),
-              HomeError(:final messageKey) => ErrorView(
-                  message: resolveMessageKey(context, messageKey),
-                  onRetry: () => context.read<HomeCubit>().load(),
-                ),
-              HomeLoaded() => _HomeContent(state: state),
-            };
+            return AnimatedSwitcher(
+              duration: AppMotion.medium,
+              switchInCurve: AppMotion.standard,
+              child: switch (state) {
+                HomeLoading() => const LoadingView(key: ValueKey('loading')),
+                HomeError(:final messageKey) => ErrorView(
+                    key: const ValueKey('error'),
+                    message: resolveMessageKey(context, messageKey),
+                    onRetry: () => context.read<HomeCubit>().load(),
+                  ),
+                HomeLoaded() => _HomeContent(
+                    key: const ValueKey('loaded'),
+                    state: state,
+                  ),
+              },
+            );
           },
         ),
       ),
@@ -65,7 +75,7 @@ class _HomeView extends StatelessWidget {
 }
 
 class _HomeContent extends StatelessWidget {
-  const _HomeContent({required this.state});
+  const _HomeContent({required this.state, required ValueKey<String> key});
 
   final HomeLoaded state;
 
@@ -82,17 +92,12 @@ class _HomeContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // [New, Full Audit & Sync pass, 27 Aug 2026] search bar — did not exist before this
-                // pass; Figma node 33:21 shows it above the CTA button. Not wired to a real search
-                // flow yet (no search screen/endpoint exists in this brief) — a disabled-looking but
-                // present field would be worse than an honest todo, so it's a real TextField that
-                // currently has nowhere to submit to; see the report's Remaining Issues.
+                // No search flow exists yet (no search screen/endpoint) — a real TextField with
+                // nowhere to submit to is more honest than a disabled-looking placeholder.
                 const _SearchBar(),
                 const SizedBox(height: AppSpacing.lg),
-                // The CTA mascot (Figma node 33:21's "image 4") peeks above the button's top-start
-                // corner — a Stack + Positioned overlay so the button itself keeps its normal size
-                // and tap target. Size/offset re-measured against the fresh Figma export (79x95,
-                // peeking 29px above the button's top edge, flush with its start edge).
+                // The CTA mascot peeks above the button's top-start corner — a Stack + Positioned
+                // overlay so the button itself keeps its normal size and tap target.
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -134,9 +139,6 @@ class _HomeContent extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                // [Reordered, Full Audit & Sync pass] categories now render AFTER the trending
-                // section, not before the CTA button — Figma node 33:21's real paint order changed;
-                // this moves the block rather than editing its contents.
                 Text(
                   context.l10n.homeCategoriesHeading,
                   style: AppTypography.sectionHeadingLarge
@@ -144,9 +146,8 @@ class _HomeContent extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 SizedBox(
-                  // Matches the rebuilt [CategoryChip]'s intrinsic height (48px icon circle + 4px gap
-                  // + 16px label line) — was 96 for the old bordered-rectangle chip design, which
-                  // left ~28px of dead space under the new circle+label shape.
+                  // Matches [CategoryChip]'s intrinsic height (48px icon circle + 4px gap + 16px
+                  // label line).
                   height: 68,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -225,10 +226,8 @@ class _Header extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                // [New, Figma Sync pass, 29 Aug 2026] Figma node 33:21 shows a second, lighter line
-                // under the greeting ("قاع الهامور، شارع الأناناس") with a location-pin icon — missing
-                // entirely before this pass. Falls back to just the greeting if the user has no bio
-                // (street) set, rather than showing a dangling "قاع الهامور، ".
+                // Falls back to just the greeting if the user has no bio (street) set, rather
+                // than showing a dangling location line.
                 if (user.bio != null && user.bio!.isNotEmpty) ...[
                   const SizedBox(height: 2),
                   Row(
@@ -255,21 +254,23 @@ class _Header extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.notifications_outlined,
-              color: AppColors.textOnBrand,
+          Material(
+            color: AppColors.surfaceWhite,
+            shape: const CircleBorder(),
+            child: IconButton(
+              tooltip: context.l10n.notificationsTitle,
+              icon: const Icon(
+                Icons.notifications_outlined,
+                color: AppColors.headerBackground,
+                size: 20,
+              ),
+              onPressed: () => context.push(RoutePaths.notifications),
             ),
-            onPressed: () => context.push(RoutePaths.notifications),
           ),
         ],
       ),
     );
   }
-}
-
-extension on AppLocalizations {
-  String homeLocationLine(String s) => s;
 }
 
 class _SectionHeader extends StatelessWidget {
@@ -289,20 +290,13 @@ class _SectionHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        TextButton(
-          onPressed: onViewAll,
-          child: Text(
-            context.l10n.homeViewAll,
-            style: AppTypography.linkButtonBold,
-          ),
-        ),
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                textAlign: TextAlign.end,
+                textAlign: TextAlign.start,
                 style: AppTypography.sectionHeadingLarge
                     .copyWith(color: AppColors.profileAccent),
               ),
@@ -310,11 +304,18 @@ class _SectionHeader extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xs),
                 Text(
                   subtitle!,
-                  textAlign: TextAlign.end,
+                  textAlign: TextAlign.start,
                   style: AppTypography.trendingSectionSubheading,
                 ),
               ],
             ],
+          ),
+        ),
+        TextButton(
+          onPressed: onViewAll,
+          child: Text(
+            context.l10n.homeViewAll,
+            style: AppTypography.linkButtonBold,
           ),
         ),
       ],
@@ -322,47 +323,44 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-/// [New, Full Audit & Sync pass, 27 Aug 2026] Figma node 33:21's search field above the CTA button —
-/// see the doc comment where this is used for why it has no `onSubmitted` wiring yet.
+/// Search field that routes to the complaints list; there is no dedicated search endpoint yet.
 class _SearchBar extends StatelessWidget {
   const _SearchBar();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 53,
-      padding: const EdgeInsetsDirectional.only(start: 17, end: 17),
+      height: 52,
+      padding: const EdgeInsetsDirectional.symmetric(horizontal: AppSpacing.md),
       decoration: BoxDecoration(
         color: AppColors.surfaceWhite,
         borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
-        border: Border.all(color: AppColors.brandSecondaryDark),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x0D000000),
-            offset: Offset(0, 1),
-            blurRadius: 1,
-          ),
-        ],
+        border: Border.all(color: AppColors.cardBorder),
+        boxShadow: AppShadows.hairline,
       ),
       child: Row(
         children: [
           const Icon(
             Icons.search,
-            size: 20,
+            size: AppSpacing.iconMd,
             color: AppColors.textFigmaTertiary,
           ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: TextField(
-              textAlign: TextAlign.end,
+              textInputAction: TextInputAction.search,
+              onSubmitted: (_) => context.go(RoutePaths.complaints),
               decoration: InputDecoration(
                 border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                filled: false,
                 isDense: true,
                 hintText: context.l10n.homeSearchHint,
-                hintStyle: AppTypography.fieldPlaceholder
-                    .copyWith(fontSize: 14, color: AppColors.textFigmaTertiary),
+                hintStyle: AppTypography.metaText
+                    .copyWith(color: AppColors.textFigmaTertiary),
               ),
-              style: AppTypography.fieldPlaceholder.copyWith(fontSize: 14),
+              style: AppTypography.bodyDefault,
             ),
           ),
         ],
@@ -371,14 +369,9 @@ class _SearchBar extends StatelessWidget {
   }
 }
 
-/// [New, Full Audit & Sync pass, 27 Aug 2026] Home's "شكاوى محتاجة صوتك" (recent-activity) row —
-/// Figma node 33:155/33:168 renders this section with a distinct compact pill component, not
-/// [ComplaintListCard] (which is still correct for the trending section above it — its photo/urgent
-/// badge/reaction-row layout matches Figma's trending cards exactly). Corrects a mismatch from this
-/// pass's own first draft, which reused [ComplaintListCard] here before the recent-activity section
-/// was re-checked against Figma in detail. Kept private to home_page.dart rather than promoted to a
-/// shared widgets/ file since no second real screen has been confirmed to reuse this exact shape yet
-/// (see the audit report — don't over-abstract ahead of a second real use).
+/// Home's recent-activity row — a distinct compact pill, not [ComplaintListCard] (which remains
+/// correct for the trending section above it). Kept private to home_page.dart rather than
+/// promoted to shared widgets/ since no second screen reuses this exact shape yet.
 class _RecentActivityItem extends StatelessWidget {
   const _RecentActivityItem({required this.complaint, required this.onTap});
 
@@ -391,12 +384,7 @@ class _RecentActivityItem extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
       child: Container(
-        height: 56,
-        // [Fixed, Figma Sync pass, 29 Aug 2026] `EdgeInsets.all(space12)` (24px vertical) left only 32px
-        // for the two-line title+meta Column, which actually needs 40px (24px title line + 16px meta
-        // line per AppTypography.activityItemTitle/activityItemMeta) — a real `flutter run` caught an
-        // 8px RenderFlex overflow here that static analysis/manual review missed. Vertical padding of
-        // `sm` (8px) keeps the 56px pill height from Figma while giving the text exactly the room it needs.
+        constraints: const BoxConstraints(minHeight: 56),
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.space12,
           vertical: AppSpacing.sm,
@@ -404,13 +392,8 @@ class _RecentActivityItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surfaceWhite,
           borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x0D000000),
-              offset: Offset(0, 1),
-              blurRadius: 1,
-            ),
-          ],
+          border: Border.all(color: AppColors.cardBorder),
+          boxShadow: AppShadows.hairline,
         ),
         child: Row(
           children: [
@@ -431,12 +414,12 @@ class _RecentActivityItem extends StatelessWidget {
             const SizedBox(width: AppSpacing.space12),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  BidiAwareText(
                     complaint.title,
-                    textAlign: TextAlign.end,
+                    textAlign: TextAlign.start,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTypography.activityItemTitle
@@ -444,8 +427,8 @@ class _RecentActivityItem extends StatelessWidget {
                   ),
                   Text(
                     '${complaintStatusLabel(context, complaint.status)} - '
-                    '${DateFormatter.relative(complaint.createdAt)}',
-                    textAlign: TextAlign.end,
+                    '${DateFormatter.relative(complaint.createdAt, l10n: context.l10n)}',
+                    textAlign: TextAlign.start,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTypography.activityItemMeta

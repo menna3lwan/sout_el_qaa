@@ -24,6 +24,8 @@ import '../../features/profile/data/datasources/profile_remote_data_source.dart'
 import '../../features/profile/data/repositories/profile_repository_impl.dart';
 import '../../features/profile/domain/repositories/profile_repository.dart';
 import '../../features/profile/presentation/cubit/profile_cubit.dart';
+import '../locale/app_locale_cubit.dart';
+import '../locale/locale_settings_store.dart';
 import '../network/dio_client.dart';
 import '../network/interceptors/auth_interceptor.dart';
 import '../network/network_info.dart';
@@ -33,7 +35,8 @@ import '../storage/secure_storage_service.dart';
 
 final GetIt getIt = GetIt.instance;
 
-/// Manual get_it registration instead of @injectable codegen — build_runner has no network access in this sandbox (see branch report A9); swap in @InjectableInit once you can run it locally.
+/// Manual get_it registration — the app's dependency graph is small enough that codegen (injectable)
+/// would add a build step without a real payoff over this explicit composition root.
 void configureDependencies() {
   // --- Storage ---
   getIt.registerLazySingleton<FlutterSecureStorage>(
@@ -41,6 +44,12 @@ void configureDependencies() {
   );
   getIt.registerLazySingleton<SecureStorageService>(
     () => SecureStorageServiceImpl(getIt<FlutterSecureStorage>()),
+  );
+  getIt.registerLazySingleton<LocaleSettingsStore>(
+    () => HiveLocaleSettingsStore(),
+  );
+  getIt.registerLazySingleton<AppLocaleCubit>(
+    () => AppLocaleCubit(getIt<LocaleSettingsStore>()),
   );
 
   // --- Network ---
@@ -80,7 +89,7 @@ void configureDependencies() {
   // and must not leak between separate visits to the same screen.
   getIt.registerFactory<AuthCubit>(() => AuthCubit(getIt<AuthRepository>()));
 
-  // --- Complaints feature (shared by Home/Complaints/Map/Create Complaint/Profile, PLAN.md section 18) ---
+  // --- Complaints feature (shared by Home/Complaints/Map/Create Complaint/Profile) ---
   getIt.registerLazySingleton<ComplaintRemoteDataSource>(
     () => ComplaintRemoteDataSourceImpl(getIt<Dio>()),
   );

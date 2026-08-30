@@ -1,8 +1,5 @@
-/// Single source of truth for navigation paths, instead of repeating string literals like context.go('/home') everywhere.
-///
-/// [P12] Foundation branch scope covered only the shell paths; the Demo App pass adds every route
-/// each of the 5 named flows in the brief actually needs to be pushable — register, a complaint's own
-/// details, notifications, and My Complaints.
+/// Single source of truth for navigation paths, instead of repeating string literals like
+/// context.go('/home') everywhere.
 abstract final class RoutePaths {
   static const String splash = '/splash';
   static const String login = '/login';
@@ -13,7 +10,7 @@ abstract final class RoutePaths {
   static const String complaints = '/complaints';
   static const String profile = '/profile';
 
-  /// Push route, not a shell branch (see [P14] in core/router/app_router.dart).
+  /// Push route, not a shell branch (see [BottomNavShell]'s doc comment).
   static const String createComplaint = '/create-complaint';
 
   static const String complaintDetailsPattern = '/complaints/:id';

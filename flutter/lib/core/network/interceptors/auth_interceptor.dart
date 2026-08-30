@@ -2,7 +2,8 @@ import 'package:dio/dio.dart';
 
 import '../../storage/secure_storage_service.dart';
 
-/// Injects the access token into protected requests; centralized 401 handling arrives with feature/patrick-auth once session management exists — this just leaves the hook in place.
+/// Injects the access token into protected requests; centralized 401 handling (auto-logout) is
+/// left as a hook here until it's implemented — see [onError]'s TODO.
 final class AuthInterceptor extends Interceptor {
   AuthInterceptor(this._secureStorage);
 

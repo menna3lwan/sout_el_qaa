@@ -17,9 +17,7 @@ import '../cubit/complaints_cubit.dart';
 import '../cubit/complaints_state.dart';
 import '../widgets/complaint_list_card.dart';
 
-/// Real implementation, matching Figma node 33:663 (PLAN.md section 3.5): 3-tab filter bar over a
-/// list of [ComplaintListCard]s; scope reminder (PLAN.md section 18) no longer applies as written —
-/// the combined Demo App pass also builds ComplaintDetailsPage, so tapping a card here pushes there.
+/// 3-tab filter bar over a list of [ComplaintListCard]s; tapping a card pushes to the details page.
 class ComplaintsPage extends StatelessWidget {
   const ComplaintsPage({super.key});
 
@@ -35,16 +33,11 @@ class ComplaintsPage extends StatelessWidget {
 class _ComplaintsView extends StatelessWidget {
   const _ComplaintsView();
 
-  /// [Updated, Full Audit & Sync pass, 27 Aug 2026] Display order only — re-verified against a fresh
-  /// fetch of Figma node 33:663: the filter bar's DOM/visual order is "تم حلها" (resolved), "شكوائي"
-  /// (mine), "كل الشكاوى" (all, selected by default), not the [ComplaintsFilter] enum's own declaration
-  /// order (all, mine, resolved). Spelled out explicitly here rather than `ComplaintsFilter.values` so
-  /// this page's display order can differ from the enum's business-meaning order without touching the
-  /// enum itself (Important Rule #4: don't change business behavior unnecessarily).
+  /// RTL start (right) is All, matching Figma frame 33:663.
   static const _filters = [
-    ComplaintsFilter.resolved,
-    ComplaintsFilter.mine,
     ComplaintsFilter.all,
+    ComplaintsFilter.mine,
+    ComplaintsFilter.resolved,
   ];
 
   @override
@@ -53,8 +46,7 @@ class _ComplaintsView extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.l10n.navComplaints),
         actions: const [
-          // The header avatar Figma shows here too (node 33:663) — same bundled asset as every
-          // other screen (single demo resident, not a per-user lookup).
+          // Same bundled avatar asset as every other screen (single demo resident).
           Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
             child: QaaAvatar(
@@ -77,21 +69,18 @@ class _ComplaintsView extends StatelessWidget {
                 padding: const EdgeInsets.all(AppSpacing.md),
                 child: FilterPillTabs(
                   options: [
-                    context.l10n.complaintsFilterResolved,
-                    context.l10n.complaintsFilterMine,
                     context.l10n.complaintsFilterAll,
+                    context.l10n.complaintsFilterMine,
+                    context.l10n.complaintsFilterResolved,
                   ],
                   selectedIndex: _filters.indexOf(selectedFilter),
                   onSelected: (index) => context
                       .read<ComplaintsCubit>()
                       .load(filter: _filters[index]),
-                  // Figma node 33:663's selected pill (the "كل الشكاوى" example) is solid warningFigma
-                  // gold with textFigmaPrimary text and no border — distinct from this shared widget's
-                  // default navy scheme; see [FilterPillTabs.selectedBackgroundColor]'s doc comment.
+                  // Gold selected pill, distinct from this shared widget's default navy scheme.
                   selectedBackgroundColor: AppColors.warningFigma,
-                  // Figma shows no border on the selected pill; passing the same color as the
-                  // background keeps [FilterPillTabs]'s `Border.all(..., width: 2)` visually borderless
-                  // instead of adding a transparent-border special case to the shared widget.
+                  // No visible border on the selected pill: same color as the background instead of
+                  // adding a transparent-border special case to the shared widget.
                   selectedBorderColor: AppColors.warningFigma,
                   selectedTextColor: AppColors.textFigmaPrimary,
                 ),

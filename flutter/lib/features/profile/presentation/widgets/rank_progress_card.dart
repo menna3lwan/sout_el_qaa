@@ -7,10 +7,8 @@ import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../domain/entities/profile_rank.dart';
 import 'profile_rank_visuals.dart';
 
-/// [Updated, Figma Sync pass, 29 Aug 2026] Small navy pill badge overlapping the Profile avatar's
-/// bottom-*end* corner (Figma node `61:1700`, "Rank Badge": `bottom-[-8px] right-[-8px]` — a real
-/// fetch of this node corrects a prior pass's guess that it centered under the avatar) showing the
-/// resident's current rank, e.g. "منقذ بحري" with a small life-preserver icon.
+/// Small navy pill badge overlapping the Profile avatar's bottom-*end* corner, showing the
+/// resident's current rank with a small icon.
 class RankBadge extends StatelessWidget {
   const RankBadge({required this.rank, super.key});
 
@@ -41,7 +39,7 @@ class RankBadge extends StatelessWidget {
           Text(
             profileRankLabel(context, rank),
             style: AppTypography.chipLabel.copyWith(
-              fontSize: 8,
+              fontSize: 10,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.5,
               color: AppColors.rankBadgeText,
@@ -59,10 +57,9 @@ class RankBadge extends StatelessWidget {
   }
 }
 
-/// [New, Figma Sync pass, 29 Aug 2026] Profile page's "المستوى الحالي" progress card (Figma node
-/// 33:794, "Progress Section" `66:2315`): rank + percent-to-next on one row, a progress bar, then a
-/// caption naming the next rank and how many bubbles remain — or a max-rank message once there's no
-/// next rank.
+/// Profile page's "current level" progress card: rank + percent-to-next on one row, a progress
+/// bar, then a caption naming the next rank and how many bubbles remain — or a max-rank message
+/// once there's no next rank.
 class RankProgressCard extends StatelessWidget {
   const RankProgressCard({required this.points, super.key});
 
@@ -89,13 +86,10 @@ class RankProgressCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              // [Fixed, Figma Sync pass, 29 Aug 2026] A real fetch of node `66:2317` shows
-              // "المستوى الحالي" + the rank name at the row's *far* end and the percent caption at
-              // the *near* end — the opposite order from a prior pass's guess; under this app's RTL
-              // Directionality, the far-end item must be the FIRST child (Flutter lays out Row
-              // children start-to-end, and "start" is the right edge in RTL).
+              // Under this app's RTL Directionality, the far-end item must be the FIRST child
+              // (Flutter lays out Row children start-to-end, and "start" is the right edge in RTL).
               Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     context.l10n.profileCurrentLevelLabel,
@@ -175,6 +169,8 @@ class RankProgressCard extends StatelessWidget {
                   color: AppColors.textFigmaTertiary,
                 ),
                 textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

@@ -1,14 +1,13 @@
-/// Unified spacing/radius scale (prevents magic numbers scattered across widgets); built on a 4pt grid, updated with real values from the full Figma review (24 Aug 2026), replacing the earlier placeholder [A8].
+/// Unified spacing/radius scale on a 4pt grid — prevents magic numbers scattered across widgets.
 abstract final class AppSpacing {
   static const double xs = 4;
   static const double sm = 8;
 
-  /// [New, added after the Figma review] 12 is a very common gap/padding value across all 6 screens (between sm=8 and md=16 on the same 4pt grid) — missing from the old scale despite real, repeated use.
+  /// A common gap/padding value between sm=8 and md=16 on the same 4pt grid.
   static const double space12 = 12;
 
-  /// [New, Figma Sync pass, 29 Aug 2026] Horizontal padding on the Complaint Details engagement
-  /// counter pills (Figma node 33:518, `px-[18px]`) — between md=16 and lg=24, a real repeated value
-  /// on that node's 3 pills, same "missing rung on the 4pt grid" case as [space12].
+  /// Horizontal padding on the Complaint Details engagement counter pills, between md=16 and
+  /// lg=24 on the same 4pt grid.
   static const double space18 = 18;
 
   static const double md = 16;
@@ -21,12 +20,16 @@ abstract final class AppSpacing {
   static const double radiusLg =
       16; // Most cards (Trending, Description, Notification)
 
-  /// [New] Corner radius for the header and the BottomNavBar's top corners — 100% consistent across all 6 screens, distinct from radiusLg.
+  /// Corner radius for the header and the BottomNavBar's top corners, distinct from radiusLg.
   static const double radiusXl = 32;
 
-  /// [New] Semantic shortcut for "fully round" (pills, avatars, chips) instead of every widget repeating BorderRadius.circular(9999) — matches the literal value Figma uses everywhere.
+  /// Semantic shortcut for "fully round" (pills, avatars, chips) instead of every widget
+  /// repeating BorderRadius.circular(9999).
   static const double radiusPill = 9999;
 
-  /// [Requires Confirmation] the real screenshot and every screen's BottomNavBar bounds measure 80px, not the old 72 — a second "BottomNavBar" layer at 72px exists on every screen but sits off-screen (bottom: -165px), most likely leftover/duplicate art rather than a real second state; using 80 as the real value pending designer confirmation.
-  static const double bottomNavHeight = 80;
+  static const double iconSm = 16;
+  static const double iconMd = 20;
+  static const double iconLg = 24;
+
+  static const double bottomNavHeight = 84;
 }

@@ -2,17 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_typography.dart';
 
-/// The two avatar shapes actually found in Figma, not a simple size scale: [header] (44px, light-blue background, thin yellow border, soft shadow) and [profile] (128px, light-sky background, darker navy border, hard 3D shadow at 4px/4px/0px with no blur).
+/// [header] (44px, light-blue background, thin yellow border, soft shadow) vs. [profile] (128px,
+/// light-sky background, darker navy border, hard 3D shadow with no blur) — two distinct shapes,
+/// not a simple size scale.
 enum QaaAvatarVariant { header, profile }
 
-/// Unified avatar matching the "SpongeBob Avatar" component confirmed across every designed screen (Home, Complaint Details, Profile, etc. — PLAN.md section 3); the two [QaaAvatarVariant] shapes are extracted from the real Figma review (24 Aug 2026), not invented.
+/// Unified avatar used across every screen (Home, Complaint Details, Profile, etc.).
 ///
-/// Precedence for what's shown: [assetPath] (a bundled character portrait actually extracted from
-/// Figma — see [characterAvatarAsset]) wins first; then [imageUrl] (a real uploaded/remote photo,
-/// once the backend serves one); otherwise the user's first initial as a fallback. Only characters
-/// with real Figma-sourced art get an [assetPath] — everyone else intentionally keeps the initial
-/// fallback rather than inventing a portrait for them (Figma Assets Extraction pass, 2026-08-25).
+/// Precedence for what's shown: [assetPath] (a bundled character portrait — see
+/// [characterAvatarAsset]) wins first; then [imageUrl] (a real uploaded/remote photo, once the
+/// backend serves one); otherwise the user's first initial as a fallback. Only characters with
+/// real art get an [assetPath] — everyone else intentionally keeps the initial fallback rather
+/// than inventing a portrait for them.
 class QaaAvatar extends StatelessWidget {
   const QaaAvatar({
     super.key,
@@ -106,7 +109,7 @@ class QaaAvatar extends StatelessWidget {
       child: Center(
         child: Text(
           initial,
-          style: TextStyle(
+          style: AppTypography.chipLabel.copyWith(
             color: AppColors.profileAccent,
             fontSize: _size * 0.4,
             fontWeight: FontWeight.w700,

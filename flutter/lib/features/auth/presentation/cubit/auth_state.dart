@@ -2,7 +2,8 @@ import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/user.dart';
 
-/// Form-lifecycle states shared by Login and Register (both are simple credential forms) — [validationError] carries per-field ARB-key errors so the UI shows them inline (PLAN.md section 7), never as a generic snackbar.
+/// Form-lifecycle states shared by Login and Register. [validationError] carries per-field
+/// ARB-key errors so the UI shows them inline, never as a generic snackbar.
 enum AuthStatus { initial, validationError, submitting, success, failure }
 
 final class AuthState extends Equatable {

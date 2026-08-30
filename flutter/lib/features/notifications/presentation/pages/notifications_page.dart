@@ -17,9 +17,8 @@ import '../cubit/notifications_cubit.dart';
 import '../cubit/notifications_state.dart';
 import '../widgets/notification_card.dart';
 
-/// New screen, matching Figma node 33:936 (PLAN.md section 3.9): filter tabs over a list of
-/// [NotificationCard]s; tapping one marks it read and, if it references a complaint, pushes there
-/// ("Notifications -> Notification -> Related Complaint" flow from the brief).
+/// Filter tabs over a list of [NotificationCard]s; tapping one marks it read and, if it
+/// references a complaint, pushes there.
 class NotificationsPage extends StatelessWidget {
   const NotificationsPage({super.key});
 
@@ -35,13 +34,9 @@ class NotificationsPage extends StatelessWidget {
 class _NotificationsView extends StatelessWidget {
   const _NotificationsView();
 
-  /// [Fixed, Figma Sync pass, 29 Aug 2026] A real fetch of node 33:936 shows the filter bar's true
-  /// visual order (right-to-left reading order, since a `Wrap`'s first child renders at the RTL
-  /// *start*/right edge) is "الكل" (all, selected/gold, read first) → "شكاوى" (complaints) →
-  /// "تفاعلات" (reactions) → "عام" (general, read last/leftmost) — the previous pass's claimed order
-  /// was the exact reverse of what the design actually shows. Spelled out explicitly rather than
-  /// `NotificationsFilter.values` so this page's display order can differ from the enum's
-  /// business-meaning order without touching the enum itself (Important Rule #4).
+  /// Visual order (RTL reading order, right/start-to-left): all → complaints → reactions →
+  /// general. Spelled out explicitly rather than `NotificationsFilter.values` so this page's
+  /// display order can differ from the enum's business-meaning order without touching the enum.
   static const _filters = [
     NotificationsFilter.all,
     NotificationsFilter.complaints,
@@ -55,9 +50,8 @@ class _NotificationsView extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.l10n.notificationsTitle),
         actions: [
-          // The header avatar every other screen shows (Figma node 33:936) — this app has a single
-          // demo resident (SpongeBob), so it's the same bundled asset used everywhere else, not a
-          // per-user lookup.
+          // The header avatar every other screen shows — this app has a single demo resident
+          // (SpongeBob), so it's the same bundled asset used everywhere else, not a per-user lookup.
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
             child: QaaAvatar(
@@ -89,19 +83,17 @@ class _NotificationsView extends StatelessWidget {
                 padding: const EdgeInsets.all(AppSpacing.md),
                 child: FilterPillTabs(
                   options: [
-                    context.l10n.notificationsFilterGeneral,
-                    context.l10n.notificationsFilterReactions,
-                    context.l10n.notificationsFilterComplaints,
                     context.l10n.notificationsFilterAll,
+                    context.l10n.notificationsFilterComplaints,
+                    context.l10n.notificationsFilterReactions,
+                    context.l10n.notificationsFilterGeneral,
                   ],
                   selectedIndex: _filters.indexOf(selectedFilter),
                   onSelected: (index) => context
                       .read<NotificationsCubit>()
                       .setFilter(_filters[index]),
-                  // Figma node 33:936's selected pill is solid notificationFilterSelectedBackground
-                  // (#FFC928, already this exact token) with notificationCardAccent (#083B4C) text and
-                  // no border (same-as-background trick as Complaints List uses, see
-                  // [FilterPillTabs.selectedBorderColor]'s doc comment).
+                  // Solid background with no border (same-as-background trick as Complaints List
+                  // uses, see [FilterPillTabs.selectedBorderColor]'s doc comment).
                   selectedBackgroundColor:
                       AppColors.notificationFilterSelectedBackground,
                   selectedBorderColor:

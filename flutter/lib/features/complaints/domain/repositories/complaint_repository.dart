@@ -6,9 +6,8 @@ import '../entities/comment.dart';
 import '../entities/complaint.dart';
 import '../entities/complaint_status.dart';
 
-/// Owns the whole "complaint" domain (PLAN.md section 18) — every feature that shows complaints
-/// (Home, Complaints List, Complaint Details, Map, Profile/My Complaints) depends on this one
-/// interface instead of five features each inventing their own partial repository.
+/// Owns the whole "complaint" domain — every feature that shows complaints depends on this one
+/// interface instead of each inventing its own partial repository.
 abstract interface class ComplaintRepository {
   Future<Either<Failure, List<Category>>> getCategories();
 
@@ -36,7 +35,7 @@ abstract interface class ComplaintRepository {
     required String authorId,
   });
 
-  /// Uploads one media file (mock: returns a placeholder URL — PLAN.md section 16 "Media" endpoint) and returns its URL for [createComplaint]'s mediaUrls.
+  /// Uploads one media file and returns its URL for [createComplaint]'s mediaUrls.
   Future<Either<Failure, String>> uploadMedia(String filePath);
 
   Future<Either<Failure, List<Comment>>> getComments(String complaintId);
@@ -52,9 +51,8 @@ abstract interface class ComplaintRepository {
 
   Future<Either<Failure, int>> unlike(String complaintId);
 
-  /// [New, Figma Sync pass, 29 Aug 2026] The details page's 3-counter reaction row (node 33:518) —
-  /// mirrors [like]/[unlike] exactly, just a second independent counter, not a per-user "vote"
-  /// (same [Assumption A#] as [like]: no per-user reaction state exists server-side).
+  /// Mirrors [like]/[unlike] exactly, just a second independent counter — no per-user "vote" state
+  /// exists server-side to reconcile against.
   Future<Either<Failure, int>> dislike(String complaintId);
 
   Future<Either<Failure, int>> undislike(String complaintId);

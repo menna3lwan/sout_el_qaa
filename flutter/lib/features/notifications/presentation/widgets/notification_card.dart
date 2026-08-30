@@ -4,12 +4,12 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/widgets/bidi_aware_text.dart';
 import '../../domain/entities/app_notification.dart';
 
-/// [Assumption] Figma's Notifications frame (33:936) only had placeholder copy, not real per-type
-/// icon/color examples (see figma_extraction_notes) — this icon+pastel-badge mapping is a reasonable
-/// application of the existing "notification badge" color tokens (app_colors.dart), not a re-derived
-/// Figma value; revisit if a real design turns up.
+/// The icon+pastel-badge mapping reuses the existing "notification badge" color tokens
+/// (app_colors.dart) per notification type.
 class NotificationCard extends StatelessWidget {
   const NotificationCard({
     required this.notification,
@@ -42,10 +42,15 @@ class NotificationCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
-          color: AppColors.glassOverlayNotificationCard,
+          color: notification.isRead
+              ? AppColors.surfaceWhite
+              : AppColors.glassOverlayNotificationCard,
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-          // Figma node 33:936's cards use a 2px border, not the 1.5px this held before this pass.
-          border: Border.all(color: AppColors.notificationCardAccent, width: 2),
+          border: Border.all(
+            color: notification.isRead
+                ? AppColors.cardBorder
+                : AppColors.notificationCardAccent.withValues(alpha: 0.45),
+          ),
         ),
         child: Row(
           children: [
@@ -67,12 +72,8 @@ class NotificationCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  BidiAwareText(
                     notification.title,
-                    // Figma node 33:936's card titles are Cairo Bold 18px, color
-                    // notificationCardAccent — this previously reused [AppTypography.fieldLabel]
-                    // (14px, textPrimaryDark), a real size/color mismatch. The read/unread weight
-                    // toggle itself is unchanged business behavior.
                     style: AppTypography.notificationCardTitle.copyWith(
                       fontWeight: notification.isRead
                           ? FontWeight.w400
@@ -81,7 +82,10 @@ class NotificationCard extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
-                    DateFormatter.relative(notification.createdAt),
+                    DateFormatter.relative(
+                      notification.createdAt,
+                      l10n: context.l10n,
+                    ),
                     style: AppTypography.metaText.copyWith(
                       color: AppColors.notificationTimestampText,
                     ),

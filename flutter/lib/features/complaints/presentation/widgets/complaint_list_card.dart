@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/widgets/bidi_aware_text.dart';
 import '../../domain/entities/complaint.dart';
 import 'complaint_scene_assets.dart';
 import 'status_badge.dart';
 
-/// The complaint card repeated on Home (trending/recent), Complaints List, and Profile/My Complaints
-/// (PLAN.md section 18) — built once here instead of duplicated per screen, since all three show the
-/// same fields (title, location + relative time, category, status, views/likes) in the same layout.
+/// The complaint card repeated on Home (trending/recent), Complaints List, and Profile/My
+/// Complaints — built once here instead of duplicated per screen, since all three show the same
+/// fields (title, location + relative time, category, status, views/likes) in the same layout.
 class ComplaintListCard extends StatelessWidget {
   const ComplaintListCard({
     required this.complaint,
@@ -25,27 +27,20 @@ class ComplaintListCard extends StatelessWidget {
   final Complaint complaint;
   final VoidCallback onTap;
 
-  /// Home's trending card highlights `severity == high` as "عاجل" (PLAN.md section 3.3); the
-  /// Complaints List / My Complaints cards don't, so this stays opt-in per call site rather than an
-  /// always-on rule baked into the card itself.
+  /// Home's trending card highlights `severity == high`; the Complaints List / My Complaints
+  /// cards don't, so this stays opt-in per call site rather than an always-on rule baked into
+  /// the card itself.
   final bool showUrgentBadge;
 
-  /// [New, Full Audit & Sync pass, 27 Aug 2026] Home's trending card only (Figma node 33:21) adds a
-  /// reaction row (thumbs + "N others reported this" count) and a full-width "عندي نفس المشكله"
-  /// button — same opt-in-per-call-site pattern as [showUrgentBadge], not an always-on card feature.
-  /// The button reuses [onTap] (pushes to Complaint Details) rather than mutating like/reaction state
-  /// from the list card directly — that state already has one real owner, [ComplaintDetailsCubit], and
-  /// duplicating it here would put business logic in a widget (see the "reusable component" note on
-  /// [ComplaintListCard] itself).
+  /// Home's trending card only: adds a reaction row (thumbs + "N others reported this" count) and a
+  /// full-width CTA button. Opt-in per call site, same pattern as [showUrgentBadge]. The button
+  /// reuses [onTap] rather than mutating like/reaction state from the list card directly — that
+  /// state already has one real owner, [ComplaintDetailsCubit].
   final bool showSameProblemAction;
 
-  /// [Updated, Full Audit & Sync pass, 27 Aug 2026] Was unconditionally rendered before this pass —
-  /// re-verified against both the redesigned Complaints List (node 33:744) and Home's trending card
-  /// (node 33:21) and neither shows a views/likes row anymore, only the opt-in "same problem" reaction
-  /// row above. Defaults to `false` everywhere (no confirmed call site needs it yet); kept as a real
-  /// field rather than deleted outright since [Complaint.views] is still real domain data and a not-yet
-  /// -audited screen (Profile/My Complaints) may still need it — see the audit report's Remaining
-  /// Issues for this open question, per Important Rule #10 (document rather than silently invent).
+  /// Opt-in views/likes row. Defaults to `false` everywhere (no confirmed call site needs it yet);
+  /// kept as a real field rather than deleted since [Complaint.views] is still real domain data a
+  /// future screen may need.
   final bool showEngagementStats;
 
   @override
@@ -60,7 +55,7 @@ class ComplaintListCard extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Text(
+              child: BidiAwareText(
                 complaint.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -76,7 +71,7 @@ class ComplaintListCard extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AppSpacing.xs),
-        Text(
+        BidiAwareText(
           complaint.description,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
@@ -101,7 +96,7 @@ class ComplaintListCard extends StatelessWidget {
             ),
             const SizedBox(width: AppSpacing.sm),
             Text(
-              DateFormatter.relative(complaint.createdAt),
+              DateFormatter.relative(complaint.createdAt, l10n: context.l10n),
               style: AppTypography.stepLabel
                   .copyWith(color: AppColors.textMutedGrey),
             ),
@@ -152,7 +147,8 @@ class ComplaintListCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surfaceWhite,
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-          border: Border.all(color: AppColors.profileAccent, width: 2),
+          border: Border.all(color: AppColors.cardBorder),
+          boxShadow: AppShadows.card,
         ),
         // Only complaints with a real Figma-sourced scene photo (see complaint_scene_assets.dart)
         // get a thumbnail — everyone else keeps the original text-only layout unchanged.
@@ -167,11 +163,8 @@ class ComplaintListCard extends StatelessWidget {
                     width: 80,
                     height: 84,
                     decoration: BoxDecoration(
-                      // Figma node 33:760/33:776/33:792 (the thumbnail frame) uses an 8px corner
-                      // radius, not the 12px [AppSpacing.radiusMd] this previously (wrongly) used —
-                      // that's [AppSpacing.radiusSm], shared with the image-upload/location boxes.
-                      borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
-                      border: Border.all(color: AppColors.borderNeutral),
+                      borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                      border: Border.all(color: AppColors.cardBorder),
                     ),
                     clipBehavior: Clip.antiAlias,
                     child: Image.asset(
@@ -211,10 +204,9 @@ class _UrgentBadge extends StatelessWidget {
   }
 }
 
-/// [New, Full Audit & Sync pass, 27 Aug 2026] Figma node 33:21's trending-card reaction row: a
-/// thumbs-up/thumbs-down pair, a "+N others reported this" count, and a full-width "عندي نفس المشكله"
-/// button below a divider. Opt-in via [ComplaintListCard.showSameProblemAction] — see that field's doc
-/// comment for why the button reuses [onTap] instead of owning its own reaction state.
+/// The trending-card reaction row: a thumbs-up/thumbs-down pair, a "+N others reported this"
+/// count, and a full-width CTA button below a divider. Opt-in via
+/// [ComplaintListCard.showSameProblemAction].
 class _SameProblemRow extends StatelessWidget {
   const _SameProblemRow({required this.complaint, required this.onTap});
 
@@ -248,9 +240,9 @@ class _SameProblemRow extends StatelessWidget {
             height: 35,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: AppColors.brandSecondary,
+              color: AppColors.ctaBackground,
               borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
-              border: Border.all(color: const Color(0x33002431)),
+              boxShadow: AppShadows.hairline,
             ),
             child: Text(
               context.l10n.homeSameProblemCta,

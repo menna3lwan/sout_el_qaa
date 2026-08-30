@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-/// Thin wrapper over connectivity_plus; every Repository calls [isConnected] before a remote call (PLAN.md section 5: Data Flow).
+/// Thin wrapper over connectivity_plus; every Repository calls [isConnected] before a remote
+/// call.
 abstract interface class NetworkInfo {
   Future<bool> get isConnected;
 }

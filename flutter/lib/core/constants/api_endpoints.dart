@@ -1,4 +1,4 @@
-/// Proposed API contract (PLAN.md section 16, P2) — only file expected to change if the real backend's paths differ.
+/// Only file expected to change if the real backend's paths differ.
 abstract final class ApiEndpoints {
   /// Points at the local mock server (backend/mock-server/) by default; overridden via --dart-define=API_BASE_URL.
   static const String apiVersionPrefix = '/api/v1';

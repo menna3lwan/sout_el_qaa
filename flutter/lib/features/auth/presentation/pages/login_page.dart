@@ -13,7 +13,8 @@ import '../../../../core/widgets/app_text_field.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 
-/// Real implementation of the screen [C3] we design ourselves (Figma has no Login/Register frame, PLAN.md section 3.2) — same visual language (screen background, pill inputs/buttons, Baloo Bhaijaan 2 heading) as every Figma-designed screen.
+/// This screen has no Figma frame of its own; it reuses the same visual language (screen
+/// background, pill inputs/buttons, Baloo Bhaijaan 2 heading) as every designed screen.
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
@@ -73,10 +74,10 @@ class _LoginViewState extends State<_LoginView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Icon(
-                    Icons.waves_rounded,
-                    size: 56,
-                    color: context.colorScheme.primary,
+                  Image.asset(
+                    'assets/images/characters/spongebob_cta_mascot.png',
+                    height: 96,
+                    fit: BoxFit.contain,
                   ),
                   const SizedBox(height: AppSpacing.md),
                   Text(
@@ -88,7 +89,7 @@ class _LoginViewState extends State<_LoginView> {
                   Text(
                     context.l10n.authLoginTitle,
                     textAlign: TextAlign.center,
-                    style: context.textTheme.bodyMedium,
+                    style: AppTypography.metaText,
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   AppTextField(

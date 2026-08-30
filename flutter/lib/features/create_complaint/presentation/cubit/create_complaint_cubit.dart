@@ -96,10 +96,7 @@ final class CreateComplaintCubit extends Cubit<CreateComplaintState> {
         ),
       );
 
-  /// [Updated, Full Audit & Sync pass, 27 Aug 2026] The redesigned Figma merged all 4 field groups
-  /// onto one `form` screen, so "advance past the form" now validates every field at once instead of
-  /// one group at a time — same validators, same required fields as before, just checked together
-  /// (the old per-step partial validation no longer maps onto a single-screen form). From `review`
+  /// Validates every field at once since all fields live on one `form` screen. From `review`
   /// there's nothing further to validate here; that step's own action is [submit], not [nextStep].
   void nextStep() {
     if (state.step != CreateComplaintStep.form) return;

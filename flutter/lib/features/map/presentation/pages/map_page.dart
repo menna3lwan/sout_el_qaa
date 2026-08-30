@@ -23,9 +23,8 @@ import '../../../complaints/presentation/widgets/status_badge.dart';
 import '../cubit/map_cubit.dart';
 import '../cubit/map_state.dart';
 
-/// [Proposed P3] Real implementation — Figma node 33:351 is completely empty, so this screen's
-/// design is ours, matching the app's visual language (same colors/typography as every other
-/// screen) rather than a generic default flutter_map look.
+/// Uses the app's own colors/typography (rather than a default flutter_map look) to stay visually
+/// consistent with the rest of the app.
 class MapPage extends StatelessWidget {
   const MapPage({super.key});
 
@@ -191,6 +190,11 @@ class _MapPinSheetState extends State<_MapPinSheet> {
           Text(
             complaint.location,
             style: AppTypography.metaText,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          StatusBadge(
+            status: complaint.status,
+            label: complaintStatusLabel(context, complaint.status),
           ),
           const SizedBox(height: AppSpacing.md),
           AppButton(
