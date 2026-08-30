@@ -11,6 +11,7 @@ import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/message_key_resolver.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/bidi_aware_text.dart';
 import '../../../../core/widgets/character_avatar_assets.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/loading_view.dart';
@@ -273,20 +274,13 @@ class _SectionHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        TextButton(
-          onPressed: onViewAll,
-          child: Text(
-            context.l10n.homeViewAll,
-            style: AppTypography.linkButtonBold,
-          ),
-        ),
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                textAlign: TextAlign.end,
+                textAlign: TextAlign.start,
                 style: AppTypography.sectionHeadingLarge
                     .copyWith(color: AppColors.profileAccent),
               ),
@@ -294,11 +288,18 @@ class _SectionHeader extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xs),
                 Text(
                   subtitle!,
-                  textAlign: TextAlign.end,
+                  textAlign: TextAlign.start,
                   style: AppTypography.trendingSectionSubheading,
                 ),
               ],
             ],
+          ),
+        ),
+        TextButton(
+          onPressed: onViewAll,
+          child: Text(
+            context.l10n.homeViewAll,
+            style: AppTypography.linkButtonBold,
           ),
         ),
       ],
@@ -338,7 +339,6 @@ class _SearchBar extends StatelessWidget {
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: TextField(
-              textAlign: TextAlign.end,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 isDense: true,
@@ -407,12 +407,12 @@ class _RecentActivityItem extends StatelessWidget {
             const SizedBox(width: AppSpacing.space12),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  BidiAwareText(
                     complaint.title,
-                    textAlign: TextAlign.end,
+                    textAlign: TextAlign.start,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTypography.activityItemTitle
@@ -420,8 +420,8 @@ class _RecentActivityItem extends StatelessWidget {
                   ),
                   Text(
                     '${complaintStatusLabel(context, complaint.status)} - '
-                    '${DateFormatter.relative(complaint.createdAt)}',
-                    textAlign: TextAlign.end,
+                    '${DateFormatter.relative(complaint.createdAt, l10n: context.l10n)}',
+                    textAlign: TextAlign.start,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTypography.activityItemMeta

@@ -76,10 +76,10 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
             size: 44,
             color: AppColors.urgentDestructive,
           ),
-          Positioned(
+          PositionedDirectional(
             bottom: 24,
-            left: 24,
-            right: 24,
+            start: 24,
+            end: 24,
             child: AppButton(
               label: context.l10n.genericConfirm,
               onPressed: () => Navigator.of(context).pop(_center),

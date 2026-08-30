@@ -89,7 +89,7 @@ class RankProgressCard extends StatelessWidget {
               // Under this app's RTL Directionality, the far-end item must be the FIRST child
               // (Flutter lays out Row children start-to-end, and "start" is the right edge in RTL).
               Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     context.l10n.profileCurrentLevelLabel,
@@ -169,6 +169,8 @@ class RankProgressCard extends StatelessWidget {
                   color: AppColors.textFigmaTertiary,
                 ),
                 textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

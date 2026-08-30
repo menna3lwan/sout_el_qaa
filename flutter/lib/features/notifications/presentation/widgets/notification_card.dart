@@ -4,6 +4,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/widgets/bidi_aware_text.dart';
 import '../../domain/entities/app_notification.dart';
 
 /// The icon+pastel-badge mapping reuses the existing "notification badge" color tokens
@@ -64,7 +66,7 @@ class NotificationCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  BidiAwareText(
                     notification.title,
                     style: AppTypography.notificationCardTitle.copyWith(
                       fontWeight: notification.isRead
@@ -74,7 +76,10 @@ class NotificationCard extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
-                    DateFormatter.relative(notification.createdAt),
+                    DateFormatter.relative(
+                      notification.createdAt,
+                      l10n: context.l10n,
+                    ),
                     style: AppTypography.metaText.copyWith(
                       color: AppColors.notificationTimestampText,
                     ),

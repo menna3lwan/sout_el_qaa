@@ -24,6 +24,8 @@ import '../../features/profile/data/datasources/profile_remote_data_source.dart'
 import '../../features/profile/data/repositories/profile_repository_impl.dart';
 import '../../features/profile/domain/repositories/profile_repository.dart';
 import '../../features/profile/presentation/cubit/profile_cubit.dart';
+import '../locale/app_locale_cubit.dart';
+import '../locale/locale_settings_store.dart';
 import '../network/dio_client.dart';
 import '../network/interceptors/auth_interceptor.dart';
 import '../network/network_info.dart';
@@ -42,6 +44,12 @@ void configureDependencies() {
   );
   getIt.registerLazySingleton<SecureStorageService>(
     () => SecureStorageServiceImpl(getIt<FlutterSecureStorage>()),
+  );
+  getIt.registerLazySingleton<LocaleSettingsStore>(
+    () => HiveLocaleSettingsStore(),
+  );
+  getIt.registerLazySingleton<AppLocaleCubit>(
+    () => AppLocaleCubit(getIt<LocaleSettingsStore>()),
   );
 
   // --- Network ---

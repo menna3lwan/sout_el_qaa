@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_ar.dart';
+import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
 
 // ignore_for_file: type=lint
@@ -95,6 +96,7 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
+    Locale('de'),
     Locale('en')
   ];
 
@@ -877,6 +879,66 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'لأ، رجّعني'**
   String get logoutConfirmCancel;
+
+  /// No description provided for @relativeTimeNow.
+  ///
+  /// In ar, this message translates to:
+  /// **'الآن'**
+  String get relativeTimeNow;
+
+  /// وقت نسبي بالدقائق. المثنى العربي من غير رقم، والجمع برقمه.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{منذ دقيقة} =2{منذ دقيقتين} other{منذ {count} دقايق}}'**
+  String relativeMinutes(int count);
+
+  /// No description provided for @relativeHours.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{منذ ساعة} =2{منذ ساعتين} other{منذ {count} ساعات}}'**
+  String relativeHours(int count);
+
+  /// No description provided for @relativeDays.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{منذ يوم} =2{منذ يومين} other{منذ {count} ايام}}'**
+  String relativeDays(int count);
+
+  /// No description provided for @relativeWeeks.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{منذ اسبوع} =2{منذ اسبوعين} other{منذ {count} اسابيع}}'**
+  String relativeWeeks(int count);
+
+  /// No description provided for @relativeMonths.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{منذ شهر} =2{منذ شهرين} other{منذ {count} شهور}}'**
+  String relativeMonths(int count);
+
+  /// عنوان اختيار اللغة في الملف الشخصي
+  ///
+  /// In ar, this message translates to:
+  /// **'اللغة'**
+  String get settingsLanguageTitle;
+
+  /// No description provided for @languageNameAr.
+  ///
+  /// In ar, this message translates to:
+  /// **'العربية'**
+  String get languageNameAr;
+
+  /// No description provided for @languageNameEn.
+  ///
+  /// In ar, this message translates to:
+  /// **'English'**
+  String get languageNameEn;
+
+  /// No description provided for @languageNameDe.
+  ///
+  /// In ar, this message translates to:
+  /// **'Deutsch'**
+  String get languageNameDe;
 }
 
 class _AppLocalizationsDelegate
@@ -890,7 +952,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['ar', 'en'].contains(locale.languageCode);
+      <String>['ar', 'de', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -901,6 +963,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return AppLocalizationsAr();
+    case 'de':
+      return AppLocalizationsDe();
     case 'en':
       return AppLocalizationsEn();
   }

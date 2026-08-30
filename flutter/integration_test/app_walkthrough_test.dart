@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:sout_el_qaa/core/di/injection.dart';
+import 'package:sout_el_qaa/core/locale/app_locale_cubit.dart';
 import 'package:sout_el_qaa/core/storage/local_cache_service.dart';
 import 'package:sout_el_qaa/features/complaints/presentation/widgets/complaint_list_card.dart';
 import 'package:sout_el_qaa/main.dart';
@@ -18,6 +19,7 @@ void main() {
   testWidgets('full app walkthrough for visual verification', (tester) async {
     await LocalCacheService.init();
     configureDependencies();
+    await getIt<AppLocaleCubit>().hydrate();
 
     await tester.pumpWidget(const SoutElQaaApp());
     await tester.pumpAndSettle(const Duration(seconds: 2));

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'core/di/injection.dart';
+import 'core/locale/app_locale_cubit.dart';
 import 'core/storage/local_cache_service.dart';
 
 /// Single init point before runApp — DI + Hive + a unified error zone, instead of main.dart
@@ -14,6 +15,7 @@ Future<void> bootstrap(Widget Function() appBuilder) async {
 
       await LocalCacheService.init();
       configureDependencies();
+      await getIt<AppLocaleCubit>().hydrate();
 
       runApp(appBuilder());
     },

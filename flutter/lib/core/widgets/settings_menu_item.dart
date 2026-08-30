@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
+import '../utils/extensions/context_extensions.dart';
 
 /// One row of Profile's settings menu (Personal Info / Complaints / Favorites / Settings /
 /// Logout). The destructive use (logout) reuses the same "urgent" color as Home's badge, a
@@ -23,6 +24,17 @@ class SettingsMenuItem extends StatelessWidget {
   final bool isDestructive;
   final bool showDivider;
 
+  /// Material's chevron glyphs flip with text direction; we pick the glyph ourselves so it
+  /// always points toward the row content in both RTL and LTR.
+  static const _chevronStartward = IconData(
+    0xe5cb,
+    fontFamily: 'MaterialIcons',
+  );
+  static const _chevronEndward = IconData(
+    0xe5cc,
+    fontFamily: 'MaterialIcons',
+  );
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -41,7 +53,10 @@ class SettingsMenuItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.chevron_left, size: 16), // اتجاه RTL
+            Icon(
+              context.isRtl ? _chevronStartward : _chevronEndward,
+              size: 16,
+            ),
             const Spacer(),
             Text(
               label,

@@ -18,6 +18,7 @@ import '../../../../core/widgets/stat_card.dart';
 import '../../domain/entities/profile_rank.dart';
 import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
+import '../widgets/language_picker_sheet.dart';
 import '../widgets/rank_progress_card.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -182,7 +183,7 @@ class _ProfileContent extends StatelessWidget {
         SettingsMenuItem(
           label: context.l10n.profileSettingsMenu,
           trailingIcon: Icons.settings_outlined,
-          onTap: () => _showComingSoon(context),
+          onTap: () => _showLanguagePicker(context),
         ),
         SettingsMenuItem(
           label: context.l10n.profileLogoutMenu,
@@ -195,11 +196,19 @@ class _ProfileContent extends StatelessWidget {
     );
   }
 
-  /// Personal Info / Favorites / Settings have no dedicated screen yet — a visible "coming soon"
+  /// Personal Info / Favorites have no dedicated screen yet — a visible "coming soon"
   /// response keeps the row from being a silent dead tap.
   void _showComingSoon(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(context.l10n.placeholderScreenMessage)),
+    );
+  }
+
+  void _showLanguagePicker(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (_) => const LanguagePickerSheet(),
     );
   }
 

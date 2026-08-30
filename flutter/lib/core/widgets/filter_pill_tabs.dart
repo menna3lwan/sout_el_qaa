@@ -106,6 +106,8 @@ class _Pill extends StatelessWidget {
           style: AppTypography.chipLabel.copyWith(
             color: isSelected ? selectedTextColor : unselectedTextColor,
           ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

@@ -5,6 +5,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/widgets/bidi_aware_text.dart';
 import '../../domain/entities/complaint.dart';
 import 'complaint_scene_assets.dart';
 import 'status_badge.dart';
@@ -53,7 +54,7 @@ class ComplaintListCard extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Text(
+              child: BidiAwareText(
                 complaint.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -69,7 +70,7 @@ class ComplaintListCard extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AppSpacing.xs),
-        Text(
+        BidiAwareText(
           complaint.description,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
@@ -94,7 +95,7 @@ class ComplaintListCard extends StatelessWidget {
             ),
             const SizedBox(width: AppSpacing.sm),
             Text(
-              DateFormatter.relative(complaint.createdAt),
+              DateFormatter.relative(complaint.createdAt, l10n: context.l10n),
               style: AppTypography.stepLabel
                   .copyWith(color: AppColors.textMutedGrey),
             ),

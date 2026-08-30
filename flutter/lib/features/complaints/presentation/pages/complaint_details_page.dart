@@ -9,6 +9,7 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/message_key_resolver.dart';
+import '../../../../core/widgets/bidi_aware_text.dart';
 import '../../../../core/widgets/character_avatar_assets.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/loading_view.dart';
@@ -127,7 +128,7 @@ class _DetailsBody extends StatelessWidget {
           _DetailsUrgentBadge(label: context.l10n.homeUrgentBadge),
           const SizedBox(height: AppSpacing.xs),
         ],
-        Text(complaint.title, style: AppTypography.complaintTitle),
+        BidiAwareText(complaint.title, style: AppTypography.complaintTitle),
         const SizedBox(height: AppSpacing.sm),
         _InfoPillRow(complaint: complaint, category: state.category),
         const SizedBox(height: AppSpacing.md),
@@ -186,7 +187,10 @@ class _DetailsBody extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
             border: Border.all(color: AppColors.borderNeutral, width: 2),
           ),
-          child: Text(complaint.description, style: AppTypography.bodyDefault),
+          child: BidiAwareText(
+            complaint.description,
+            style: AppTypography.bodyDefault,
+          ),
         ),
         const SizedBox(height: AppSpacing.md),
         Row(
@@ -203,7 +207,7 @@ class _DetailsBody extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              DateFormatter.relative(complaint.createdAt),
+              DateFormatter.relative(complaint.createdAt, l10n: context.l10n),
               style: AppTypography.metaText,
             ),
           ],
@@ -272,7 +276,6 @@ class _InfoPillRow extends StatelessWidget {
     // Under RTL, a Wrap's first child renders at the right (start) edge same as Row, so the
     // rightmost/first-read pill (location) is listed first here, not last.
     return Wrap(
-      alignment: WrapAlignment.end,
       spacing: AppSpacing.xs,
       runSpacing: AppSpacing.xs,
       children: [
@@ -504,12 +507,15 @@ class _CommentTile extends StatelessWidget {
                     ),
                     const SizedBox(width: AppSpacing.xs),
                     Text(
-                      DateFormatter.relative(comment.createdAt),
+                      DateFormatter.relative(
+                        comment.createdAt,
+                        l10n: context.l10n,
+                      ),
                       style: AppTypography.metaText,
                     ),
                   ],
                 ),
-                Text(comment.text, style: AppTypography.bodyDefault),
+                BidiAwareText(comment.text, style: AppTypography.bodyDefault),
                 const SizedBox(height: AppSpacing.xs),
                 Row(
                   mainAxisSize: MainAxisSize.min,

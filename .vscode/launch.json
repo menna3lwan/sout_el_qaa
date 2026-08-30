@@ -14,7 +14,10 @@
       "request": "launch",
       "cwd": "flutter",
       "program": "lib/main.dart",
-      "flutterMode": "debug"
+      "flutterMode": "debug",
+      "env": {
+        "COPYFILE_DISABLE": "1"
+      }
     },
     {
       "name": "Sout El-Qaa (flutter/, Profile)",
@@ -22,7 +25,10 @@
       "request": "launch",
       "cwd": "flutter",
       "program": "lib/main.dart",
-      "flutterMode": "profile"
+      "flutterMode": "profile",
+      "env": {
+        "COPYFILE_DISABLE": "1"
+      }
     },
     {
       "name": "Sout El-Qaa (flutter/, Release)",
@@ -30,7 +36,10 @@
       "request": "launch",
       "cwd": "flutter",
       "program": "lib/main.dart",
-      "flutterMode": "release"
+      "flutterMode": "release",
+      "env": {
+        "COPYFILE_DISABLE": "1"
+      }
     }
   ]
 }

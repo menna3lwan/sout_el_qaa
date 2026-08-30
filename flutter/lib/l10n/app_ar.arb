@@ -210,5 +210,26 @@
   "logoutConfirmTitle": "تسجيل الخروج",
   "logoutConfirmMessage": "متأكد إنك عايز تسجل خروج يا ساكن القاع؟",
   "logoutConfirmYes": "أيوة، سجلني خروج",
-  "logoutConfirmCancel": "لأ، رجّعني"
+  "logoutConfirmCancel": "لأ، رجّعني",
+
+  "relativeTimeNow": "الآن",
+  "relativeMinutes": "{count, plural, =1{منذ دقيقة} =2{منذ دقيقتين} other{منذ {count} دقايق}}",
+  "@relativeMinutes": {
+    "description": "وقت نسبي بالدقائق. المثنى العربي من غير رقم، والجمع برقمه.",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "relativeHours": "{count, plural, =1{منذ ساعة} =2{منذ ساعتين} other{منذ {count} ساعات}}",
+  "@relativeHours": { "placeholders": { "count": { "type": "int" } } },
+  "relativeDays": "{count, plural, =1{منذ يوم} =2{منذ يومين} other{منذ {count} ايام}}",
+  "@relativeDays": { "placeholders": { "count": { "type": "int" } } },
+  "relativeWeeks": "{count, plural, =1{منذ اسبوع} =2{منذ اسبوعين} other{منذ {count} اسابيع}}",
+  "@relativeWeeks": { "placeholders": { "count": { "type": "int" } } },
+  "relativeMonths": "{count, plural, =1{منذ شهر} =2{منذ شهرين} other{منذ {count} شهور}}",
+  "@relativeMonths": { "placeholders": { "count": { "type": "int" } } },
+
+  "settingsLanguageTitle": "اللغة",
+  "@settingsLanguageTitle": { "description": "عنوان اختيار اللغة في الملف الشخصي" },
+  "languageNameAr": "العربية",
+  "languageNameEn": "English",
+  "languageNameDe": "Deutsch"
 }

@@ -73,7 +73,7 @@ class _CreateComplaintView extends StatelessWidget {
             leading: isFormStep
                 ? null
                 : IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: const BackButtonIcon(),
                     onPressed: () {
                       if (isSuccess) {
                         context.go(RoutePaths.home);

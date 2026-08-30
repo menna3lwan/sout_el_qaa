@@ -83,10 +83,10 @@ class _NotificationsView extends StatelessWidget {
                 padding: const EdgeInsets.all(AppSpacing.md),
                 child: FilterPillTabs(
                   options: [
-                    context.l10n.notificationsFilterGeneral,
-                    context.l10n.notificationsFilterReactions,
-                    context.l10n.notificationsFilterComplaints,
                     context.l10n.notificationsFilterAll,
+                    context.l10n.notificationsFilterComplaints,
+                    context.l10n.notificationsFilterReactions,
+                    context.l10n.notificationsFilterGeneral,
                   ],
                   selectedIndex: _filters.indexOf(selectedFilter),
                   onSelected: (index) => context
